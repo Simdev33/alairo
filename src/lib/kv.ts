@@ -103,11 +103,26 @@ class UpstashKV implements KV {
 
 const g = globalThis as unknown as { __kezjegyKV?: KV };
 
+/**
+ * Az Upstash konzol UPSTASH_REDIS_REST_* néven, a Vercel-integráció <ELŐTAG>_REST_API_* néven adja
+ * (az előtag a bekötéskor választható, pl. KV vagy STORAGE) — bármelyiket elfogadjuk.
+ */
+function findUpstash(): { url: string; token: string } | null {
+  const env = process.env;
+  if (env.UPSTASH_REDIS_REST_URL && env.UPSTASH_REDIS_REST_TOKEN) {
+    return { url: env.UPSTASH_REDIS_REST_URL, token: env.UPSTASH_REDIS_REST_TOKEN };
+  }
+  const prefixes = Object.keys(env)
+    .map((k) => k.match(/^(.*)_REST_API_URL$/)?.[1])
+    .filter((p): p is string => !!p && !!env[`${p}_REST_API_TOKEN`])
+    .sort((a, b) => (a === "KV" ? -1 : b === "KV" ? 1 : 0));
+  const p = prefixes[0];
+  return p ? { url: env[`${p}_REST_API_URL`]!, token: env[`${p}_REST_API_TOKEN`]! } : null;
+}
+
 function create(): KV {
-  // A Vercel Marketplace-es Upstash-integráció KV_REST_API_* néven, az Upstash konzol UPSTASH_REDIS_REST_* néven adja.
-  const url = process.env.UPSTASH_REDIS_REST_URL ?? process.env.KV_REST_API_URL;
-  const token = process.env.UPSTASH_REDIS_REST_TOKEN ?? process.env.KV_REST_API_TOKEN;
-  if (url && token) return new UpstashKV(url, token);
+  const upstash = findUpstash();
+  if (upstash) return new UpstashKV(upstash.url, upstash.token);
   if (process.env.VERCEL) {
     console.warn(
       "[kézjegy] Vercelen fut Redis nélkül — a telefonos munkamenetek nem lesznek megbízhatók. Kösd be az Upstash Redist.",

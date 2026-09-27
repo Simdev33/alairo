@@ -18,8 +18,8 @@ Ha több hálózati kártya van, a QR-kártyán a „Nem nyílik meg a telefonon
 
 1. Tedd fel a projektet GitHubra, és a Vercelen importáld (a Next.js beállításokat magától felismeri).
 2. A Vercel projektben: **Storage → Create / Connect → Upstash for Redis** (az ingyenes csomag bőven elég),
-   és kösd a projekthez. Ez beállítja a `KV_REST_API_URL` és `KV_REST_API_TOKEN` változókat.
-   (Ha az Upstash konzolból hozod, az `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` nevek is jók.)
+   és kösd a projekthez (Custom Prefix: pl. `KV`). Ez beállítja a `KV_REST_API_URL` és `KV_REST_API_TOKEN` változókat.
+   Bármilyen előtag jó (`STORAGE_REST_API_*` stb.), és az Upstash konzol `UPSTASH_REDIS_REST_*` nevei is.
 3. Deploy (vagy Redeploy, ha a Redist utólag kötötted be). Kész — a QR-kód magától a Vercel-címre mutat.
 
 Redis nélkül Vercelen a telefonos rész nem megbízható: a telefon és a gép kérései különböző szerverpéldányokra
@@ -42,7 +42,7 @@ futhatnak be, és nem látják egymás munkamenetét.
 
 | Változó | Mire jó |
 | --- | --- |
-| `KV_REST_API_URL`, `KV_REST_API_TOKEN` (vagy `UPSTASH_REDIS_REST_*`) | Upstash Redis — Vercelen kötelező |
+| `<ELŐTAG>_REST_API_URL`, `<ELŐTAG>_REST_API_TOKEN` (pl. `KV_…`), vagy `UPSTASH_REDIS_REST_*` | Upstash Redis — Vercelen kötelező |
 | `PUBLIC_BASE_URL` | Ha be van állítva (pl. `https://alairas.example.hu`), a QR-kód erre mutat |
 | `SOFFICE_PATH` | A LibreOffice `soffice` programjának útvonala, ha nem a szokásos helyen van |
 | `DISABLE_SERVER_CONVERT=1` | A szerveres Word-átalakítás kikapcsolása (a böngészős tesztelésére) |
