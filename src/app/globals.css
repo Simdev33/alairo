@@ -1,0 +1,175 @@
+@import "tailwindcss";
+
+/* Fekvő telefon: alacsony, széles képernyő */
+@custom-variant phone-land (@media (orientation: landscape) and (max-height: 540px));
+
+@theme {
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-instrument), ui-serif, Georgia, serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --color-paper: #f3efe6;
+  --color-paper-2: #ebe5d8;
+  --color-paper-3: #e0d8c7;
+  --color-sheet: #fffdf8;
+  --color-ink: #11131c;
+  --color-ink-2: #3b3f4f;
+  --color-ink-3: #6f7384;
+  --color-ink-4: #a3a5b0;
+  --color-royal: #2b36e8;
+  --color-royal-2: #1e27c4;
+  --color-royal-soft: #e3e5fd;
+  --color-seal: #b93a26;
+  --color-mint: #148a5c;
+  --color-mint-soft: #dbf1e6;
+  --color-desk: #1a1d29;
+
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --animate-shimmer: shimmer 1.6s linear infinite;
+  --animate-pulse-ring: pulse-ring 2.2s var(--ease-out-quint) infinite;
+
+  @keyframes shimmer {
+    from {
+      background-position: 200% 0;
+    }
+    to {
+      background-position: -200% 0;
+    }
+  }
+  @keyframes pulse-ring {
+    0% {
+      transform: scale(0.6);
+      opacity: 0.55;
+    }
+    100% {
+      transform: scale(2.4);
+      opacity: 0;
+    }
+  }
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  ::selection {
+    background: var(--color-royal);
+    color: white;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-royal);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+}
+
+@layer components {
+  /* Papírlap-mélység: vékony belső fény + két rétegű árnyék */
+  .card {
+    background: var(--color-sheet);
+    border: 1px solid rgb(17 19 28 / 0.08);
+    box-shadow:
+      0 1px 0 rgb(255 255 255 / 0.9) inset,
+      0 1px 2px rgb(17 19 28 / 0.05),
+      0 18px 40px -22px rgb(17 19 28 / 0.28);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 999px;
+    font-weight: 500;
+    white-space: nowrap;
+    transition:
+      transform 0.2s var(--ease-out-quint),
+      background-color 0.2s,
+      box-shadow 0.2s,
+      color 0.2s,
+      opacity 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn:active:not(:disabled) {
+    transform: scale(0.97);
+  }
+  .btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+  .btn-primary {
+    background: var(--color-ink);
+    color: var(--color-sheet);
+    box-shadow:
+      0 1px 0 rgb(255 255 255 / 0.18) inset,
+      0 10px 24px -12px rgb(17 19 28 / 0.6);
+  }
+  .btn-primary:hover:not(:disabled) {
+    background: #232736;
+  }
+  .btn-royal {
+    background: var(--color-royal);
+    color: white;
+    box-shadow:
+      0 1px 0 rgb(255 255 255 / 0.25) inset,
+      0 12px 28px -12px rgb(43 54 232 / 0.75);
+  }
+  .btn-royal:hover:not(:disabled) {
+    background: var(--color-royal-2);
+  }
+  .btn-ghost {
+    background: rgb(17 19 28 / 0.04);
+    color: var(--color-ink-2);
+  }
+  .btn-ghost:hover:not(:disabled) {
+    background: rgb(17 19 28 / 0.08);
+    color: var(--color-ink);
+  }
+
+  /* Halvány pontrács a papír-háttérhez */
+  .dot-grid {
+    background-image: radial-gradient(rgb(17 19 28 / 0.09) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+
+  .skeleton {
+    background: linear-gradient(90deg, #f1ede4 0%, #faf7f1 40%, #f1ede4 80%);
+    background-size: 200% 100%;
+    animation: var(--animate-shimmer);
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .thin-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(255 255 255 / 0.18) transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
