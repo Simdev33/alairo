@@ -5,12 +5,15 @@ import { AnimatePresence, motion } from "motion/react";
 import { Check, ChevronDown, Copy, PenLine, QrCode as QrIcon, RefreshCw, Smartphone, Wifi } from "lucide-react";
 import { useApp } from "@/lib/app-store";
 import { QrCode } from "./QrCode";
+import { useI18n } from "@/i18n/client";
 
 type Step = "scan" | "connected" | "drawing";
 
 export function PhonePanel({ onRenew }: { onRenew: () => void }) {
   const phone = useApp((s) => s.phone);
   const setPhone = useApp((s) => s.setPhone);
+  const { t } = useI18n();
+  const p = t.phonePanel;
   const [forceQr, setForceQr] = useState(false);
   const [copied, setCopied] = useState(false);
   const [showHosts, setShowHosts] = useState(false);
@@ -29,9 +32,9 @@ export function PhonePanel({ onRenew }: { onRenew: () => void }) {
     <section className="card overflow-hidden rounded-[22px]">
       <header className="flex items-center justify-between gap-3 px-5 pb-3 pt-4">
         <div>
-          <div className="text-[11px] font-medium uppercase tracking-[0.16em] text-ink-3">Aláírás telefonnal</div>
+          <div className="text-[11px] font-medium uppercase tracking-[0.16em] text-ink-3">{p.eyebrow}</div>
           <h2 className="mt-0.5 font-serif text-[1.6rem] leading-tight">
-            {step === "scan" ? "Olvasd be a kódot" : step === "drawing" ? "Most írod alá…" : "Telefon kapcsolódva"}
+            {step === "scan" ? p.scanTitle : step === "drawing" ? p.drawingTitle : p.connectedTitle}
           </h2>
         </div>
         <StatusDot step={step} live={phone.status === "live"} />
@@ -51,10 +54,10 @@ export function PhonePanel({ onRenew }: { onRenew: () => void }) {
                 className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-6 text-center"
               >
                 <p className="text-sm text-ink-2">
-                  {phone.status === "expired" ? "A QR-kód lejárt." : "Nem sikerült QR-kódot készíteni."}
+                  {phone.status === "expired" ? p.expired : p.failed}
                 </p>
                 <button onClick={onRenew} className="btn btn-primary h-10 px-4 text-sm">
-                  <RefreshCw className="size-4" /> Új kód
+                  <RefreshCw className="size-4" /> {p.newCode}
                 </button>
               </motion.div>
             ) : showQr && phone.url ? (
@@ -67,7 +70,7 @@ export function PhonePanel({ onRenew }: { onRenew: () => void }) {
                 className="absolute inset-0 p-4"
               >
                 <div className="relative size-full rounded-xl bg-sheet p-2 shadow-[0_1px_2px_rgb(0_0_0/0.06)]">
-                  <QrCode value={phone.url} className="size-full" />
+                  <QrCode value={phone.url} className="size-full" label={p.qrAria} />
                   <ScanLine />
                   <Brackets />
                 </div>
@@ -90,15 +93,13 @@ export function PhonePanel({ onRenew }: { onRenew: () => void }) {
       <div className="px-5 pb-5 pt-4">
         {showQr ? (
           <ol className="space-y-2 text-[13.5px] leading-snug text-ink-2">
-            <Li n={1}>Nyisd meg a telefon kameráját, és irányítsd a kódra.</Li>
-            <Li n={2}>Koppints a megjelenő linkre, és írd alá az ujjaddal.</Li>
-            <Li n={3}>Az aláírás pár másodperc múlva itt jelenik meg.</Li>
+            <Li n={1}>{p.step1}</Li>
+            <Li n={2}>{p.step2}</Li>
+            <Li n={3}>{p.step3}</Li>
           </ol>
         ) : (
           <p className="text-[13.5px] leading-snug text-ink-2">
-            {step === "drawing"
-              ? "Élőben látod, ahogy a telefonon rajzolsz. Ha kész, nyomd meg a küldés gombot."
-              : "Írd alá a telefonon, és nyomd meg az „Aláírás elküldése” gombot."}
+            {step === "drawing" ? p.drawingHint : p.connectedHint}
           </p>
         )}
 
@@ -106,18 +107,18 @@ export function PhonePanel({ onRenew }: { onRenew: () => void }) {
           <div className="mt-4 flex flex-wrap items-center gap-2">
             {!showQr ? (
               <button onClick={() => setForceQr(true)} className="btn btn-ghost h-9 px-3.5 text-[13px]">
-                <QrIcon className="size-4" /> QR-kód újra
+                <QrIcon className="size-4" /> {p.showQr}
               </button>
             ) : (
               phone.connected && (
                 <button onClick={() => setForceQr(false)} className="btn btn-ghost h-9 px-3.5 text-[13px]">
-                  <Smartphone className="size-4" /> Élő nézet
+                  <Smartphone className="size-4" /> {p.liveView}
                 </button>
               )
             )}
             <button onClick={copy} className="btn btn-ghost h-9 px-3.5 text-[13px]">
               {copied ? <Check className="size-4 text-mint" /> : <Copy className="size-4" />}
-              {copied ? "Másolva" : "Link másolása"}
+              {copied ? p.copied : p.copyLink}
             </button>
           </div>
         )}
@@ -128,7 +129,7 @@ export function PhonePanel({ onRenew }: { onRenew: () => void }) {
               onClick={() => setShowHosts((v) => !v)}
               className="flex items-center gap-1.5 text-[12.5px] text-ink-3 transition-colors hover:text-ink"
             >
-              <Wifi className="size-3.5" /> Nem nyílik meg a telefonon?
+              <Wifi className="size-3.5" /> {p.cantOpen}
               <ChevronDown className={`size-3.5 transition-transform ${showHosts ? "rotate-180" : ""}`} />
             </button>
             <AnimatePresence initial={false}>
@@ -140,7 +141,7 @@ export function PhonePanel({ onRenew }: { onRenew: () => void }) {
                   className="overflow-hidden"
                 >
                   <p className="pt-2 text-[12.5px] leading-snug text-ink-3">
-                    A telefon és a gép legyen ugyanazon a Wi-Fi-n. Ha több hálózati kártyád van, próbálj másik címet:
+                    {p.networkHint}
                   </p>
                   <div className="mt-2 space-y-1">
                     {phone.alternatives.map((a) => (
@@ -217,6 +218,7 @@ function Brackets() {
 
 /** A telefon képernyőjének élő tükre rajzolás közben. */
 function Mirror() {
+  const { t } = useI18n();
   const preview = useApp((s) => s.phone.preview);
   const drawing = useApp((s) => s.phone.drawing);
   const landscape = preview ? preview.width > preview.height : true;
@@ -239,13 +241,13 @@ function Mirror() {
               <motion.div animate={{ y: [0, -4, 0] }} transition={{ duration: 1.6, repeat: Infinity }}>
                 <PenLine className="size-6" />
               </motion.div>
-              <span className="text-xs">Várjuk az aláírást…</span>
+              <span className="text-xs">{t.phonePanel.waiting}</span>
             </div>
           </div>
         )}
         {drawing && (
           <span className="absolute right-2.5 top-2.5 inline-flex items-center gap-1 rounded-full bg-mint px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white">
-            <span className="size-1.5 animate-pulse rounded-full bg-white" /> élő
+            <span className="size-1.5 animate-pulse rounded-full bg-white" /> {t.phonePanel.live}
           </span>
         )}
       </div>

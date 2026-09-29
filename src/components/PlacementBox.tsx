@@ -7,6 +7,8 @@ import { placementHeight, useApp } from "@/lib/app-store";
 import type { PageInfo } from "@/lib/pdf";
 import type { Placement } from "@/lib/sign-pdf";
 import type { Signature } from "@/lib/types";
+import { useI18n } from "@/i18n/client";
+import { fmt } from "@/i18n/format";
 
 const clamp = (v: number, a: number, b: number) => Math.min(Math.max(v, a), b);
 
@@ -18,6 +20,7 @@ export function PlacementBox({ pl, sig, page }: { pl: Placement; sig: Signature;
   const place = useApp((s) => s.place);
   const pages = useApp((s) => s.doc?.pages.length ?? 0);
   const notify = useApp((s) => s.notify);
+  const { t } = useI18n();
   const drag = useRef<{ id: number; sx: number; sy: number; x: number; y: number; w: number; W: number; H: number; mode: "move" | "resize" } | null>(null);
 
   const h = placementHeight(pl, sig, page);
@@ -57,7 +60,7 @@ export function PlacementBox({ pl, sig, page }: { pl: Placement; sig: Signature;
       place({ sigId: pl.sigId, page: i, x: pl.x, y: pl.y, w: pl.w });
     }
     select(pl.id);
-    notify(`Az aláírás minden oldalra felkerült (${pages} oldal).`, "success");
+    notify(fmt(t.placement.allPagesDone, { n: pages }), "success");
   };
 
   const duplicate = () => {
@@ -88,7 +91,7 @@ export function PlacementBox({ pl, sig, page }: { pl: Placement; sig: Signature;
         }`}
         role="button"
         tabIndex={0}
-        aria-label="Elhelyezett aláírás — húzd a mozgatáshoz"
+        aria-label={t.placement.label}
         onFocus={() => select(pl.id)}
       />
       <motion.svg
@@ -109,7 +112,7 @@ export function PlacementBox({ pl, sig, page }: { pl: Placement; sig: Signature;
             onPointerUp={end}
             onPointerCancel={end}
             className="absolute -bottom-[11px] -right-[11px] grid size-[18px] cursor-nwse-resize place-items-center rounded-full border-2 border-white bg-royal shadow-md"
-            aria-label="Átméretezés"
+            aria-label={t.placement.resize}
           />
           <motion.div
             initial={{ opacity: 0, y: toolbarBelow ? -4 : 4, scale: 0.96 }}
@@ -119,16 +122,16 @@ export function PlacementBox({ pl, sig, page }: { pl: Placement; sig: Signature;
             }`}
             onPointerDown={(e) => e.stopPropagation()}
           >
-            <ToolButton label="Másolat" onClick={duplicate}>
+            <ToolButton label={t.placement.duplicate} onClick={duplicate}>
               <Copy className="size-3.5" />
             </ToolButton>
             {pages > 1 && (
-              <ToolButton label="Minden oldalra" onClick={toAllPages} wide>
-                <Layers className="size-3.5" /> <span className="hidden text-xs sm:inline">Minden oldalra</span>
+              <ToolButton label={t.placement.allPages} onClick={toAllPages} wide>
+                <Layers className="size-3.5" /> <span className="hidden text-xs sm:inline">{t.placement.allPages}</span>
               </ToolButton>
             )}
             <span className="mx-0.5 h-4 w-px bg-white/15" />
-            <ToolButton label="Törlés" onClick={() => remove(pl.id)} danger>
+            <ToolButton label={t.placement.remove} onClick={() => remove(pl.id)} danger>
               <Trash2 className="size-3.5" />
             </ToolButton>
           </motion.div>

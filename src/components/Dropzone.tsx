@@ -3,13 +3,21 @@
 import { useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowUpFromLine, FileText, TriangleAlert } from "lucide-react";
+import Link from "next/link";
 import { ACCEPT } from "@/lib/load-document";
+import type { ErrorCode } from "@/lib/errors";
+import { useI18n } from "@/i18n/client";
+import { fmt, rich } from "@/i18n/format";
 
-export type LoadState = { phase: "idle" } | { phase: "loading"; label: string } | { phase: "error"; message: string };
+export type LoadState =
+  | { phase: "idle" }
+  | { phase: "loading"; kind: "pdf" | "word" }
+  | { phase: "error"; code: ErrorCode; vars?: Record<string, string> };
 
 export function Dropzone({ state, onFile, onSample }: { state: LoadState; onFile: (f: File) => void; onSample: () => void }) {
   const input = useRef<HTMLInputElement>(null);
   const [over, setOver] = useState(false);
+  const { lang, t } = useI18n();
   const loading = state.phase === "loading";
 
   return (
@@ -64,12 +72,21 @@ export function Dropzone({ state, onFile, onSample }: { state: LoadState; onFile
           </div>
 
           <div className="mt-6 font-serif text-[1.75rem] leading-tight sm:text-[2rem]">
-            {loading ? state.label : over ? "Engedd el, és kezdhetjük" : "Húzd ide a dokumentumot"}
+            {state.phase === "loading"
+              ? state.kind === "word"
+                ? t.dropzone.convertingWord
+                : t.dropzone.openingPdf
+              : over
+                ? t.dropzone.over
+                : t.dropzone.idle}
           </div>
           <p className="mt-1.5 text-[14.5px] text-ink-3">
-            {loading ? "Egy pillanat…" : (
+            {loading ? (
+              t.dropzone.wait
+            ) : (
               <>
-                vagy <span className="font-medium text-royal underline decoration-royal/30 underline-offset-4">válassz fájlt a gépedről</span>
+                {t.dropzone.or}{" "}
+                <span className="font-medium text-royal underline decoration-royal/30 underline-offset-4">{t.dropzone.choose}</span>
               </>
             )}
           </p>
@@ -79,7 +96,7 @@ export function Dropzone({ state, onFile, onSample }: { state: LoadState; onFile
                 {t}
               </span>
             ))}
-            <span className="rounded-full px-1.5 py-1 text-[11px] text-ink-4">max. 50 MB</span>
+            <span className="rounded-full px-1.5 py-1 text-[11px] text-ink-4">{t.dropzone.maxSize}</span>
           </div>
 
           {loading && (
@@ -115,7 +132,7 @@ export function Dropzone({ state, onFile, onSample }: { state: LoadState; onFile
           >
             <div className="mt-3 flex items-start gap-2.5 rounded-2xl bg-seal/[0.08] px-4 py-3 text-[13.5px] leading-snug text-seal">
               <TriangleAlert className="mt-0.5 size-4 shrink-0" />
-              {state.message}
+              {fmt(t.errors[state.code], state.vars ?? {})}
             </div>
           </motion.div>
         )}
@@ -128,8 +145,24 @@ export function Dropzone({ state, onFile, onSample }: { state: LoadState; onFile
         className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-left text-[13.5px] text-ink-3 transition-colors hover:text-ink disabled:opacity-50"
       >
         <FileText className="size-4" />
-        Nincs kéznél dokumentum? <span className="font-medium text-ink underline decoration-ink/20 underline-offset-4">Próbáld ki egy minta-szerződéssel</span>
+        {t.dropzone.sampleQuestion}{" "}
+        <span className="font-medium text-ink underline decoration-ink/20 underline-offset-4">{t.dropzone.sampleCta}</span>
       </button>
+
+      <p className="mt-2 text-[12px] leading-relaxed text-ink-4">
+        {rich(t.dropzone.consent, {
+          terms: (
+            <Link href={`/${lang}/terms`} className="underline decoration-ink/20 underline-offset-2 hover:text-ink">
+              {t.dropzone.consentTerms}
+            </Link>
+          ),
+          privacy: (
+            <Link href={`/${lang}/privacy`} className="underline decoration-ink/20 underline-offset-2 hover:text-ink">
+              {t.dropzone.consentPrivacy}
+            </Link>
+          ),
+        })}
+      </p>
     </div>
   );
 }

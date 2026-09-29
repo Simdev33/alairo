@@ -8,9 +8,10 @@ import { placementHeight, useApp } from "@/lib/app-store";
 import type { Signature } from "@/lib/types";
 import { DEFAULT_WIDTH } from "./PdfPage";
 import { SignatureSvg } from "./SignatureSvg";
+import { useI18n } from "@/i18n/client";
 
 const clamp = (v: number, a: number, b: number) => Math.min(Math.max(v, a), b);
-const time = (t: number) => new Date(t).toLocaleTimeString("hu-HU", { hour: "2-digit", minute: "2-digit" });
+const time = (t: number, lang: string) => new Date(t).toLocaleTimeString(lang, { hour: "2-digit", minute: "2-digit" });
 
 type Drag = { sig: Signature; x: number; y: number; w: number; over: boolean };
 
@@ -24,6 +25,7 @@ export function SignatureTray({ onDraw, layout = "list" }: { onDraw: () => void;
   const placements = useApp((s) => s.placements);
   const armedSigId = useApp((s) => s.armedSigId);
   const freshSigId = useApp((s) => s.freshSigId);
+  const { lang, t } = useI18n();
   const [drag, setDrag] = useState<Drag | null>(null);
 
   const startDrag = (sig: Signature, e: React.PointerEvent) => {
@@ -85,11 +87,11 @@ export function SignatureTray({ onDraw, layout = "list" }: { onDraw: () => void;
             <PenLine className="size-[18px]" />
           </span>
           <p className="text-[13px] leading-snug">
-            {row ? "Még nincs aláírás." : "Itt jelennek meg a beérkező aláírások."}{" "}
+            {row ? t.tray.emptyRow : t.tray.empty}{" "}
             <button onClick={onDraw} className="font-medium text-royal underline-offset-2 hover:underline">
-              Rajzolj egyet itt
+              {t.tray.drawOne}
             </button>
-            {row ? "" : " — egérrel vagy érintőpaddal."}
+            {row ? "" : t.tray.emptySuffix}
           </p>
         </div>
       ) : (
@@ -115,7 +117,7 @@ export function SignatureTray({ onDraw, layout = "list" }: { onDraw: () => void;
                         ? "border-royal shadow-[0_0_0_3px_rgb(43_54_232/0.18)]"
                         : "border-ink/10 hover:border-ink/20 hover:shadow-[0_8px_20px_-12px_rgb(17_19_28/0.35)]"
                     }`}
-                    title="Húzd a dokumentumra, vagy kattints, majd kattints az oldalra"
+                    title={t.tray.tileTitle}
                   >
                     {freshSigId === sig.id && (
                       <motion.span
@@ -140,7 +142,7 @@ export function SignatureTray({ onDraw, layout = "list" }: { onDraw: () => void;
                     <div className="mt-1.5 flex items-center gap-2 whitespace-nowrap px-1 text-[11.5px] text-ink-3">
                       {sig.source === "phone" ? <Smartphone className="size-3.5" /> : <MousePointer2 className="size-3.5" />}
                       <span>
-                        {sig.source === "phone" ? "Telefon" : "Rajzolt"} · {time(sig.createdAt)}
+                        {sig.source === "phone" ? t.tray.fromPhone : t.tray.drawn} · {time(sig.createdAt, lang)}
                       </span>
                       {used > 0 && (
                         <span className="rounded-full bg-royal-soft px-1.5 py-px text-[10.5px] font-medium text-royal">{used}×</span>
@@ -149,8 +151,8 @@ export function SignatureTray({ onDraw, layout = "list" }: { onDraw: () => void;
                         onPointerDown={(e) => e.stopPropagation()}
                         onClick={() => useApp.getState().removeSignature(sig.id)}
                         className="ml-auto grid size-6 place-items-center rounded-full text-ink-4 transition-colors hover:bg-seal/10 hover:text-seal"
-                        aria-label="Aláírás törlése"
-                        title="Törlés"
+                        aria-label={t.tray.remove}
+                        title={t.tray.remove}
                       >
                         <Trash2 className="size-3.5" />
                       </button>

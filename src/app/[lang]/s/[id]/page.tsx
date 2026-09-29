@@ -1,13 +1,18 @@
 import type { Metadata, Viewport } from "next";
+import { isLocale } from "@/i18n/config";
+import { getDictionary } from "@/i18n";
 import { getMeta } from "@/lib/store";
 import { PhoneSigner } from "@/components/PhoneSigner";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: "Aláírás · Kézjegy",
-  robots: { index: false, follow: false },
-};
+export async function generateMetadata({ params }: PageProps<"/[lang]/s/[id]">): Promise<Metadata> {
+  const { lang } = await params;
+  return {
+    title: isLocale(lang) ? getDictionary(lang).meta.phoneTitle : undefined,
+    robots: { index: false, follow: false },
+  };
+}
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -18,7 +23,7 @@ export const viewport: Viewport = {
   themeColor: "#f3efe6",
 };
 
-export default async function PhonePage({ params }: PageProps<"/s/[id]">) {
+export default async function PhonePage({ params }: PageProps<"/[lang]/s/[id]">) {
   const { id } = await params;
   const meta = await getMeta(id);
   return <PhoneSigner id={id} fileName={meta?.fileName ?? null} />;

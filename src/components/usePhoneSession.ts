@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useApp } from "@/lib/app-store";
 import type { SessionDelta, SessionMeta, Transport } from "@/lib/types";
+import { useI18n } from "@/i18n/client";
 
 /**
  * Dokumentum betöltésekor QR-munkamenetet nyit, és követi a telefont.
@@ -12,6 +13,7 @@ export function usePhoneSession() {
   const doc = useApp((s) => s.doc);
   const setPhone = useApp((s) => s.setPhone);
   const addSignature = useApp((s) => s.addSignature);
+  const { lang } = useI18n();
   const [nonce, setNonce] = useState(0);
 
   useEffect(() => {
@@ -74,7 +76,7 @@ export function usePhoneSession() {
         const res = await fetch("/api/session", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ fileName: docName }),
+          body: JSON.stringify({ fileName: docName, lang }),
         });
         if (!res.ok) throw new Error();
         const data = (await res.json()) as {
@@ -106,7 +108,7 @@ export function usePhoneSession() {
       clearTimeout(pollTimer);
       es?.close();
     };
-  }, [doc, nonce, setPhone, addSignature]);
+  }, [doc, nonce, setPhone, addSignature, lang]);
 
   return { renew: useCallback(() => setNonce((n) => n + 1), []) };
 }

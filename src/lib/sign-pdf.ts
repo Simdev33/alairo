@@ -100,7 +100,7 @@ export function downloadBytes(data: Uint8Array, fileName: string) {
   setTimeout(() => URL.revokeObjectURL(url), 4000);
 }
 
-export function signedFileName(original: string) {
-  const base = original.replace(/\.[^.]+$/, "") || "dokumentum";
-  return `${base}-alairt.pdf`;
+export function signedFileName(original: string, suffix: string) {
+  const base = original.replace(/\.[^.]+$/, "") || "document";
+  return `${base}-${suffix}.pdf`;
 }

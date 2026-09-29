@@ -12,14 +12,15 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
+  // A hibák kódként mennek vissza — a böngésző a felhasználó nyelvén írja ki őket.
   if (!(await serverConverterAvailable())) return Response.json({ error: "unavailable" }, { status: 501 });
   const form = await req.formData().catch(() => null);
   const file = form?.get("file");
-  if (!(file instanceof File)) return Response.json({ error: "Nem érkezett fájl." }, { status: 400 });
-  if (file.size > MAX_BYTES) return Response.json({ error: "A fájl legfeljebb 25 MB lehet." }, { status: 413 });
+  if (!(file instanceof File)) return Response.json({ error: "convertFailed" }, { status: 400 });
+  if (file.size > MAX_BYTES) return Response.json({ error: "tooLarge" }, { status: 413 });
 
   const ext = file.name.split(".").pop()?.toLowerCase() ?? "";
-  if (!EXTENSIONS.has(ext)) return Response.json({ error: "Csak Word-dokumentumot tudunk átalakítani." }, { status: 415 });
+  if (!EXTENSIONS.has(ext)) return Response.json({ error: "unknownType" }, { status: 415 });
 
   try {
     const pdf = await toPdf(Buffer.from(await file.arrayBuffer()), ext);
@@ -27,8 +28,8 @@ export async function POST(req: Request) {
       headers: { "Content-Type": "application/pdf", "Cache-Control": "no-store" },
     });
   } catch (err) {
-    const message = err instanceof ConvertError ? err.message : "Váratlan hiba történt az átalakítás közben.";
-    if (!(err instanceof ConvertError)) console.error("[convert]", err);
-    return Response.json({ error: message }, { status: 422 });
+    console.error("[convert]", err);
+    const code = err instanceof ConvertError ? err.code : "convertFailed";
+    return Response.json({ error: code }, { status: code === "unavailable" ? 501 : 422 });
   }
 }

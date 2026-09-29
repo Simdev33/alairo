@@ -14,6 +14,8 @@ import { SignatureTray } from "./SignatureTray";
 import { DrawDialog } from "./DrawDialog";
 import { DoneOverlay } from "./DoneOverlay";
 import { usePhoneSession } from "./usePhoneSession";
+import { useI18n } from "@/i18n/client";
+import { plural, rich } from "@/i18n/format";
 
 export function Workspace() {
   // A kilépő animáció alatt a store-ban már nincs dokumentum — az utolsót tartjuk meg.
@@ -27,6 +29,7 @@ export function Workspace() {
   const freshSigId = useApp((s) => s.freshSigId);
   const setDoc = useApp((s) => s.setDoc);
   const notify = useApp((s) => s.notify);
+  const { lang, t } = useI18n();
   const { renew } = usePhoneSession();
 
   const scroller = useRef<HTMLDivElement>(null);
@@ -72,12 +75,12 @@ export function Workspace() {
       const w = DEFAULT_WIDTH(info);
       const h = placementHeight({ w }, sig, info);
       useApp.getState().place({ sigId: sig.id, page: last, w, x: 1 - 0.09 - w, y: Math.max(0, 0.86 - h) });
-      notify("Az aláírást az utolsó oldal aljára tettük — húzd oda, ahová kell.", "success");
+      notify(t.workspace.autoPlaced, "success");
       setTimeout(() => scrollToPage(last, 0.8), 150);
     } else {
-      notify("Új aláírás érkezett — húzd a dokumentumra.", "success");
+      notify(t.workspace.newSignature, "success");
     }
-  }, [freshSigId, doc.pages, notify, scrollToPage]);
+  }, [freshSigId, doc.pages, notify, scrollToPage, t]);
 
   // Billentyűk: nyilak mozgatnak, Delete töröl, Esc kijelölést szüntet
   useEffect(() => {
@@ -115,19 +118,19 @@ export function Workspace() {
     setBusy(true);
     try {
       const { data, rasterized } = await buildSignedPdf(doc.bytes, doc.pdf, placements, signatures);
-      const name = signedFileName(doc.name);
+      const name = signedFileName(doc.name, t.files.signedSuffix);
       downloadBytes(data, name);
       setDone({ data, name, rasterized });
     } catch (err) {
       console.error(err);
-      notify("Nem sikerült elkészíteni az aláírt PDF-et.", "error");
+      notify(t.workspace.exportFailed, "error");
     } finally {
       setBusy(false);
     }
   };
 
   const newDocument = () => {
-    if (placements.length && !done && !window.confirm("Biztosan új dokumentumot nyitsz? Az elhelyezett aláírások elvesznek.")) return;
+    if (placements.length && !done && !window.confirm(t.workspace.confirmNew)) return;
     setDone(null);
     setDoc(null);
   };
@@ -144,7 +147,7 @@ export function Workspace() {
     >
       {/* Felső sáv */}
       <header className="relative z-20 flex h-16 shrink-0 items-center gap-3 border-b border-ink/10 bg-paper/90 px-3 backdrop-blur sm:px-5">
-        <button onClick={newDocument} className="shrink-0 rounded-lg" aria-label="Kezdőlap">
+        <button onClick={newDocument} className="shrink-0 rounded-lg" aria-label={t.common.home}>
           <span className="hidden sm:inline">
             <Logo />
           </span>
@@ -160,13 +163,13 @@ export function Workspace() {
           <div className="min-w-0">
             <div className="truncate text-[14px] font-medium leading-tight">{doc.name}</div>
             <div className="truncate text-[12px] text-ink-3">
-              {pageCount} oldal · {formatBytes(doc.size)}
-              {doc.convertedFrom && ` · .${doc.convertedFrom} fájlból átalakítva`}
+              {plural(lang, t.workspace.pages, pageCount)} · {formatBytes(doc.size, lang)}
+              {doc.convertedFrom && ` · ${t.workspace.converted.replace("{ext}", doc.convertedFrom)}`}
             </div>
           </div>
         </div>
         <button onClick={newDocument} className="btn btn-ghost hidden h-10 px-4 text-sm md:inline-flex">
-          <FilePlus2 className="size-4" /> Új dokumentum
+          <FilePlus2 className="size-4" /> {t.workspace.newDocument}
         </button>
         <button onClick={download} disabled={!placements.length || busy} className="btn btn-royal h-10 px-3.5 text-sm sm:px-4">
           {busy ? (
@@ -174,8 +177,8 @@ export function Workspace() {
           ) : (
             <Download className="size-4" />
           )}
-          <span className="hidden sm:inline">Aláírt PDF letöltése</span>
-          <span className="sm:hidden">Letöltés</span>
+          <span className="hidden sm:inline">{t.workspace.download}</span>
+          <span className="sm:hidden">{t.workspace.downloadShort}</span>
           {placements.length > 0 && (
             <span className="grid h-5 min-w-5 place-items-center rounded-full bg-white/20 px-1.5 text-[11px] font-semibold">
               {placements.length}
@@ -220,11 +223,11 @@ export function Workspace() {
                   className="pointer-events-auto flex items-center gap-2.5 rounded-full bg-royal py-1.5 pl-3.5 pr-1.5 text-[13px] text-white shadow-[0_12px_30px_-10px_rgb(43_54_232/0.8)]"
                 >
                   <MousePointerClick className="size-4 shrink-0" />
-                  Kattints oda, ahová az aláírást szeretnéd
+                  {t.workspace.armHint}
                   <button
                     onClick={() => useApp.getState().arm(null)}
                     className="grid size-7 shrink-0 place-items-center rounded-full bg-white/15 hover:bg-white/25"
-                    aria-label="Mégse"
+                    aria-label={t.common.cancel}
                   >
                     <X className="size-3.5" />
                   </button>
@@ -240,11 +243,11 @@ export function Workspace() {
           <section className="card rounded-[22px] p-4">
             <div className="mb-3 flex items-end justify-between px-1">
               <div>
-                <div className="text-[11px] font-medium uppercase tracking-[0.16em] text-ink-3">Aláírásaid</div>
-                <p className="mt-0.5 text-[12.5px] text-ink-3">Húzd az oldalra, vagy kattints rá.</p>
+                <div className="text-[11px] font-medium uppercase tracking-[0.16em] text-ink-3">{t.workspace.yourSignatures}</div>
+                <p className="mt-0.5 text-[12.5px] text-ink-3">{t.workspace.trayHint}</p>
               </div>
               <button onClick={() => setDrawOpen(true)} className="btn btn-ghost h-8 px-3 text-[12.5px]">
-                <PenLine className="size-3.5" /> Rajzolás
+                <PenLine className="size-3.5" /> {t.workspace.draw}
               </button>
             </div>
             <SignatureTray onDraw={() => setDrawOpen(true)} />
@@ -258,10 +261,10 @@ export function Workspace() {
         <SignatureTray onDraw={() => setDrawOpen(true)} layout="row" />
         <div className="mt-2.5 grid grid-cols-2 gap-2">
           <button onClick={() => setQrOpen(true)} className="btn btn-ghost h-11 text-sm">
-            <QrIcon className="size-4" /> Telefonnal
+            <QrIcon className="size-4" /> {t.workspace.withPhone}
           </button>
           <button onClick={() => setDrawOpen(true)} className="btn btn-primary h-11 text-sm">
-            <PenLine className="size-4" /> Rajzolás itt
+            <PenLine className="size-4" /> {t.workspace.drawHere}
           </button>
         </div>
       </div>
@@ -285,7 +288,7 @@ export function Workspace() {
               <button
                 onClick={() => setQrOpen(false)}
                 className="absolute right-6 top-6 z-10 grid size-9 place-items-center rounded-full bg-ink/5"
-                aria-label="Bezárás"
+                aria-label={t.common.close}
               >
                 <X className="size-4" />
               </button>
@@ -315,12 +318,14 @@ export function Workspace() {
 }
 
 function Tips() {
+  const { t } = useI18n();
   return (
     <div className="flex gap-3 rounded-2xl px-4 py-3 text-[12.5px] leading-relaxed text-ink-3">
       <Info className="mt-0.5 size-4 shrink-0" />
       <p>
-        Az elhelyezett aláírást húzással mozgathatod, a sarkánál átméretezheted. Nyilakkal finoman igazíthatsz, a{" "}
-        <kbd className="rounded border border-ink/15 bg-sheet px-1 font-mono text-[11px]">Delete</kbd> törli.
+        {rich(t.workspace.tips, {
+          key: <kbd className="rounded border border-ink/15 bg-sheet px-1 font-mono text-[11px]">Delete</kbd>,
+        })}
       </p>
     </div>
   );

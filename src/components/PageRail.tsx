@@ -4,17 +4,19 @@ import type { PDFDocumentProxy } from "pdfjs-dist";
 import { useApp } from "@/lib/app-store";
 import type { PageInfo } from "@/lib/pdf";
 import { usePdfCanvas } from "./usePdfCanvas";
+import { useI18n } from "@/i18n/client";
 
 const THUMB = 104;
 
 export function PageRail({ onJump }: { onJump: (index: number) => void }) {
   const doc = useApp((s) => s.doc);
   const placements = useApp((s) => s.placements);
+  const { t } = useI18n();
   if (!doc || doc.pages.length < 2) return null;
   return (
     <nav
       data-scroll-root
-      aria-label="Oldalak"
+      aria-label={t.workspace.pagesNav}
       className="hidden w-[148px] shrink-0 overflow-y-auto border-r border-white/5 bg-[#151823] px-5 py-6 xl:block"
     >
       <ol className="space-y-5">

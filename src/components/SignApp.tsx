@@ -3,7 +3,9 @@
 import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion, MotionConfig } from "motion/react";
 import { useApp } from "@/lib/app-store";
-import { fileKind, LoadError, loadDocument } from "@/lib/load-document";
+import { AppError } from "@/lib/errors";
+import { fileKind, loadDocument } from "@/lib/load-document";
+import { useI18n } from "@/i18n/client";
 import { Landing } from "./Landing";
 import { Workspace } from "./Workspace";
 import type { LoadState } from "./Dropzone";
@@ -11,13 +13,13 @@ import type { LoadState } from "./Dropzone";
 export function SignApp() {
   const doc = useApp((s) => s.doc);
   const setDoc = useApp((s) => s.setDoc);
+  const { lang, t } = useI18n();
   const [state, setState] = useState<LoadState>({ phase: "idle" });
   const [dragging, setDragging] = useState(false);
 
   const open = useCallback(
     async (file: File) => {
-      const kind = fileKind(file);
-      setState({ phase: "loading", label: kind === "word" ? "Word-fájl átalakítása…" : "Dokumentum megnyitása…" });
+      setState({ phase: "loading", kind: fileKind(file) === "word" ? "word" : "pdf" });
       try {
         const loaded = await loadDocument(file);
         setDoc(loaded);
@@ -25,20 +27,19 @@ export function SignApp() {
         window.scrollTo({ top: 0 });
       } catch (err) {
         console.error(err);
-        setState({
-          phase: "error",
-          message: err instanceof LoadError ? err.message : "Valami elromlott a dokumentum megnyitásakor. Próbáld újra.",
-        });
+        setState(
+          err instanceof AppError ? { phase: "error", code: err.code, vars: err.vars } : { phase: "error", code: "generic" },
+        );
       }
     },
     [setDoc],
   );
 
   const openSample = useCallback(async () => {
-    const res = await fetch("/minta-szerzodes.pdf");
+    const res = await fetch(`/samples/${lang}.pdf`);
     const blob = await res.blob();
-    open(new File([blob], "minta-szerzodes.pdf", { type: "application/pdf" }));
-  }, [open]);
+    open(new File([blob], t.files.sampleName, { type: "application/pdf" }));
+  }, [open, lang, t]);
 
   // A kezdőlapon bárhová ejtheted a fájlt
   useEffect(() => {
@@ -93,7 +94,7 @@ export function SignApp() {
               animate={{ scale: 1 }}
               className="grid size-full place-items-center rounded-[32px] border-2 border-dashed border-royal"
             >
-              <div className="rounded-full bg-royal px-6 py-3 font-serif text-2xl text-white shadow-2xl">Engedd el a fájlt</div>
+              <div className="rounded-full bg-royal px-6 py-3 font-serif text-2xl text-white shadow-2xl">{t.dropzone.dropAnywhere}</div>
             </motion.div>
           </motion.div>
         )}

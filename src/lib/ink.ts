@@ -5,15 +5,16 @@ import { getStroke } from "perfect-freehand";
 export type InkPoint = [x: number, y: number, pressure: number];
 export type InkStroke = { points: InkPoint[]; size: number; pen: boolean };
 
+// Az azonosítók egyben a szótár `ink` kulcsai (a feliratok onnan jönnek).
 export const INK_COLORS = [
-  { id: "ink", label: "Fekete", value: "#15171e" },
-  { id: "blue", label: "Kék", value: "#1f3fae" },
+  { id: "black", value: "#15171e" },
+  { id: "blue", value: "#1f3fae" },
 ] as const;
 
 export const INK_WIDTHS = [
-  { id: "thin", label: "Vékony", factor: 0.72 },
-  { id: "medium", label: "Közepes", factor: 1 },
-  { id: "bold", label: "Vastag", factor: 1.4 },
+  { id: "thin", factor: 0.72 },
+  { id: "medium", factor: 1 },
+  { id: "bold", factor: 1.4 },
 ] as const;
 
 export function outline(stroke: InkStroke, last = true): number[][] {

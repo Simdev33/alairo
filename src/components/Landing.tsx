@@ -1,10 +1,16 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "motion/react";
 import { FileUp, Fingerprint, Layers, Lock, PenLine, QrCode, ScanLine, Sparkles, UserX } from "lucide-react";
+import { useI18n } from "@/i18n/client";
 import { Logo } from "./Logo";
 import { HeroVisual } from "./HeroVisual";
 import { Dropzone, type LoadState } from "./Dropzone";
+import { LanguageSwitcher } from "./LanguageSwitcher";
+
+const STEP_ICONS = [FileUp, ScanLine, PenLine];
+const FEATURE_ICONS = [Lock, Fingerprint, Layers, UserX];
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -20,22 +26,24 @@ function Line({ children, delay }: { children: React.ReactNode; delay: number })
 }
 
 export function Landing({ state, onFile, onSample }: { state: LoadState; onFile: (f: File) => void; onSample: () => void }) {
+  const { lang, t } = useI18n();
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.35 }}>
       <div className="relative overflow-hidden">
         <div className="dot-grid pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_at_70%_20%,black,transparent_70%)]" />
 
-        <header className="relative z-10 mx-auto flex max-w-[1240px] items-center justify-between px-4 py-5 sm:px-8">
+        <header className="relative z-30 mx-auto flex max-w-[1240px] items-center justify-between px-4 py-5 sm:px-8">
           <Logo />
           <nav className="flex items-center gap-1 text-[14px] text-ink-2">
-            <a href="#hogyan" className="hidden rounded-full px-3.5 py-2 transition-colors hover:bg-ink/5 hover:text-ink sm:block">
-              Hogyan működik
+            <a href="#how" className="hidden rounded-full px-3.5 py-2 transition-colors hover:bg-ink/5 hover:text-ink md:block">
+              {t.nav.how}
             </a>
-            <a href="#adatvedelem" className="hidden rounded-full px-3.5 py-2 transition-colors hover:bg-ink/5 hover:text-ink sm:block">
-              Adatvédelem
+            <a href="#privacy" className="hidden rounded-full px-3.5 py-2 transition-colors hover:bg-ink/5 hover:text-ink md:block">
+              {t.nav.privacy}
             </a>
-            <span className="ml-2 inline-flex items-center gap-1.5 rounded-full border border-ink/10 bg-sheet/70 px-3 py-1.5 text-[12.5px] font-medium">
-              <Sparkles className="size-3.5 text-royal" /> Ingyenes · regisztráció nélkül
+            <LanguageSwitcher />
+            <span className="ml-1 hidden items-center gap-1.5 rounded-full border border-ink/10 bg-sheet/70 px-3 py-1.5 text-[12.5px] font-medium lg:inline-flex">
+              <Sparkles className="size-3.5 text-royal" /> {t.nav.badge}
             </span>
           </nav>
         </header>
@@ -49,14 +57,14 @@ export function Landing({ state, onFile, onSample }: { state: LoadState; onFile:
               transition={{ duration: 0.6, ease }}
               className="inline-flex items-center gap-2 rounded-full bg-ink px-3 py-1.5 text-[12px] font-medium tracking-wide text-sheet"
             >
-              <QrCode className="size-3.5" /> PDF · Word · QR-kód
+              <QrCode className="size-3.5" /> {t.hero.eyebrow}
             </motion.div>
             <h1 className="mt-6 font-serif text-[clamp(2.9rem,6.6vw,5.4rem)] leading-[0.95] tracking-[-0.02em]">
-              <Line delay={0.05}>Írd alá</Line>
-              <Line delay={0.15}>a telefonoddal,</Line>
+              <Line delay={0.05}>{t.hero.line1}</Line>
+              <Line delay={0.15}>{t.hero.line2}</Line>
               <Line delay={0.25}>
                 <span className="relative inline-block italic text-royal">
-                  ne a nyomtatóval.
+                  {t.hero.line3}
                   <motion.svg
                     viewBox="0 0 300 20"
                     preserveAspectRatio="none"
@@ -83,8 +91,7 @@ export function Landing({ state, onFile, onSample }: { state: LoadState; onFile:
               transition={{ duration: 0.7, ease, delay: 0.45 }}
               className="mt-7 max-w-[34rem] text-[17px] leading-relaxed text-ink-2"
             >
-              Töltsd fel a dokumentumot, olvasd be a QR-kódot, és írd alá az ujjaddal. Az aláírás pár másodperc múlva
-              már a PDF-ben van — pontosan ott, ahová húzod.
+              {t.hero.lead}
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 16 }}
@@ -102,32 +109,16 @@ export function Landing({ state, onFile, onSample }: { state: LoadState; onFile:
       </div>
 
       {/* Hogyan működik */}
-      <section id="hogyan" className="scroll-mt-8 border-t border-ink/10 bg-paper-2/50">
+      <section id="how" className="scroll-mt-8 border-t border-ink/10 bg-paper-2/50">
         <div className="mx-auto max-w-[1240px] px-4 py-20 sm:px-8 lg:py-28">
           <Reveal>
-            <div className="text-[12px] font-medium uppercase tracking-[0.2em] text-ink-3">Hogyan működik</div>
+            <div className="text-[12px] font-medium uppercase tracking-[0.2em] text-ink-3">{t.steps.eyebrow}</div>
             <h2 className="mt-3 max-w-2xl font-serif text-[clamp(2.2rem,4.4vw,3.6rem)] leading-[1.02] tracking-[-0.015em]">
-              Három lépés, <span className="italic">nulla nyomtató.</span>
+              {t.steps.titleA} <span className="italic">{t.steps.titleB}</span>
             </h2>
           </Reveal>
           <div className="mt-14 grid gap-5 md:grid-cols-3">
-            {[
-              {
-                icon: FileUp,
-                title: "Töltsd fel",
-                text: "Húzd be a PDF-et vagy a Word-fájlt. A Word-dokumentumot automatikusan PDF-fé alakítjuk.",
-              },
-              {
-                icon: ScanLine,
-                title: "Olvasd be a QR-kódot",
-                text: "Irányítsd rá a telefon kameráját. Nem kell alkalmazást telepíteni, és be sem kell jelentkezni.",
-              },
-              {
-                icon: PenLine,
-                title: "Írd alá, húzd a helyére",
-                text: "Az ujjaddal aláírsz, az aláírás élőben megjelenik a gépen. Húzd bármelyik oldalra, és töltsd le.",
-              },
-            ].map((s, i) => (
+            {t.steps.items.map((s, i) => ({ ...s, icon: STEP_ICONS[i] })).map((s, i) => (
               <Reveal key={s.title} delay={i * 0.1}>
                 <div className="card group relative h-full overflow-hidden rounded-[24px] p-7">
                   <div className="absolute right-6 top-2 font-serif text-[6.5rem] leading-none text-ink/[0.06] transition-transform duration-700 group-hover:-translate-y-1">
@@ -146,25 +137,23 @@ export function Landing({ state, onFile, onSample }: { state: LoadState; onFile:
       </section>
 
       {/* Adatvédelem */}
-      <section id="adatvedelem" className="scroll-mt-8 bg-ink text-sheet">
+      <section id="privacy" className="scroll-mt-8 bg-ink text-sheet">
         <div className="mx-auto grid max-w-[1240px] gap-14 px-4 py-20 sm:px-8 lg:grid-cols-[1fr_1.1fr] lg:py-28">
           <Reveal>
-            <div className="text-[12px] font-medium uppercase tracking-[0.2em] text-sheet/50">Adatvédelem</div>
+            <div className="text-[12px] font-medium uppercase tracking-[0.2em] text-sheet/50">{t.privacySection.eyebrow}</div>
             <h2 className="mt-3 font-serif text-[clamp(2.2rem,4.4vw,3.6rem)] leading-[1.02] tracking-[-0.015em]">
-              A dokumentumod <span className="italic text-[#8e97ff]">a te gépeden marad.</span>
+              {t.privacySection.titleA} <span className="italic text-[#8e97ff]">{t.privacySection.titleB}</span>
             </h2>
-            <p className="mt-6 max-w-md text-[15.5px] leading-relaxed text-sheet/65">
-              A PDF-et a böngésződ nyitja meg és írja alá — nem töltjük fel sehová. A telefonról csak az aláírás vonalai
-              érkeznek meg, és egy óra múlva azok is törlődnek a szerverről.
-            </p>
+            <p className="mt-6 max-w-md text-[15.5px] leading-relaxed text-sheet/65">{t.privacySection.text}</p>
+            <Link
+              href={`/${lang}/privacy`}
+              className="mt-6 inline-flex items-center gap-1.5 text-[14px] font-medium text-[#8e97ff] underline decoration-[#8e97ff]/30 underline-offset-4 hover:decoration-[#8e97ff]"
+            >
+              {t.nav.privacyPolicy} →
+            </Link>
           </Reveal>
           <div className="grid gap-3 sm:grid-cols-2">
-            {[
-              { icon: Lock, title: "Helyben feldolgozva", text: "A PDF a böngészőben készül el. Word-fájlnál csak az átalakítás idejére kerül a szerverre." },
-              { icon: Fingerprint, title: "Vektoros aláírás", text: "Az aláírás vonalként kerül a PDF-be, így bármekkora nagyításban éles marad." },
-              { icon: Layers, title: "Több oldal, több aláírás", text: "Tedd ugyanazt az aláírást több helyre, vagy egy kattintással minden oldalra." },
-              { icon: UserX, title: "Nincs fiók, nincs előfizetés", text: "Nem kérünk e-mail-címet, és nem kell semmit telepíteni." },
-            ].map((f, i) => (
+            {t.privacySection.items.map((f, i) => ({ ...f, icon: FEATURE_ICONS[i] })).map((f, i) => (
               <Reveal key={f.title} delay={i * 0.08}>
                 <div className="h-full rounded-[22px] border border-white/10 bg-white/[0.04] p-6 transition-colors hover:bg-white/[0.07]">
                   <f.icon className="size-5 text-[#8e97ff]" />
@@ -178,12 +167,25 @@ export function Landing({ state, onFile, onSample }: { state: LoadState; onFile:
       </section>
 
       <footer className="bg-ink text-sheet/50">
-        <div className="mx-auto flex max-w-[1240px] flex-col gap-4 border-t border-white/10 px-4 py-8 text-[12.5px] leading-relaxed sm:flex-row sm:items-center sm:justify-between sm:px-8">
-          <Logo inverted />
-          <p className="max-w-xl sm:text-right">
-            A Kézjegy a kézzel rajzolt aláírásod képét helyezi el a dokumentumban (egyszerű elektronikus aláírás). Nem
-            minősített elektronikus aláírás, és nem helyettesíti az ügyfélkapus hitelesítést.
-          </p>
+        <div className="mx-auto max-w-[1240px] border-t border-white/10 px-4 py-10 text-[12.5px] leading-relaxed sm:px-8">
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+            <Logo inverted />
+            <nav className="flex flex-wrap items-center gap-x-5 gap-y-2 text-[13.5px]">
+              <Link href={`/${lang}/terms`} className="transition-colors hover:text-sheet">
+                {t.nav.terms}
+              </Link>
+              <Link href={`/${lang}/privacy`} className="transition-colors hover:text-sheet">
+                {t.nav.privacyPolicy}
+              </Link>
+              <LanguageSwitcher tone="dark" placement="up" />
+            </nav>
+          </div>
+          <div className="mt-6 flex flex-col gap-3 border-t border-white/10 pt-6 sm:flex-row sm:justify-between sm:gap-10">
+            <p className="max-w-2xl">{t.footer.disclaimer}</p>
+            <p className="shrink-0">
+              © {new Date().getFullYear()} Kézjegy. {t.footer.rights}
+            </p>
+          </div>
         </div>
       </footer>
     </motion.div>

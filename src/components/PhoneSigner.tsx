@@ -7,11 +7,15 @@ import { INK_COLORS, INK_WIDTHS } from "@/lib/ink";
 import { SignaturePad, type PadSnapshot, type SignaturePadHandle } from "./SignaturePad";
 import { SignatureSvg } from "./SignatureSvg";
 import { LogoMark } from "./Logo";
+import Link from "next/link";
+import { useI18n } from "@/i18n/client";
+import { rich } from "@/i18n/format";
 
 type Status = "ready" | "sending" | "sent" | "expired" | "error";
 type Sent = { d: string; width: number; height: number; color: string };
 
 export function PhoneSigner({ id, fileName }: { id: string; fileName: string | null }) {
+  const { lang, t } = useI18n();
   const [status, setStatus] = useState<Status>(fileName ? "ready" : "expired");
   const [color, setColor] = useState<string>(INK_COLORS[0].value);
   const [widthId, setWidthId] = useState<string>("medium");
@@ -112,7 +116,7 @@ export function PhoneSigner({ id, fileName }: { id: string; fileName: string | n
           <div className="flex min-w-0 flex-1 items-center gap-3 phone-land:flex-none">
             <LogoMark className="size-9 shrink-0 text-ink" />
             <div className="min-w-0">
-              <div className="text-[11px] font-medium uppercase tracking-[0.16em] text-ink-3">Aláírás ehhez</div>
+              <div className="text-[11px] font-medium uppercase tracking-[0.16em] text-ink-3">{t.phone.signFor}</div>
               <div className="flex items-center gap-1.5 truncate text-[15px] font-medium">
                 <FileText className="size-3.5 shrink-0 text-ink-3" />
                 <span className="truncate">{fileName}</span>
@@ -120,28 +124,37 @@ export function PhoneSigner({ id, fileName }: { id: string; fileName: string | n
             </div>
           </div>
           <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-mint-soft px-2.5 py-1 text-xs font-medium text-mint phone-land:self-start">
-            <span className="size-1.5 rounded-full bg-mint" /> Kapcsolódva
+            <span className="size-1.5 rounded-full bg-mint" /> {t.phone.connected}
           </span>
 
           <div className="hidden flex-1 phone-land:block" />
           <div className="hidden phone-land:block">
             <Controls {...{ color, setColor, widthId, setWidthId }} />
           </div>
-          <div className="hidden phone-land:block">
+          <div className="hidden space-y-2 phone-land:block">
             <SendButton disabled={!hasInk || status === "sending"} sending={status === "sending"} onClick={send} />
+            <Consent lang={lang} />
           </div>
         </div>
 
         {/* Rajzfelület */}
         <div className="relative min-h-0 flex-1 px-3 pb-2 phone-land:order-1 phone-land:py-3 phone-land:pl-[max(env(safe-area-inset-left),12px)]">
           <div className="card relative h-full overflow-hidden rounded-[26px]">
-            <SignaturePad ref={pad} color={color} widthFactor={factor} onChange={onChange} className="absolute inset-0" />
+            <SignaturePad
+              ref={pad}
+              color={color}
+              widthFactor={factor}
+              onChange={onChange}
+              className="absolute inset-0"
+              hint={t.pad.hint}
+              lineLabel={t.pad.line}
+            />
 
             <div className="absolute left-3 top-3 flex gap-2">
-              <IconButton label="Visszavonás" onClick={() => pad.current?.undo()} disabled={!hasInk}>
+              <IconButton label={t.common.undo} onClick={() => pad.current?.undo()} disabled={!hasInk}>
                 <Undo2 className="size-[18px]" />
               </IconButton>
-              <IconButton label="Törlés" onClick={() => pad.current?.clear()} disabled={!hasInk}>
+              <IconButton label={t.common.clear} onClick={() => pad.current?.clear()} disabled={!hasInk}>
                 <Trash2 className="size-[18px]" />
               </IconButton>
             </div>
@@ -161,11 +174,11 @@ export function PhoneSigner({ id, fileName }: { id: string; fileName: string | n
                   >
                     <Smartphone className="size-5" />
                   </motion.span>
-                  <span className="flex-1 leading-snug">Fordítsd el a telefont, így nagyobb helyed lesz az aláíráshoz.</span>
+                  <span className="flex-1 leading-snug">{t.phone.rotateTip}</span>
                   <button
                     onClick={() => setShowTip(false)}
                     className="grid size-8 shrink-0 place-items-center rounded-full bg-white/10"
-                    aria-label="Tipp bezárása"
+                    aria-label={t.phone.closeTip}
                   >
                     <X className="size-4" />
                   </button>
@@ -179,6 +192,7 @@ export function PhoneSigner({ id, fileName }: { id: string; fileName: string | n
         <div className="shrink-0 space-y-3 px-4 pb-[max(env(safe-area-inset-bottom),16px)] pt-1 phone-land:hidden">
           <Controls {...{ color, setColor, widthId, setWidthId }} />
           <SendButton disabled={!hasInk || status === "sending"} sending={status === "sending"} onClick={send} />
+          <Consent lang={lang} />
         </div>
 
         <AnimatePresence>
@@ -202,15 +216,16 @@ function Controls({
   widthId: string;
   setWidthId: (w: string) => void;
 }) {
+  const { t } = useI18n();
   return (
     <div className="flex items-center justify-between gap-3 phone-land:flex-col phone-land:items-stretch">
-      <div className="flex items-center gap-2" role="radiogroup" aria-label="Tinta színe">
+      <div className="flex items-center gap-2" role="radiogroup" aria-label={t.ink.colorGroup}>
         {INK_COLORS.map((c) => (
           <button
             key={c.id}
             role="radio"
             aria-checked={color === c.value}
-            aria-label={c.label}
+            aria-label={t.ink[c.id]}
             onClick={() => setColor(c.value)}
             className="relative grid size-10 place-items-center rounded-full"
           >
@@ -221,13 +236,13 @@ function Controls({
           </button>
         ))}
       </div>
-      <div className="flex rounded-full bg-ink/[0.06] p-1" role="radiogroup" aria-label="Vonalvastagság">
+      <div className="flex rounded-full bg-ink/[0.06] p-1" role="radiogroup" aria-label={t.ink.widthGroup}>
         {INK_WIDTHS.map((w) => (
           <button
             key={w.id}
             role="radio"
             aria-checked={widthId === w.id}
-            aria-label={w.label}
+            aria-label={t.ink[w.id]}
             onClick={() => setWidthId(w.id)}
             className="relative grid h-9 w-11 flex-1 place-items-center rounded-full"
           >
@@ -243,15 +258,16 @@ function Controls({
 }
 
 function SendButton({ disabled, sending, onClick }: { disabled: boolean; sending: boolean; onClick: () => void }) {
+  const { t } = useI18n();
   return (
     <button onClick={onClick} disabled={disabled} className="btn btn-royal h-14 w-full text-[16px]">
       {sending ? (
         <>
-          <span className="size-4 animate-spin rounded-full border-2 border-white/40 border-t-white" /> Küldés…
+          <span className="size-4 animate-spin rounded-full border-2 border-white/40 border-t-white" /> {t.phone.sending}
         </>
       ) : (
         <>
-          <Send className="size-[18px]" /> Aláírás elküldése
+          <Send className="size-[18px]" /> {t.phone.send}
         </>
       )}
     </button>
@@ -283,6 +299,7 @@ function IconButton({
 }
 
 function Result({ ok, sent, onAgain, onRetry }: { ok: boolean; sent: Sent | null; onAgain: () => void; onRetry: () => void }) {
+  const { t } = useI18n();
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -327,9 +344,9 @@ function Result({ ok, sent, onAgain, onRetry }: { ok: boolean; sent: Sent | null
                 />
               </motion.svg>
             </div>
-            <h1 className="mt-6 font-serif text-5xl leading-none phone-land:mt-3 phone-land:text-4xl">Elküldve!</h1>
+            <h1 className="mt-6 font-serif text-5xl leading-none phone-land:mt-3 phone-land:text-4xl">{t.phone.sentTitle}</h1>
             <p className="mt-3 text-[15px] leading-relaxed text-ink-2">
-              Az aláírásod megjelent a számítógépen. Ott tudod a dokumentumba húzni.
+              {t.phone.sentText}
             </p>
             {sent && (
               <motion.div
@@ -342,7 +359,7 @@ function Result({ ok, sent, onAgain, onRetry }: { ok: boolean; sent: Sent | null
               </motion.div>
             )}
             <button onClick={onAgain} className="btn btn-ghost mt-6 h-12 px-6 text-[15px] phone-land:mt-3">
-              <RotateCcw className="size-4" /> Újabb aláírás
+              <RotateCcw className="size-4" /> {t.phone.again}
             </button>
           </>
         ) : (
@@ -350,14 +367,14 @@ function Result({ ok, sent, onAgain, onRetry }: { ok: boolean; sent: Sent | null
             <div className="grid size-20 place-items-center rounded-full bg-seal/10 text-seal">
               <X className="size-9" />
             </div>
-            <h1 className="mt-5 font-serif text-4xl">Nem sikerült elküldeni</h1>
-            <p className="mt-2 text-[15px] text-ink-2">Ellenőrizd, hogy a telefon ugyanazon a Wi-Fi-hálózaton van-e, mint a számítógép.</p>
+            <h1 className="mt-5 font-serif text-4xl">{t.phone.failTitle}</h1>
+            <p className="mt-2 text-[15px] text-ink-2">{t.phone.failText}</p>
             <div className="mt-6 flex gap-2">
               <button onClick={onAgain} className="btn btn-ghost h-12 px-5">
-                Vissza
+                {t.phone.back}
               </button>
               <button onClick={onRetry} className="btn btn-royal h-12 px-6">
-                <Check className="size-4" /> Újrapróbálom
+                <Check className="size-4" /> {t.phone.retry}
               </button>
             </div>
           </>
@@ -368,15 +385,31 @@ function Result({ ok, sent, onAgain, onRetry }: { ok: boolean; sent: Sent | null
 }
 
 function Expired() {
+  const { t } = useI18n();
   return (
     <main className="grid min-h-[100dvh] place-items-center bg-paper px-6 text-center">
       <div className="max-w-sm">
         <LogoMark className="mx-auto size-12 text-ink" />
-        <h1 className="mt-6 font-serif text-4xl leading-tight">Ez a link már nem érvényes</h1>
+        <h1 className="mt-6 font-serif text-4xl leading-tight">{t.phone.expiredTitle}</h1>
         <p className="mt-3 text-[15px] leading-relaxed text-ink-2">
-          A QR-kód lejárt, vagy a dokumentumot bezárták a számítógépen. Kérj új kódot ott, és olvasd be újra.
+          {t.phone.expiredText}
         </p>
       </div>
     </main>
+  );
+}
+
+/** Apró betűs hozzájárulás a küldés gomb alatt, linkkel a jogi oldalakra. */
+function Consent({ lang }: { lang: string }) {
+  const { t } = useI18n();
+  const link = (href: string, text: string) => (
+    <Link href={`/${lang}/${href}`} target="_blank" className="underline decoration-ink/20 underline-offset-2">
+      {text}
+    </Link>
+  );
+  return (
+    <p className="text-center text-[11px] leading-snug text-ink-4">
+      {rich(t.phone.consent, { terms: link("terms", t.dropzone.consentTerms), privacy: link("privacy", t.dropzone.consentPrivacy) })}
+    </p>
   );
 }

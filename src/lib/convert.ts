@@ -6,7 +6,17 @@ import path from "node:path";
 
 // Word-dokumentum → PDF. Sorrend: LibreOffice (bárhol fut), majd Windowson a telepített Microsoft Word.
 
-export class ConvertError extends Error {}
+/** A kliens a kódot fordítja le a felhasználó nyelvére; az üzenet csak naplózásra való. */
+export type ConvertErrorCode = "unavailable" | "wordPassword" | "convertFailed";
+
+export class ConvertError extends Error {
+  constructor(
+    message: string,
+    readonly code: ConvertErrorCode = "convertFailed",
+  ) {
+    super(message);
+  }
+}
 
 const run = (file: string, args: string[], timeout: number) =>
   new Promise<void>((resolve, reject) => {
@@ -85,13 +95,10 @@ export async function serverConverterAvailable(): Promise<boolean> {
 }
 
 export async function toPdf(bytes: Buffer, ext: string): Promise<Buffer> {
-  if (!(await serverConverterAvailable())) throw new ConvertError("Ezen a szerveren nincs Word-átalakító.");
   const soffice = findSoffice();
   const word = !soffice && (await hasWord());
-  if (!soffice && !word) {
-    throw new ConvertError(
-      "A Word-fájlok átalakításához LibreOffice vagy Microsoft Word kell a szerveren. PDF-et bármikor feltölthetsz.",
-    );
+  if (process.env.DISABLE_SERVER_CONVERT === "1" || (!soffice && !word)) {
+    throw new ConvertError("Nincs szerveroldali Word-átalakító (LibreOffice / Microsoft Word).", "unavailable");
   }
 
   return serial(async () => {
@@ -113,9 +120,9 @@ export async function toPdf(bytes: Buffer, ext: string): Promise<Buffer> {
       return await readFile(output);
     } catch (err) {
       if (err instanceof ConvertError && /jelsz|password/i.test(err.message)) {
-        throw new ConvertError("Ez a dokumentum jelszóval védett, így nem tudjuk megnyitni.");
+        throw new ConvertError(err.message, "wordPassword");
       }
-      throw err instanceof ConvertError ? new ConvertError("Nem sikerült PDF-fé alakítani a dokumentumot.") : err;
+      throw err;
     } finally {
       await rm(dir, { recursive: true, force: true }).catch(() => undefined);
     }

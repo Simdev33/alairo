@@ -1,4 +1,5 @@
 import type { PDFDocumentProxy } from "pdfjs-dist";
+import { AppError } from "./errors";
 
 type PdfJs = typeof import("pdfjs-dist");
 let pdfjs: Promise<PdfJs> | null = null;
@@ -10,8 +11,6 @@ export function loadPdfJs(): Promise<PdfJs> {
   });
   return pdfjs;
 }
-
-export class PdfOpenError extends Error {}
 
 export async function openPdf(bytes: Uint8Array): Promise<PDFDocumentProxy> {
   const lib = await loadPdfJs();
@@ -28,9 +27,9 @@ export async function openPdf(bytes: Uint8Array): Promise<PDFDocumentProxy> {
     return await task.promise;
   } catch (err) {
     const name = (err as { name?: string })?.name;
-    if (name === "PasswordException") throw new PdfOpenError("Ez a PDF jelszóval védett. Nyisd meg, mentsd el jelszó nélkül, és próbáld újra.");
-    if (name === "InvalidPDFException") throw new PdfOpenError("Ez a fájl nem érvényes PDF, vagy megsérült.");
-    throw new PdfOpenError("Nem sikerült megnyitni a PDF-et.");
+    if (name === "PasswordException") throw new AppError("pdfPassword");
+    if (name === "InvalidPDFException") throw new AppError("pdfInvalid");
+    throw new AppError("pdfOpenFailed");
   }
 }
 

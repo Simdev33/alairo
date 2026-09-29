@@ -11,8 +11,19 @@ npm run dev
 ```
 
 Gépen: http://localhost:3238 — a QR-kód automatikusan a gép helyi hálózati címére mutat
-(pl. `http://192.168.1.110:3238/s/…`), így a telefon **ugyanazon a Wi-Fi-n** eléri.
+(pl. `http://192.168.1.110:3238/hu/s/…`), így a telefon **ugyanazon a Wi-Fi-n** eléri.
 Ha több hálózati kártya van, a QR-kártyán a „Nem nyílik meg a telefonon?” alatt lehet másik címet választani.
+
+## Nyelvek és jogi oldalak
+
+- Öt nyelv: magyar, angol, német, francia, spanyol — a címek `/hu`, `/en`, `/de`, `/fr`, `/es` előtaggal.
+  Az első látogatáskor a böngésző nyelve dönt (ha egyik sem, angol); a nyelvválasztó a döntést
+  a `NEXT_LOCALE` sütiben megjegyzi. A telefonos oldal a gép nyelvén nyílik meg.
+- Szövegek: `src/i18n/dictionaries/*.ts` (a `hu.ts` a minta, a többi ugyanazt a szerkezetet követi).
+- ÁSZF és adatvédelmi tájékoztató: `/{nyelv}/terms` és `/{nyelv}/privacy`, szövegük a `src/legal/*.ts`-ben.
+- **Az üzemeltető adatait a `src/config/site.ts`-ben kell kitölteni** (név, cím, e-mail, adószám,
+  nyilvántartási szám, az Upstash-régió és a hatálybalépés dátuma) — a jogi oldalak onnan veszik őket.
+- Minta-szerződés nyelvenként: `public/samples/{nyelv}.pdf`.
 
 ## Feltöltés Vercelre
 

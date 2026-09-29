@@ -7,6 +7,8 @@ import type { PageInfo } from "@/lib/pdf";
 import { PlacementBox } from "./PlacementBox";
 import { SignatureSvg } from "./SignatureSvg";
 import { usePdfCanvas } from "./usePdfCanvas";
+import { useI18n } from "@/i18n/client";
+import { fmt } from "@/i18n/format";
 
 export const DEFAULT_WIDTH = (page: PageInfo) => (page.width > page.height ? 0.2 : 0.27);
 
@@ -32,6 +34,7 @@ export function PdfPage({
   const armedSig = useApp((s) => s.signatures.find((x) => x.id === s.armedSigId) ?? null);
   const place = useApp((s) => s.place);
   const select = useApp((s) => s.select);
+  const { t } = useI18n();
   const [ghost, setGhost] = useState<{ x: number; y: number } | null>(null);
 
   const mine = placements.filter((p) => p.page === index);
@@ -74,7 +77,7 @@ export function PdfPage({
         }`}
         style={{ width, height }}
       >
-        <canvas ref={canvasRef} className="absolute inset-0 size-full rounded-[3px]" aria-label={`${index + 1}. oldal`} />
+        <canvas ref={canvasRef} className="absolute inset-0 size-full rounded-[3px]" aria-label={fmt(t.workspace.pageLabel, { n: index + 1 })} />
         {!ready && <div className="skeleton absolute inset-0 rounded-[3px]" />}
 
         {mine.map((pl) => {

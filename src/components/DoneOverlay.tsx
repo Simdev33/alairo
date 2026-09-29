@@ -3,8 +3,10 @@
 import { useEffect } from "react";
 import { motion } from "motion/react";
 import { Download, FilePlus2, PencilLine } from "lucide-react";
+import { useI18n } from "@/i18n/client";
+import { rich } from "@/i18n/format";
 
-function Seal() {
+function Seal({ text }: { text: string }) {
   // Hullámos szélű viaszpecsét
   const bumps = 28;
   const pts: string[] = [];
@@ -27,7 +29,7 @@ function Seal() {
       <circle cx="100" cy="100" r="76" fill="none" stroke="rgb(255 220 200 / 0.35)" strokeWidth="1.5" />
       <circle cx="100" cy="100" r="48" fill="none" stroke="rgb(255 220 200 / 0.35)" strokeWidth="1.5" />
       <text fill="rgb(255 236 226 / 0.9)" fontSize="13.5" fontWeight="600" letterSpacing="4.2" style={{ fontFamily: "var(--font-geist)" }}>
-        <textPath href="#ring">ALÁÍRVA · KÉZJEGY · ALÁÍRVA · KÉZJEGY ·</textPath>
+        <textPath href="#ring" textLength="386" lengthAdjust="spacingAndGlyphs">{text}</textPath>
       </text>
       <path
         d="M76 106c5-11 10-22 14-21 4 1-4 18-2 21 2 2 8-12 12-11 4 1-2 11 1 11 3 0 7-9 11-8 3 1-1 7 2 7 3 0 5-3 8-5"
@@ -55,6 +57,7 @@ export function DoneOverlay({
   onClose: () => void;
   onNew: () => void;
 }) {
+  const { t } = useI18n();
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     window.addEventListener("keydown", onKey);
@@ -77,7 +80,7 @@ export function DoneOverlay({
         className="card relative w-[min(460px,100%)] rounded-[28px] px-7 pb-7 pt-24 text-center"
         role="dialog"
         aria-modal
-        aria-label="Aláírt dokumentum letöltve"
+        aria-label={t.done.aria}
       >
         <div className="absolute left-1/2 top-0 size-40 -translate-x-1/2 -translate-y-1/2">
           <motion.span
@@ -92,30 +95,30 @@ export function DoneOverlay({
             animate={{ scale: 1, rotate: -9, opacity: 1 }}
             transition={{ delay: 0.12, type: "spring", stiffness: 420, damping: 18, mass: 0.9 }}
           >
-            <Seal />
+            <Seal text={t.done.seal} />
           </motion.div>
         </div>
 
         <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
-          <h2 className="font-serif text-[2.6rem] leading-none">Kész, aláírva!</h2>
+          <h2 className="font-serif text-[2.6rem] leading-none">{t.done.title}</h2>
           <p className="mt-3 text-[15px] leading-relaxed text-ink-2">
-            A <span className="font-medium text-ink">{fileName}</span> letöltődött a gépedre.
+            {rich(t.done.downloaded, { name: <span className="break-all font-medium text-ink">{fileName}</span> })}
           </p>
           {rasterized && (
             <p className="mt-2 rounded-xl bg-paper-2 px-3 py-2 text-[12.5px] leading-snug text-ink-3">
-              Az eredeti PDF védett volt, ezért az oldalakat képként mentettük — a szöveg így nem kijelölhető.
+              {t.done.rasterized}
             </p>
           )}
           <div className="mt-7 grid gap-2 sm:grid-cols-2">
             <button onClick={onClose} className="btn btn-ghost h-11 px-4 text-sm">
-              <PencilLine className="size-4" /> Tovább szerkesztem
+              <PencilLine className="size-4" /> {t.done.keepEditing}
             </button>
             <button onClick={onNew} className="btn btn-primary h-11 px-4 text-sm">
-              <FilePlus2 className="size-4" /> Új dokumentum
+              <FilePlus2 className="size-4" /> {t.done.newDocument}
             </button>
           </div>
           <button onClick={onAgain} className="mt-3 inline-flex items-center gap-1.5 text-[13px] text-ink-3 transition-colors hover:text-ink">
-            <Download className="size-3.5" /> Nem indult el? Letöltés újra
+            <Download className="size-3.5" /> {t.done.again}
           </button>
         </motion.div>
       </motion.div>

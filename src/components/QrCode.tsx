@@ -7,7 +7,7 @@ import QRCode from "qrcode";
  * Saját rajzolású QR-kód: lekerekített modulok, egyedi keresőminták, középen tollhegy.
  * A modulok a középpontból kifelé „nyílnak ki”, amikor új kód születik.
  */
-export function QrCode({ value, className }: { value: string; className?: string }) {
+export function QrCode({ value, className, label }: { value: string; className?: string; label?: string }) {
   const qr = useMemo(() => {
     const code = QRCode.create(value, { errorCorrectionLevel: "Q" });
     const size = code.modules.size;
@@ -36,7 +36,7 @@ export function QrCode({ value, className }: { value: string; className?: string
   ];
 
   return (
-    <svg viewBox={`${-quiet} ${-quiet} ${vb} ${vb}`} className={className} role="img" aria-label="QR-kód a telefonos aláíráshoz">
+    <svg viewBox={`${-quiet} ${-quiet} ${vb} ${vb}`} className={className} role="img" aria-label={label}>
       <rect x={-quiet} y={-quiet} width={vb} height={vb} rx={2.4} fill="#fffdf8" />
       <g key={value} fill="#11131c">
         {qr.cells.map(({ r, c, dist }) => (

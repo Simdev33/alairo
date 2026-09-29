@@ -18,12 +18,13 @@ type Props = {
   onChange?: (snap: PadSnapshot) => void;
   className?: string;
   hint?: string;
+  lineLabel?: string;
   ref?: Ref<SignaturePadHandle>;
 };
 
 const pressureOf = (e: PointerEvent) => (e.pointerType === "pen" ? e.pressure || 0.5 : 0.5);
 
-export function SignaturePad({ color, widthFactor, onChange, className = "", hint = "Írd alá itt", ref }: Props) {
+export function SignaturePad({ color, widthFactor, onChange, className = "", hint = "", lineLabel = "", ref }: Props) {
   const box = useRef<HTMLDivElement>(null);
   const strokes = useRef<InkStroke[]>([]);
   const active = useRef<{ id: number; stroke: InkStroke } | null>(null);
@@ -182,7 +183,7 @@ export function SignaturePad({ color, widthFactor, onChange, className = "", hin
           <span className="font-serif text-3xl leading-none">×</span>
         </div>
         <div className="h-px bg-[repeating-linear-gradient(90deg,var(--color-ink-4)_0_6px,transparent_6px_11px)]" />
-        <div className="mt-2 text-[11px] font-medium uppercase tracking-[0.18em] text-ink-4">Aláírás</div>
+        <div className="mt-2 text-[11px] font-medium uppercase tracking-[0.18em] text-ink-4">{lineLabel}</div>
       </div>
 
       <div

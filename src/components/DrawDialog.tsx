@@ -6,6 +6,7 @@ import { Check, Trash2, Undo2, X } from "lucide-react";
 import { uid, useApp } from "@/lib/app-store";
 import { INK_COLORS, INK_WIDTHS } from "@/lib/ink";
 import { SignaturePad, type SignaturePadHandle } from "./SignaturePad";
+import { useI18n } from "@/i18n/client";
 
 export function DrawDialog({ onClose }: { onClose: () => void }) {
   const [color, setColor] = useState<string>(INK_COLORS[0].value);
@@ -13,6 +14,7 @@ export function DrawDialog({ onClose }: { onClose: () => void }) {
   const [hasInk, setHasInk] = useState(false);
   const pad = useRef<SignaturePadHandle>(null);
   const addSignature = useApp((s) => s.addSignature);
+  const { t } = useI18n();
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
@@ -38,7 +40,7 @@ export function DrawDialog({ onClose }: { onClose: () => void }) {
       <motion.div
         role="dialog"
         aria-modal
-        aria-label="Aláírás rajzolása"
+        aria-label={t.drawDialog.aria}
         initial={{ y: 30, scale: 0.97, opacity: 0 }}
         animate={{ y: 0, scale: 1, opacity: 1 }}
         exit={{ y: 20, scale: 0.98, opacity: 0 }}
@@ -47,10 +49,10 @@ export function DrawDialog({ onClose }: { onClose: () => void }) {
       >
         <div className="flex items-start justify-between gap-4 px-1">
           <div>
-            <h2 className="font-serif text-[1.7rem] leading-tight sm:text-3xl">Rajzold meg az aláírásod</h2>
-            <p className="mt-1 hidden text-sm text-ink-3 sm:block">Egérrel, érintőpaddal vagy tollal — a vonal a sebességtől függően vékonyodik.</p>
+            <h2 className="font-serif text-[1.7rem] leading-tight sm:text-3xl">{t.drawDialog.title}</h2>
+            <p className="mt-1 hidden text-sm text-ink-3 sm:block">{t.drawDialog.subtitle}</p>
           </div>
-          <button onClick={onClose} className="btn btn-ghost size-10 shrink-0" aria-label="Bezárás">
+          <button onClick={onClose} className="btn btn-ghost size-10 shrink-0" aria-label={t.common.close}>
             <X className="size-5" />
           </button>
         </div>
@@ -62,7 +64,8 @@ export function DrawDialog({ onClose }: { onClose: () => void }) {
             widthFactor={INK_WIDTHS.find((w) => w.id === widthId)?.factor ?? 1}
             onChange={(s) => setHasInk(s.strokes.length > 0)}
             className="absolute inset-0"
-            hint="Írd alá itt"
+            hint={t.pad.hint}
+            lineLabel={t.pad.line}
           />
         </div>
 
@@ -72,7 +75,7 @@ export function DrawDialog({ onClose }: { onClose: () => void }) {
               <button
                 key={c.id}
                 onClick={() => setColor(c.value)}
-                aria-label={c.label}
+                aria-label={t.ink[c.id]}
                 className={`grid size-9 place-items-center rounded-full border-2 transition ${color === c.value ? "" : "border-transparent"}`}
                 style={{ borderColor: color === c.value ? c.value : undefined }}
               >
@@ -85,8 +88,8 @@ export function DrawDialog({ onClose }: { onClose: () => void }) {
               <button
                 key={w.id}
                 onClick={() => setWidthId(w.id)}
-                aria-label={w.label}
-                title={w.label}
+                aria-label={t.ink[w.id]}
+                title={t.ink[w.id]}
                 className={`grid h-8 w-10 place-items-center rounded-full transition ${widthId === w.id ? "bg-sheet shadow-sm" : ""}`}
               >
                 <span className="block w-5 rounded-full bg-ink" style={{ height: 2 * w.factor + 0.5 }} />
@@ -94,15 +97,15 @@ export function DrawDialog({ onClose }: { onClose: () => void }) {
             ))}
           </div>
           <div className="flex gap-1.5">
-            <button onClick={() => pad.current?.undo()} disabled={!hasInk} className="btn btn-ghost h-10 px-3 text-sm" aria-label="Visszavonás">
-              <Undo2 className="size-4" /> <span className="hidden sm:inline">Vissza</span>
+            <button onClick={() => pad.current?.undo()} disabled={!hasInk} className="btn btn-ghost h-10 px-3 text-sm" aria-label={t.common.undo}>
+              <Undo2 className="size-4" /> <span className="hidden sm:inline">{t.common.undoShort}</span>
             </button>
-            <button onClick={() => pad.current?.clear()} disabled={!hasInk} className="btn btn-ghost h-10 px-3 text-sm" aria-label="Törlés">
-              <Trash2 className="size-4" /> <span className="hidden sm:inline">Törlés</span>
+            <button onClick={() => pad.current?.clear()} disabled={!hasInk} className="btn btn-ghost h-10 px-3 text-sm" aria-label={t.common.clear}>
+              <Trash2 className="size-4" /> <span className="hidden sm:inline">{t.common.clear}</span>
             </button>
           </div>
           <button onClick={save} disabled={!hasInk} className="btn btn-royal h-12 w-full px-5 text-[15px] sm:ml-auto sm:h-11 sm:w-auto">
-            <Check className="size-4" /> Aláírás hozzáadása
+            <Check className="size-4" /> {t.drawDialog.add}
           </button>
         </div>
       </motion.div>

@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react";
 import { Check, ScanLine } from "lucide-react";
+import { useI18n } from "@/i18n/client";
 
 // Kézzel rajzolt aláírás középvonala (vonalrajzoló animációhoz)
 const SIG_MAIN =
@@ -51,6 +52,8 @@ function Bars({ widths }: { widths: string[] }) {
 }
 
 export function HeroVisual() {
+  const { t } = useI18n();
+  const h = t.heroVisual;
   return (
     <div className="relative mx-auto aspect-[1/0.95] w-full max-w-[560px] select-none" aria-hidden>
       {/* háttérfény */}
@@ -67,8 +70,8 @@ export function HeroVisual() {
         <div className="absolute inset-0 translate-x-3 translate-y-3 rotate-[3deg] rounded-[10px] bg-paper-3/70" />
         <div className="absolute inset-0 translate-x-1.5 translate-y-1.5 rotate-[1.5deg] rounded-[10px] bg-paper-2 shadow-sm" />
         <div className="card relative aspect-[1/1.32] rounded-[10px] px-[9%] pb-[8%] pt-[10%]">
-          <div className="text-[clamp(7px,1.1vw,9px)] font-semibold uppercase tracking-[0.22em] text-ink-3">Megbízási szerződés</div>
-          <div className="mt-3 font-serif text-[clamp(15px,2.4vw,22px)] leading-none text-ink">Webfejlesztési munkák</div>
+          <div className="max-w-[68%] text-[clamp(7px,1.1vw,9px)] font-semibold uppercase tracking-[0.22em] text-ink-3">{h.docType}</div>
+          <div className="mt-3 font-serif text-[clamp(15px,2.4vw,22px)] leading-none text-ink">{h.docTitle}</div>
           <div className="mt-[9%]">
             <Bars widths={["100%", "94%", "98%", "62%"]} />
           </div>
@@ -83,7 +86,7 @@ export function HeroVisual() {
             <div>
               <div className="h-[34px]" />
               <div className="h-px bg-ink/25" />
-              <div className="mt-1.5 text-[clamp(6px,1vw,8.5px)] uppercase tracking-[0.16em] text-ink-3">Megbízó</div>
+              <div className="mt-1.5 text-[clamp(6px,1vw,8.5px)] uppercase tracking-[0.16em] text-ink-3">{h.partyA}</div>
             </div>
             <div className="relative">
               <div className="absolute -top-[18px] left-[-6%] h-[62px] w-[118%]">
@@ -91,18 +94,18 @@ export function HeroVisual() {
               </div>
               <div className="h-[34px]" />
               <div className="h-px bg-ink/25" />
-              <div className="mt-1.5 text-[clamp(6px,1vw,8.5px)] uppercase tracking-[0.16em] text-ink-3">Megbízott</div>
+              <div className="mt-1.5 text-[clamp(6px,1vw,8.5px)] uppercase tracking-[0.16em] text-ink-3">{h.partyB}</div>
             </div>
           </div>
 
           {/* Aláírva bélyeg */}
           <motion.div
-            className="absolute right-[7%] top-[7%] flex items-center gap-1 rounded-full bg-mint px-2 py-1 text-[clamp(7px,1vw,9.5px)] font-semibold uppercase tracking-wider text-white shadow-[0_6px_14px_-4px_rgb(20_138_92/0.6)]"
+            className="absolute -right-[4%] -top-[2.5%] flex rotate-[4deg] items-center gap-1 rounded-full bg-mint px-2 py-1 text-[clamp(7px,1vw,9.5px)] font-semibold uppercase tracking-wider text-white shadow-[0_6px_14px_-4px_rgb(20_138_92/0.6)]"
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: [0, 0, 1.15, 1, 1, 0.8], opacity: [0, 0, 1, 1, 1, 0] }}
             transition={loop([0, 0.8, 0.84, 0.87, 0.93, 1])}
           >
-            <Check className="size-3" strokeWidth={3} /> Aláírva
+            <Check className="size-3" strokeWidth={3} /> {h.signed}
           </motion.div>
         </div>
       </motion.div>
@@ -121,7 +124,7 @@ export function HeroVisual() {
         <div className="card rounded-2xl p-2.5">
           <MiniQr />
           <div className="mt-2 flex items-center justify-center gap-1 text-[clamp(8px,1.1vw,11px)] font-medium text-ink-2">
-            <ScanLine className="size-3" /> Olvasd be
+            <ScanLine className="size-3" /> {h.scan}
           </div>
         </div>
       </motion.div>
@@ -137,8 +140,8 @@ export function HeroVisual() {
           <div className="relative aspect-[9/18.5] overflow-hidden rounded-[clamp(16px,3.2vw,28px)] bg-sheet">
             <div className="absolute left-1/2 top-[3%] h-[3.2%] w-[30%] -translate-x-1/2 rounded-full bg-ink" />
             <div className="absolute inset-x-[10%] top-[12%] text-center">
-              <div className="text-[clamp(5px,0.8vw,7.5px)] font-semibold uppercase tracking-[0.18em] text-ink-3">Aláírás ehhez</div>
-              <div className="mt-0.5 truncate text-[clamp(7px,1.1vw,10px)] font-medium text-ink">szerzodes.pdf</div>
+              <div className="text-[clamp(5px,0.8vw,7.5px)] font-semibold uppercase tracking-[0.18em] text-ink-3">{h.signFor}</div>
+              <div className="mt-0.5 truncate text-[clamp(7px,1.1vw,10px)] font-medium text-ink">{h.fileName}</div>
             </div>
             <div className="absolute inset-x-[6%] top-[30%] h-[36%] rounded-xl bg-paper/60">
               <div className="absolute inset-x-[4%] top-[8%] h-[70%]">
@@ -151,7 +154,7 @@ export function HeroVisual() {
               animate={{ scale: [1, 1, 0.9, 1, 1], backgroundColor: ["#2b36e8", "#2b36e8", "#1e27c4", "#148a5c", "#2b36e8"] }}
               transition={loop([0, 0.42, 0.45, 0.5, 0.95])}
             >
-              Aláírás elküldése
+              {h.send}
             </motion.div>
           </div>
         </div>
