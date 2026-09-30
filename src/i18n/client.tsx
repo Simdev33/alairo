@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useMemo, type ReactNode } from "react";
 import type { Locale } from "./config";
-import type { Dictionary } from "./dictionaries/hu";
+import type { Dictionary } from "./dictionaries/en";
 
 type I18n = { lang: Locale; t: Dictionary };
 

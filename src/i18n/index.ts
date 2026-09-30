@@ -1,7 +1,7 @@
 import "server-only";
 import type { Locale } from "./config";
-import { hu, type Dictionary } from "./dictionaries/hu";
-import { en } from "./dictionaries/en";
+import { hu } from "./dictionaries/hu";
+import { en, type Dictionary } from "./dictionaries/en";
 import { de } from "./dictionaries/de";
 import { fr } from "./dictionaries/fr";
 import { es } from "./dictionaries/es";

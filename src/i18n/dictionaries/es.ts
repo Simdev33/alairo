@@ -1,11 +1,12 @@
-import type { Dictionary } from "./hu";
+import type { Dictionary } from "./en";
 
 export const es: Dictionary = {
   meta: {
-    title: "Kézjegy — Firma desde el teléfono con un código QR",
+    title: "DoneSignIn — Firma documentos desde el teléfono con un código QR",
     description:
-      "Sube tu PDF o documento de Word, escanea el código QR con el teléfono, firma con el dedo y coloca la firma en el documento. Gratis y sin registro.",
-    phoneTitle: "Firmar · Kézjegy",
+      "Sube un PDF o un documento de Word, escanea el código QR con el teléfono, firma con el dedo y coloca la firma donde quieras del documento. Pruébalo gratis y descárgalo con una suscripción.",
+    phoneTitle: "Firmar · DoneSignIn",
+    accountTitle: "Mi cuenta · DoneSignIn",
     notFound: "Esta página no existe.",
     backHome: "Volver al inicio",
   },
@@ -18,6 +19,7 @@ export const es: Dictionary = {
     clear: "Borrar",
     home: "Inicio",
     language: "Idioma",
+    unexpected: "Algo ha fallado. Vuelve a intentarlo.",
   },
 
   ink: {
@@ -37,10 +39,13 @@ export const es: Dictionary = {
 
   nav: {
     how: "Cómo funciona",
+    pricing: "Precios",
     privacy: "Privacidad",
-    badge: "Gratis · sin registro",
+    badge: "Pruébalo gratis · sin instalar nada",
     terms: "Términos",
     privacyPolicy: "Política de privacidad",
+    account: "Mi cuenta",
+    signIn: "Iniciar sesión",
   },
 
   hero: {
@@ -63,7 +68,7 @@ export const es: Dictionary = {
     dropAnywhere: "Suelta el archivo",
     openingPdf: "Abriendo el documento…",
     convertingWord: "Convirtiendo el archivo de Word…",
-    consent: "Al usar Kézjegy, aceptas los {terms} y la {privacy}.",
+    consent: "Al usar DoneSignIn, aceptas los {terms} y la {privacy}.",
     consentTerms: "términos y condiciones",
     consentPrivacy: "política de privacidad",
   },
@@ -88,6 +93,23 @@ export const es: Dictionary = {
     ],
   },
 
+  pricing: {
+    eyebrow: "Precios",
+    titleA: "Un plan sencillo,",
+    titleB: "cancela cuando quieras.",
+    lead: "Subir el documento, firmar y colocar la firma es gratis. Para descargar el PDF firmado, empieza con {days} días de acceso completo por {trial}; después cuesta {monthly} al mes, y puedes cancelar con un solo clic.",
+    plan: "Acceso completo",
+    today: "durante los primeros {days} días",
+    then: "después, {monthly} / mes",
+    features: [
+      "Descargas ilimitadas de PDF firmados",
+      "Firma con el teléfono o con el ratón",
+      "Documentos PDF y de Word, con cualquier número de páginas",
+      "Cancela cuando quieras desde la página de tu cuenta",
+    ],
+    cta: "Empezar a firmar",
+  },
+
   privacySection: {
     eyebrow: "Privacidad",
     titleA: "Tu documento",
@@ -107,15 +129,16 @@ export const es: Dictionary = {
         text: "Pon la misma firma en varios sitios, o en todas las páginas con un solo clic.",
       },
       {
-        title: "Sin cuenta ni suscripción",
-        text: "No te pedimos el correo electrónico ni tienes que instalar nada.",
+        title: "Sin contraseña, cancela cuando quieras",
+        text: "Para suscribirte solo necesitas una dirección de correo electrónico, y puedes cancelar con un solo clic.",
       },
     ],
   },
 
   footer: {
     disclaimer:
-      "Kézjegy coloca en el documento la imagen de la firma que dibujas a mano (firma electrónica simple). No es una firma electrónica cualificada ni sustituye a la identificación electrónica oficial.",
+      "DoneSignIn coloca en el documento la imagen de la firma que dibujas a mano (firma electrónica simple). No es una firma electrónica cualificada ni sustituye a la identificación electrónica oficial.",
+    operatedBy: "Operado por {name}.",
     rights: "Todos los derechos reservados.",
   },
 
@@ -204,7 +227,8 @@ export const es: Dictionary = {
     copied: "Copiado",
     copyLink: "Copiar enlace",
     cantOpen: "¿No se abre en el teléfono?",
-    networkHint: "El teléfono y el equipo deben estar en la misma red wifi. Si tienes varias tarjetas de red, prueba con otra dirección:",
+    networkHint:
+      "El teléfono y el equipo deben estar en la misma red wifi. Si tienes varias tarjetas de red, prueba con otra dirección:",
     waiting: "Esperando la firma…",
     live: "en directo",
     qrAria: "Código QR para firmar con el teléfono",
@@ -221,11 +245,12 @@ export const es: Dictionary = {
     aria: "Documento firmado descargado",
     title: "¡Listo, firmado!",
     downloaded: "Se ha descargado {name} en tu equipo.",
-    rasterized: "El PDF original estaba protegido, así que hemos guardado las páginas como imágenes: por eso el texto no se puede seleccionar.",
+    rasterized:
+      "El PDF original estaba protegido, así que hemos guardado las páginas como imágenes: por eso el texto no se puede seleccionar.",
     keepEditing: "Seguir editando",
     newDocument: "Nuevo documento",
     again: "¿No empezó? Descargar de nuevo",
-    seal: "FIRMADO · KÉZJEGY · FIRMADO · KÉZJEGY ·",
+    seal: "FIRMADO · DONESIGNIN · FIRMADO · DONESIGNIN ·",
   },
 
   phone: {
@@ -243,8 +268,101 @@ export const es: Dictionary = {
     back: "Volver",
     retry: "Reintentar",
     expiredTitle: "Este enlace ya no es válido",
-    expiredText: "El código QR ha caducado o el documento se ha cerrado en el equipo. Pide allí un código nuevo y vuelve a escanearlo.",
+    expiredText:
+      "El código QR ha caducado o el documento se ha cerrado en el equipo. Pide allí un código nuevo y vuelve a escanearlo.",
     consent: "Al enviar, aceptas los {terms} y la {privacy}.",
+  },
+
+  paywall: {
+    label: "Descarga y pago",
+    expires: "Por tu privacidad, el archivo firmado se guarda en este dispositivo durante:",
+    expired: "El archivo firmado ya no se guarda en este dispositivo. Vuelve a descargarlo desde el editor.",
+    ready: "Tu PDF firmado está listo",
+    title: "Descárgalo ya.",
+    includes: "El acceso completo de {days} días incluye:",
+    features: [
+      "Descargas ilimitadas de PDF firmados",
+      "Firma con el teléfono o con el ratón",
+      "Documentos PDF y de Word, con cualquier número de páginas",
+      "Tus documentos nunca salen de tu dispositivo",
+    ],
+    priceLabel: "Acceso completo de {days} días",
+    email: "Tu correo electrónico",
+    emailHint: "Con él podrás iniciar sesión más adelante en otros dispositivos.",
+    emailPlaceholder: "nombre@ejemplo.com",
+    continue: "Continuar al pago",
+    change: "Cambiar",
+    methods: "Elige un método de pago",
+    card: "Tarjeta de débito o crédito",
+    pay: "Pedido con obligación de pago · {amount}",
+    consent:
+      "Acepto los [Términos y condiciones](terms) y la [Política de privacidad](privacy), y solicito expresamente que el servicio comience de inmediato.",
+    consentNeeded: "Para pagar, marca la casilla de arriba.",
+    renewal:
+      "Si no cancelas durante los primeros {days} días, tu suscripción continúa a partir del día {next} por {monthly} al mes. Puedes cancelar cuando quieras en la página [Mi cuenta](account), con un solo clic. Si desistes dentro del plazo de desistimiento de 14 días, pagas la parte proporcional al periodo ya utilizado.",
+    ssl: "SSL de 256 bits",
+    stripe: "Pagos gestionados por Stripe",
+    cancelAnytime: "Cancela cuando quieras",
+    loading: "Cargando el pago…",
+    processing: "Procesando el pago…",
+    success: "¡Pago completado! Tu descarga está empezando.",
+    haveAccount: "¿Ya tienes una suscripción?",
+    login: "Iniciar sesión",
+    backToPay: "Volver al pago",
+    notConfigured: "Los pagos aún no están configurados en este servidor.",
+    returning: "Comprobando tu pago…",
+  },
+
+  auth: {
+    title: "Iniciar sesión",
+    intro: "Introduce la dirección de correo electrónico vinculada a tu suscripción y te enviaremos un código de acceso de 6 dígitos.",
+    email: "Correo electrónico",
+    sendCode: "Enviar código",
+    sent: "Si hay una suscripción vinculada a {email}, te hemos enviado allí el código. Revisa también la carpeta de spam.",
+    code: "Código de acceso",
+    verify: "Iniciar sesión",
+    resend: "Pedir un código nuevo",
+    otherEmail: "Usar otra dirección de correo",
+    success: "Has iniciado sesión.",
+  },
+
+  account: {
+    title: "Mi cuenta",
+    signedInAs: "Sesión iniciada como {email}",
+    trial: "Periodo de prueba: termina el {date}. Si no cancelas, continúa por {monthly}/mes.",
+    active: "Suscripción activa. Próximo cobro: {date} ({monthly}).",
+    canceling: "Cancelada. Tienes acceso hasta el {date}.",
+    pastDue: "El último cobro ha fallado. Actualiza tu tarjeta para no perder el acceso.",
+    none: "No tienes ninguna suscripción activa. Firma un documento y podrás suscribirte al descargarlo.",
+    manage: "Gestionar o cancelar la suscripción",
+    manageHint: "En la página segura de Stripe puedes cancelar la suscripción, cambiar la tarjeta y ver tus cobros anteriores.",
+    start: "Firmar un documento",
+    logout: "Cerrar sesión",
+    loading: "Cargando…",
+    error: "No hemos podido cargar los datos de tu cuenta. Vuelve a intentarlo más tarde.",
+  },
+
+  server: {
+    invalidEmail: "Introduce una dirección de correo electrónico válida.",
+    rateLimited: "Demasiados intentos. Espera unos minutos y vuelve a intentarlo.",
+    billingUnavailable: "El servicio de pago no está disponible en este momento. Vuelve a intentarlo más tarde.",
+    checkoutFailed: "No se ha podido iniciar el pago. Vuelve a intentarlo.",
+    alreadySubscribed:
+      "Esta dirección de correo ya tiene una suscripción activa. Inicia sesión con el código que te enviaremos por correo electrónico.",
+    paymentIncomplete: "El pago no se ha completado.",
+    notSignedIn: "Tienes que iniciar sesión para hacer esto.",
+    codeInvalid: "Código incorrecto. Compruébalo y vuelve a intentarlo.",
+    codeExpired: "El código ha caducado. Pide uno nuevo.",
+    codeLocked: "Demasiados intentos fallidos. Pide un código nuevo.",
+    emailFailed: "No se ha podido enviar el correo. Vuelve a intentarlo más tarde.",
+    unexpected: "Algo ha fallado. Vuelve a intentarlo.",
+  },
+
+  email: {
+    subject: "{code} – tu código de acceso ({site})",
+    intro: "Usa este código para iniciar sesión en {site}:",
+    validity: "El código es válido durante {minutes} minutos.",
+    ignore: "Si no lo has solicitado, puedes ignorar este correo sin problema.",
   },
 
   files: {
@@ -253,10 +371,11 @@ export const es: Dictionary = {
   },
 
   legal: {
-    backHome: "Volver a Kézjegy",
+    backHome: "Volver a DoneSignIn",
     effective: "En vigor desde: {date}",
     contents: "Contenido",
     alsoSee: "Consulta también:",
+    toBeCompleted: "pendiente de completar",
     operatorLabels: {
       name: "Operador",
       address: "Domicilio social",

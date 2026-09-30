@@ -1,11 +1,12 @@
-import type { Dictionary } from "./hu";
+import type { Dictionary } from "./en";
 
 export const de: Dictionary = {
   meta: {
-    title: "Kézjegy — Unterschreiben per Handy, mit einem QR-Code",
+    title: "DoneSignIn — Dokumente per Handy unterschreiben, mit einem QR-Code",
     description:
-      "Lade dein PDF oder Word-Dokument hoch, scanne den QR-Code mit dem Handy, unterschreibe mit dem Finger und platziere die Unterschrift im Dokument. Kostenlos, ohne Registrierung.",
-    phoneTitle: "Unterschrift · Kézjegy",
+      "Lade dein PDF oder Word-Dokument hoch, scanne den QR-Code mit dem Handy, unterschreibe mit dem Finger und platziere die Unterschrift an beliebiger Stelle im Dokument. Kostenlos ausprobieren — Download mit Abo.",
+    phoneTitle: "Unterschrift · DoneSignIn",
+    accountTitle: "Mein Konto · DoneSignIn",
     notFound: "Diese Seite gibt es nicht.",
     backHome: "Zurück zur Startseite",
   },
@@ -18,6 +19,7 @@ export const de: Dictionary = {
     clear: "Löschen",
     home: "Startseite",
     language: "Sprache",
+    unexpected: "Etwas ist schiefgelaufen. Versuch es bitte noch einmal.",
   },
 
   ink: {
@@ -37,10 +39,13 @@ export const de: Dictionary = {
 
   nav: {
     how: "So funktioniert’s",
+    pricing: "Preise",
     privacy: "Datenschutz",
-    badge: "Kostenlos · ohne Registrierung",
+    badge: "Kostenlos testen · ohne App",
     terms: "AGB",
     privacyPolicy: "Datenschutzerklärung",
+    account: "Mein Konto",
+    signIn: "Anmelden",
   },
 
   hero: {
@@ -63,7 +68,7 @@ export const de: Dictionary = {
     dropAnywhere: "Datei loslassen",
     openingPdf: "Dokument wird geöffnet…",
     convertingWord: "Word-Datei wird umgewandelt…",
-    consent: "Mit der Nutzung akzeptierst du die {terms} und die {privacy}.",
+    consent: "Mit der Nutzung von DoneSignIn akzeptierst du die {terms} und die {privacy}.",
     consentTerms: "AGB",
     consentPrivacy: "Datenschutzerklärung",
   },
@@ -88,6 +93,23 @@ export const de: Dictionary = {
     ],
   },
 
+  pricing: {
+    eyebrow: "Preise",
+    titleA: "Ein einfacher Tarif,",
+    titleB: "jederzeit kündbar.",
+    lead: "Hochladen, Unterschreiben und Platzieren sind kostenlos. Um das signierte PDF herunterzuladen, startest du mit {days} Tagen vollem Zugang für {trial} — danach kostet es {monthly} im Monat, und du kannst mit einem Klick kündigen.",
+    plan: "Voller Zugang",
+    today: "für die ersten {days} Tage",
+    then: "danach {monthly} / Monat",
+    features: [
+      "Unbegrenzt viele signierte PDFs herunterladen",
+      "Unterschreiben per Handy oder mit der Maus",
+      "PDF- und Word-Dokumente, beliebig viele Seiten",
+      "Jederzeit kündbar auf deiner Kontoseite",
+    ],
+    cta: "Jetzt unterschreiben",
+  },
+
   privacySection: {
     eyebrow: "Datenschutz",
     titleA: "Dein Dokument",
@@ -107,15 +129,16 @@ export const de: Dictionary = {
         text: "Setze dieselbe Unterschrift an mehrere Stellen oder mit einem Klick auf jede Seite.",
       },
       {
-        title: "Kein Konto, kein Abo",
-        text: "Wir fragen nicht nach deiner E-Mail-Adresse, und du musst nichts installieren.",
+        title: "Kein Passwort, jederzeit kündbar",
+        text: "Für das Abo brauchst du nur eine E-Mail-Adresse — und kündigen kannst du mit einem Klick.",
       },
     ],
   },
 
   footer: {
     disclaimer:
-      "Kézjegy platziert ein Bild deiner von Hand gezeichneten Unterschrift im Dokument (einfache elektronische Signatur). Das ist keine qualifizierte elektronische Signatur und ersetzt keine amtliche elektronische Identifizierung.",
+      "DoneSignIn platziert ein Bild deiner von Hand gezeichneten Unterschrift im Dokument (einfache elektronische Signatur). Das ist keine qualifizierte elektronische Signatur und ersetzt keine amtliche elektronische Identifizierung.",
+    operatedBy: "Betrieben von {name}.",
     rights: "Alle Rechte vorbehalten.",
   },
 
@@ -225,7 +248,7 @@ export const de: Dictionary = {
     keepEditing: "Weiter bearbeiten",
     newDocument: "Neues Dokument",
     again: "Nicht gestartet? Erneut herunterladen",
-    seal: "SIGNIERT · KÉZJEGY · SIGNIERT · KÉZJEGY ·",
+    seal: "SIGNIERT · DONESIGNIN · SIGNIERT · DONESIGNIN ·",
   },
 
   phone: {
@@ -247,16 +270,109 @@ export const de: Dictionary = {
     consent: "Mit dem Senden akzeptierst du die {terms} und die {privacy}.",
   },
 
+  paywall: {
+    label: "Download und Bezahlung",
+    expires: "Zum Schutz deiner Daten bleibt die signierte Datei nur noch so lange auf diesem Gerät:",
+    expired: "Die signierte Datei ist nicht mehr auf diesem Gerät gespeichert. Lade sie im Editor noch einmal herunter.",
+    ready: "Dein signiertes PDF ist fertig",
+    title: "Lade es jetzt herunter.",
+    includes: "{days} Tage voller Zugang umfassen:",
+    features: [
+      "Unbegrenzt viele signierte PDFs herunterladen",
+      "Unterschreiben per Handy oder mit der Maus",
+      "PDF- und Word-Dokumente, beliebig viele Seiten",
+      "Deine Dokumente verlassen nie dein Gerät",
+    ],
+    priceLabel: "Voller Zugang für {days} Tage",
+    email: "Deine E-Mail-Adresse",
+    emailHint: "Damit kannst du dich später auch auf anderen Geräten anmelden.",
+    emailPlaceholder: "name@beispiel.de",
+    continue: "Weiter zur Zahlung",
+    change: "Ändern",
+    methods: "Wähle eine Zahlungsart",
+    card: "Debit- oder Kreditkarte",
+    pay: "Zahlungspflichtig bestellen · {amount}",
+    consent:
+      "Ich akzeptiere die [AGB](terms) und die [Datenschutzerklärung](privacy) und verlange ausdrücklich, dass die Leistung sofort – noch vor Ablauf der Widerrufsfrist – beginnt.",
+    consentNeeded: "Um zu bezahlen, setze bitte oben das Häkchen.",
+    renewal:
+      "Wenn du nicht innerhalb der ersten {days} Tage kündigst, läuft dein Abo ab Tag {next} für {monthly} im Monat weiter. Du kannst jederzeit auf der Seite [Mein Konto](account) mit einem Klick kündigen. Wenn du innerhalb der 14-tägigen Widerrufsfrist widerrufst, zahlst du einen anteiligen Betrag für den bereits genutzten Zeitraum.",
+    ssl: "256-Bit-SSL",
+    stripe: "Zahlung über Stripe",
+    cancelAnytime: "Jederzeit kündbar",
+    loading: "Zahlung wird geladen…",
+    processing: "Zahlung wird verarbeitet…",
+    success: "Zahlung erfolgreich! Dein Download startet.",
+    haveAccount: "Du hast schon ein Abo?",
+    login: "Anmelden",
+    backToPay: "Zurück zur Zahlung",
+    notConfigured: "Auf diesem Server sind noch keine Zahlungen eingerichtet.",
+    returning: "Deine Zahlung wird geprüft…",
+  },
+
+  auth: {
+    title: "Anmelden",
+    intro: "Gib die E-Mail-Adresse ein, die mit deinem Abo verknüpft ist, und wir schicken dir einen 6-stelligen Anmeldecode.",
+    email: "E-Mail-Adresse",
+    sendCode: "Code senden",
+    sent: "Wenn mit {email} ein Abo verknüpft ist, haben wir den Code dorthin geschickt. Schau auch in deinem Spam-Ordner nach.",
+    code: "Anmeldecode",
+    verify: "Anmelden",
+    resend: "Neuen Code anfordern",
+    otherEmail: "Andere E-Mail-Adresse verwenden",
+    success: "Du bist angemeldet.",
+  },
+
+  account: {
+    title: "Mein Konto",
+    signedInAs: "Angemeldet als {email}",
+    trial: "Testzeitraum, endet am {date}. Wenn du nicht kündigst, geht es mit {monthly}/Monat weiter.",
+    active: "Aktives Abo. Nächste Abbuchung: {date} ({monthly}).",
+    canceling: "Gekündigt. Du hast Zugang bis zum {date}.",
+    pastDue: "Die letzte Abbuchung ist fehlgeschlagen. Aktualisiere deine Karte, damit dein Zugang nicht unterbrochen wird.",
+    none: "Du hast kein aktives Abo. Unterschreib ein Dokument — beim Download kannst du eins abschließen.",
+    manage: "Abo verwalten oder kündigen",
+    manageHint: "Auf der sicheren Seite von Stripe kannst du dein Abo kündigen, deine Karte ändern und deine bisherigen Abbuchungen ansehen.",
+    start: "Dokument unterschreiben",
+    logout: "Abmelden",
+    loading: "Wird geladen…",
+    error: "Deine Kontodaten konnten nicht geladen werden. Versuch es später noch einmal.",
+  },
+
+  server: {
+    invalidEmail: "Gib eine gültige E-Mail-Adresse ein.",
+    rateLimited: "Zu viele Versuche. Warte ein paar Minuten und versuch es dann noch einmal.",
+    billingUnavailable: "Der Zahlungsdienst ist gerade nicht erreichbar. Versuch es später noch einmal.",
+    checkoutFailed: "Die Zahlung konnte nicht gestartet werden. Versuch es noch einmal.",
+    alreadySubscribed:
+      "Für diese E-Mail-Adresse gibt es schon ein aktives Abo. Melde dich mit dem Code an, den wir dir per E-Mail schicken.",
+    paymentIncomplete: "Die Zahlung wurde nicht abgeschlossen.",
+    notSignedIn: "Dafür musst du angemeldet sein.",
+    codeInvalid: "Falscher Code. Prüfe ihn und versuch es noch einmal.",
+    codeExpired: "Der Code ist abgelaufen. Fordere einen neuen an.",
+    codeLocked: "Zu viele Fehlversuche. Fordere einen neuen Code an.",
+    emailFailed: "Die E-Mail konnte nicht gesendet werden. Versuch es später noch einmal.",
+    unexpected: "Etwas ist schiefgelaufen. Versuch es bitte noch einmal.",
+  },
+
+  email: {
+    subject: "{code} – dein Anmeldecode ({site})",
+    intro: "Mit diesem Code meldest du dich bei {site} an:",
+    validity: "Der Code ist {minutes} Minuten lang gültig.",
+    ignore: "Wenn du ihn nicht angefordert hast, kannst du diese E-Mail einfach ignorieren.",
+  },
+
   files: {
     signedSuffix: "unterschrieben",
     sampleName: "mustervertrag.pdf",
   },
 
   legal: {
-    backHome: "Zurück zu Kézjegy",
+    backHome: "Zurück zu DoneSignIn",
     effective: "Gültig ab: {date}",
     contents: "Inhalt",
     alsoSee: "Siehe auch:",
+    toBeCompleted: "wird noch ergänzt",
     operatorLabels: {
       name: "Betreiber",
       address: "Sitz",

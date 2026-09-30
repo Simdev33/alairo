@@ -125,7 +125,7 @@ function create(): KV {
   if (upstash) return new UpstashKV(upstash.url, upstash.token);
   if (process.env.VERCEL) {
     console.warn(
-      "[kézjegy] Vercelen fut Redis nélkül — a telefonos munkamenetek nem lesznek megbízhatók. Kösd be az Upstash Redist.",
+      "[donesignin] Vercelen fut Redis nélkül — a telefonos munkamenetek nem lesznek megbízhatók. Kösd be az Upstash Redist.",
     );
   }
   return new MemoryKV();

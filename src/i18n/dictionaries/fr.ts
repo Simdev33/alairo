@@ -1,14 +1,15 @@
-// Textes français — même structure que hu.ts (type Dictionary).
+// Textes français — même structure que en.ts (type Dictionary).
 //   = espace insécable (avant « : », dans « … »),   = espace fine insécable (avant ; ! ?).
 
-import type { Dictionary } from "./hu";
+import type { Dictionary } from "./en";
 
 export const fr: Dictionary = {
   meta: {
-    title: "Kézjegy — Signez depuis votre téléphone avec un QR code",
+    title: "DoneSignIn — Signez vos documents depuis votre téléphone avec un QR code",
     description:
-      "Importez un PDF ou un document Word, scannez le QR code avec votre téléphone, signez du doigt et placez la signature dans le document. Gratuit, sans inscription.",
-    phoneTitle: "Signature · Kézjegy",
+      "Importez un PDF ou un document Word, scannez le QR code avec votre téléphone, signez du doigt et placez la signature n'importe où dans le document. Essai gratuit — téléchargement avec un abonnement.",
+    phoneTitle: "Signature · DoneSignIn",
+    accountTitle: "Mon compte · DoneSignIn",
     notFound: "Cette page n'existe pas.",
     backHome: "Retour à l'accueil",
   },
@@ -21,6 +22,7 @@ export const fr: Dictionary = {
     clear: "Effacer",
     home: "Accueil",
     language: "Langue",
+    unexpected: "Une erreur s'est produite. Veuillez réessayer.",
   },
 
   ink: {
@@ -40,10 +42,13 @@ export const fr: Dictionary = {
 
   nav: {
     how: "Comment ça marche",
+    pricing: "Tarifs",
     privacy: "Confidentialité",
-    badge: "Gratuit · sans inscription",
+    badge: "Essai gratuit · sans application",
     terms: "CGU",
     privacyPolicy: "Politique de confidentialité",
+    account: "Mon compte",
+    signIn: "Se connecter",
   },
 
   hero: {
@@ -66,7 +71,7 @@ export const fr: Dictionary = {
     dropAnywhere: "Relâchez le fichier",
     openingPdf: "Ouverture du document…",
     convertingWord: "Conversion du fichier Word…",
-    consent: "En utilisant le service, vous acceptez les {terms} et la {privacy}.",
+    consent: "En utilisant DoneSignIn, vous acceptez les {terms} et la {privacy}.",
     consentTerms: "CGU",
     consentPrivacy: "politique de confidentialité",
   },
@@ -91,6 +96,23 @@ export const fr: Dictionary = {
     ],
   },
 
+  pricing: {
+    eyebrow: "Tarifs",
+    titleA: "Une formule simple,",
+    titleB: "résiliable à tout moment.",
+    lead: "Importer, signer et placer votre signature, c'est gratuit. Pour télécharger le PDF signé, commencez par {days} jours d'accès complet pour {trial} — ensuite, c'est {monthly} par mois, et vous pouvez résilier en un clic.",
+    plan: "Accès complet",
+    today: "pour les {days} premiers jours",
+    then: "puis {monthly} par mois",
+    features: [
+      "Téléchargements illimités de PDF signés",
+      "Signature sur mobile ou à la souris",
+      "Documents PDF et Word, quel que soit le nombre de pages",
+      "Résiliable à tout moment depuis votre compte",
+    ],
+    cta: "Commencer à signer",
+  },
+
   privacySection: {
     eyebrow: "Confidentialité",
     titleA: "Votre document",
@@ -110,15 +132,16 @@ export const fr: Dictionary = {
         text: "Placez la même signature à plusieurs endroits, ou sur toutes les pages en un clic.",
       },
       {
-        title: "Ni compte, ni abonnement",
-        text: "Nous ne demandons pas d'adresse e-mail, et il n'y a rien à installer.",
+        title: "Sans mot de passe, résiliable à tout moment",
+        text: "Pour vous abonner, une adresse e-mail suffit — et vous pouvez résilier en un clic.",
       },
     ],
   },
 
   footer: {
     disclaimer:
-      "Kézjegy insère dans le document l'image de votre signature dessinée à la main (signature électronique simple). Il ne s'agit pas d'une signature électronique qualifiée, et elle ne remplace pas une identification électronique officielle.",
+      "DoneSignIn insère dans le document l'image de votre signature dessinée à la main (signature électronique simple). Il ne s'agit pas d'une signature électronique qualifiée, et elle ne remplace pas une identification électronique officielle.",
+    operatedBy: "Service exploité par {name}.",
     rights: "Tous droits réservés.",
   },
 
@@ -228,7 +251,7 @@ export const fr: Dictionary = {
     keepEditing: "Continuer l'édition",
     newDocument: "Nouveau document",
     again: "Rien ne s'est passé ? Télécharger à nouveau",
-    seal: "SIGNÉ · KÉZJEGY · SIGNÉ · KÉZJEGY ·",
+    seal: "SIGNÉ · DONESIGNIN · SIGNÉ · DONESIGNIN ·",
   },
 
   phone: {
@@ -250,16 +273,109 @@ export const fr: Dictionary = {
     consent: "En envoyant la signature, vous acceptez les {terms} et la {privacy}.",
   },
 
+  paywall: {
+    label: "Téléchargement et paiement",
+    expires: "Pour préserver votre confidentialité, le fichier signé reste sur cet appareil pendant :",
+    expired: "Le fichier signé n'est plus conservé sur cet appareil. Téléchargez-le à nouveau depuis l'éditeur.",
+    ready: "Votre PDF signé est prêt",
+    title: "Téléchargez-le maintenant.",
+    includes: "L'accès complet de {days} jours comprend :",
+    features: [
+      "Téléchargements illimités de PDF signés",
+      "Signature sur mobile ou à la souris",
+      "Documents PDF et Word, quel que soit le nombre de pages",
+      "Vos documents ne quittent jamais votre appareil",
+    ],
+    priceLabel: "Accès complet de {days} jours",
+    email: "Votre adresse e-mail",
+    emailHint: "Elle vous permettra ensuite de vous connecter sur d'autres appareils.",
+    emailPlaceholder: "nom@exemple.com",
+    continue: "Continuer vers le paiement",
+    change: "Modifier",
+    methods: "Choisissez un moyen de paiement",
+    card: "Carte de débit ou de crédit",
+    pay: "Commander avec obligation de paiement · {amount}",
+    consent:
+      "J'accepte les [Conditions générales d'utilisation](terms) et la [Politique de confidentialité](privacy), et je demande expressément que l'exécution du service commence immédiatement.",
+    consentNeeded: "Pour payer, cochez la case ci-dessus.",
+    renewal:
+      "Si vous ne résiliez pas au cours des {days} premiers jours, votre abonnement se poursuit à partir du {next}e jour au prix de {monthly} par mois. Vous pouvez résilier à tout moment, en un clic, sur la page [Mon compte](account). Si vous vous rétractez pendant le délai de rétractation de 14 jours, vous payez un montant proportionnel à la période déjà utilisée.",
+    ssl: "SSL 256 bits",
+    stripe: "Paiements via Stripe",
+    cancelAnytime: "Résiliable à tout moment",
+    loading: "Chargement du paiement…",
+    processing: "Paiement en cours…",
+    success: "Paiement réussi ! Votre téléchargement commence.",
+    haveAccount: "Déjà abonné ?",
+    login: "Se connecter",
+    backToPay: "Retour au paiement",
+    notConfigured: "Les paiements ne sont pas encore configurés sur ce serveur.",
+    returning: "Vérification de votre paiement…",
+  },
+
+  auth: {
+    title: "Connexion",
+    intro: "Saisissez l'adresse e-mail associée à votre abonnement : nous vous enverrons un code de connexion à 6 chiffres.",
+    email: "Adresse e-mail",
+    sendCode: "Envoyer le code",
+    sent: "Si un abonnement est associé à {email}, nous y avons envoyé le code. Pensez à vérifier aussi vos courriers indésirables.",
+    code: "Code de connexion",
+    verify: "Se connecter",
+    resend: "Demander un nouveau code",
+    otherEmail: "Utiliser une autre adresse e-mail",
+    success: "Connexion réussie.",
+  },
+
+  account: {
+    title: "Mon compte",
+    signedInAs: "Connecté avec l'adresse {email}",
+    trial: "Période d'essai jusqu'au {date}. Sans résiliation de votre part, l'abonnement se poursuit ensuite à {monthly} par mois.",
+    active: "Abonnement actif. Prochain prélèvement : le {date} ({monthly}).",
+    canceling: "Abonnement résilié. Vous conservez l'accès jusqu'au {date}.",
+    pastDue: "Le dernier prélèvement a échoué. Mettez à jour votre carte pour que votre accès ne soit pas interrompu.",
+    none: "Vous n'avez pas d'abonnement actif. Signez un document : vous pourrez vous abonner au moment de le télécharger.",
+    manage: "Gérer ou résilier l'abonnement",
+    manageHint: "Sur la page sécurisée de Stripe, vous pouvez résilier votre abonnement, changer de carte et consulter vos paiements précédents.",
+    start: "Signer un document",
+    logout: "Se déconnecter",
+    loading: "Chargement…",
+    error: "Impossible de charger les informations de votre compte. Veuillez réessayer plus tard.",
+  },
+
+  server: {
+    invalidEmail: "Saisissez une adresse e-mail valide.",
+    rateLimited: "Trop de tentatives. Patientez quelques minutes, puis réessayez.",
+    billingUnavailable: "Le service de paiement est momentanément indisponible. Réessayez plus tard.",
+    checkoutFailed: "Impossible de lancer le paiement. Réessayez.",
+    alreadySubscribed:
+      "Cette adresse e-mail a déjà un abonnement actif. Connectez-vous avec le code que nous vous envoyons par e-mail.",
+    paymentIncomplete: "Le paiement n'a pas abouti.",
+    notSignedIn: "Connectez-vous pour effectuer cette action.",
+    codeInvalid: "Code incorrect. Vérifiez-le, puis réessayez.",
+    codeExpired: "Le code a expiré. Demandez-en un nouveau.",
+    codeLocked: "Trop de tentatives erronées. Demandez un nouveau code.",
+    emailFailed: "Impossible d'envoyer l'e-mail. Réessayez plus tard.",
+    unexpected: "Une erreur s'est produite. Veuillez réessayer.",
+  },
+
+  email: {
+    subject: "{code} – votre code de connexion ({site})",
+    intro: "Utilisez ce code pour vous connecter à {site} :",
+    validity: "Le code est valable {minutes} minutes.",
+    ignore: "Si vous n'êtes pas à l'origine de cette demande, vous pouvez ignorer cet e-mail sans crainte.",
+  },
+
   files: {
     signedSuffix: "signe",
     sampleName: "contrat-exemple.pdf",
   },
 
   legal: {
-    backHome: "Retour à Kézjegy",
+    backHome: "Retour à DoneSignIn",
     effective: "En vigueur depuis le {date}",
     contents: "Sommaire",
     alsoSee: "Voir aussi :",
+    toBeCompleted: "à compléter",
     operatorLabels: {
       name: "Exploitant",
       address: "Siège social",

@@ -19,7 +19,11 @@ export function Logo({ compact = false, inverted = false }: { compact?: boolean;
   return (
     <span className={`inline-flex items-center gap-2.5 ${inverted ? "text-sheet" : "text-ink"}`}>
       <LogoMark className="size-8 shrink-0" inverted={inverted} />
-      {!compact && <span className="font-serif text-[1.65rem] leading-none tracking-[-0.01em]">Kézjegy</span>}
+      {!compact && (
+        <span className="font-serif text-[1.65rem] leading-none tracking-[-0.01em]">
+          DoneSign<span className={inverted ? "text-[#8e97ff]" : "text-royal"}>In</span>
+        </span>
+      )}
     </span>
   );
 }

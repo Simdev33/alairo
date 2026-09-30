@@ -2,17 +2,18 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { CheckCircle2, Download, FilePlus2, FileText, Info, MousePointerClick, PenLine, QrCode as QrIcon, TriangleAlert, X } from "lucide-react";
+import { Download, FilePlus2, FileText, Info, MousePointerClick, PenLine, QrCode as QrIcon, X } from "lucide-react";
 import { placementHeight, useApp } from "@/lib/app-store";
 import { formatBytes } from "@/lib/load-document";
 import { buildSignedPdf, downloadBytes, signedFileName } from "@/lib/sign-pdf";
+import { loadAccount } from "@/lib/account";
+import { savePending } from "@/lib/pending";
 import { Logo } from "./Logo";
 import { DEFAULT_WIDTH, PdfPage } from "./PdfPage";
 import { PageRail } from "./PageRail";
 import { PhonePanel } from "./PhonePanel";
 import { SignatureTray } from "./SignatureTray";
 import { DrawDialog } from "./DrawDialog";
-import { DoneOverlay } from "./DoneOverlay";
 import { usePhoneSession } from "./usePhoneSession";
 import { useI18n } from "@/i18n/client";
 import { plural, rich } from "@/i18n/format";
@@ -37,7 +38,9 @@ export function Workspace() {
   const [drawOpen, setDrawOpen] = useState(false);
   const [qrOpen, setQrOpen] = useState(false);
   const [busy, setBusy] = useState(false);
-  const [done, setDone] = useState<{ data: Uint8Array; name: string; rasterized: boolean } | null>(null);
+  const done = useApp((s) => s.done);
+  const setDone = useApp((s) => s.setDone);
+  const setPaywall = useApp((s) => s.setPaywall);
 
   // Oldalszélesség a görgethető terület szélességéből
   useEffect(() => {
@@ -118,9 +121,16 @@ export function Workspace() {
     setBusy(true);
     try {
       const { data, rasterized } = await buildSignedPdf(doc.bytes, doc.pdf, placements, signatures);
-      const name = signedFileName(doc.name, t.files.signedSuffix);
-      downloadBytes(data, name);
-      setDone({ data, name, rasterized });
+      const result = { data, name: signedFileName(doc.name, t.files.signedSuffix), rasterized };
+      // Az aláírás ingyenes, a letöltéshez előfizetés kell: enélkül a fizetési ablak nyílik meg.
+      const account = await loadAccount().catch(() => null);
+      if (account?.access?.active) {
+        downloadBytes(result.data, result.name);
+        setDone(result);
+      } else {
+        const expiresAt = await savePending(result);
+        setPaywall({ result, expiresAt });
+      }
     } catch (err) {
       console.error(err);
       notify(t.workspace.exportFailed, "error");
@@ -297,22 +307,8 @@ export function Workspace() {
           </motion.div>
         )}
         {drawOpen && <DrawDialog key="draw" onClose={() => setDrawOpen(false)} />}
-        {done && (
-          <DoneOverlay
-            key="done"
-            fileName={done.name}
-            rasterized={done.rasterized}
-            onAgain={() => downloadBytes(done.data, done.name)}
-            onClose={() => setDone(null)}
-            onNew={() => {
-              setDone(null);
-              setDoc(null);
-            }}
-          />
-        )}
       </AnimatePresence>
 
-      <Toast />
     </motion.div>
   );
 }
@@ -327,38 +323,6 @@ function Tips() {
           key: <kbd className="rounded border border-ink/15 bg-sheet px-1 font-mono text-[11px]">Delete</kbd>,
         })}
       </p>
-    </div>
-  );
-}
-
-function Toast() {
-  const toast = useApp((s) => s.toast);
-  const [shown, setShown] = useState<typeof toast>(null);
-  useEffect(() => {
-    if (!toast) return;
-    setShown(toast);
-    const t = setTimeout(() => setShown(null), 4200);
-    return () => clearTimeout(t);
-  }, [toast]);
-
-  const Icon = shown?.tone === "error" ? TriangleAlert : shown?.tone === "success" ? CheckCircle2 : Info;
-  return (
-    <div className="pointer-events-none fixed inset-x-0 bottom-40 z-50 flex justify-center px-4 lg:bottom-6">
-      <AnimatePresence>
-        {shown && (
-          <motion.div
-            key={shown.id}
-            initial={{ y: 20, opacity: 0, scale: 0.96 }}
-            animate={{ y: 0, opacity: 1, scale: 1 }}
-            exit={{ y: 10, opacity: 0 }}
-            transition={{ type: "spring", bounce: 0.3, duration: 0.5 }}
-            className="flex items-center gap-2.5 rounded-full bg-ink py-2.5 pl-3.5 pr-4 text-[13.5px] text-sheet shadow-[0_16px_40px_-12px_rgb(0_0_0/0.5)]"
-          >
-            <Icon className={`size-4 shrink-0 ${shown.tone === "error" ? "text-[#ff8a75]" : shown.tone === "success" ? "text-[#5fe0a8]" : ""}`} />
-            {shown.text}
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }

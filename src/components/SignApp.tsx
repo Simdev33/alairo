@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import { AnimatePresence, motion, MotionConfig } from "motion/react";
 import { useApp } from "@/lib/app-store";
 import { AppError } from "@/lib/errors";
@@ -9,10 +10,20 @@ import { useI18n } from "@/i18n/client";
 import { Landing } from "./Landing";
 import { Workspace } from "./Workspace";
 import type { LoadState } from "./Dropzone";
+import { DoneOverlay } from "./DoneOverlay";
+import { Toast } from "./Toast";
+import { CheckoutReturn } from "./paywall/CheckoutReturn";
+import { downloadBytes } from "@/lib/sign-pdf";
+
+// A Stripe.js és a fizetési ablak csak akkor töltődik be, amikor egy letöltéshez fizetés kell.
+const Paywall = dynamic(() => import("./paywall/Paywall"), { ssr: false });
 
 export function SignApp() {
   const doc = useApp((s) => s.doc);
   const setDoc = useApp((s) => s.setDoc);
+  const paywallOpen = useApp((s) => s.paywall !== null);
+  const done = useApp((s) => s.done);
+  const setDone = useApp((s) => s.setDone);
   const { lang, t } = useI18n();
   const [state, setState] = useState<LoadState>({ phase: "idle" });
   const [dragging, setDragging] = useState(false);
@@ -99,6 +110,25 @@ export function SignApp() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <AnimatePresence>{paywallOpen && <Paywall key="paywall" />}</AnimatePresence>
+      <AnimatePresence>
+        {done && (
+          <DoneOverlay
+            key="done"
+            fileName={done.name}
+            rasterized={done.rasterized}
+            onAgain={() => downloadBytes(done.data, done.name)}
+            onClose={() => setDone(null)}
+            onNew={() => {
+              setDone(null);
+              setDoc(null);
+            }}
+          />
+        )}
+      </AnimatePresence>
+      <CheckoutReturn />
+      <Toast />
     </MotionConfig>
   );
 }

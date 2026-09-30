@@ -38,8 +38,17 @@ export function pickLocale(acceptLanguage: string | null | undefined): Locale {
   return defaultLocale;
 }
 
-/** Az útvonal nyelvi előtagjának cseréje (pl. /hu/terms → /en/terms). */
+/**
+ * Egy oldal címe az adott nyelven. Az angol (fő nyelv) előtag nélkül él a gyökérben,
+ * a többi nyelv előtaggal: localePath("en", "/terms") → "/terms", localePath("hu", "/terms") → "/hu/terms".
+ */
+export function localePath(lang: Locale, path = "") {
+  const clean = path === "/" ? "" : path;
+  return lang === defaultLocale ? clean || "/" : `/${lang}${clean}`;
+}
+
+/** Az útvonal nyelvének cseréje (pl. /hu/terms → /terms angolul, /terms → /de/terms németül). */
 export function swapLocale(pathname: string, to: Locale) {
   const rest = pathname.replace(/^\/(hu|en|de|fr|es)(?=\/|$)/, "");
-  return `/${to}${rest}`;
+  return localePath(to, rest);
 }

@@ -1,42 +1,54 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import type { Locale } from "@/i18n/config";
+import { localePath, type Locale } from "@/i18n/config";
 import { getDictionary, getLegal } from "@/i18n";
 import { fmt } from "@/i18n/format";
 import { site } from "@/config/site";
+import { priceVars } from "@/lib/plan";
 import type { LegalBlock } from "@/legal/types";
 import { Logo } from "./Logo";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 
 export type LegalKind = "terms" | "privacy";
 
-const values = (): Record<string, string> => ({
+const values = (lang: Locale): Record<string, string> => ({
   site: site.name,
+  siteUrl: site.domain,
   operatorName: site.operator.name,
   operatorEmail: site.operator.email,
   hosting: site.hosting,
   storage: site.storage,
   storageRegion: site.storageRegion,
+  ...Object.fromEntries(Object.entries(priceVars(lang)).map(([k, v]) => [k, String(v)])),
 });
 
-/** A jogi szöveg egy bekezdése: helyőrzők, [szöveg](terms|privacy) linkek, kattintható e-mail-cím. */
+/** Kitöltendő adat (pl. még nincs megadva e-mail-cím) — feltűnően jelölve. */
+function Missing({ lang }: { lang: Locale }) {
+  return <mark className="rounded bg-seal/10 px-1.5 py-0.5 text-[0.92em] font-medium text-seal">[{getDictionary(lang).legal.toBeCompleted}]</mark>;
+}
+
+/** A jogi szöveg egy bekezdése: helyőrzők, [szöveg](terms|privacy|account) linkek, kattintható e-mail-cím. */
 function Inline({ text, lang }: { text: string; lang: Locale }) {
-  const v = values();
+  const v = values(lang);
   const out: ReactNode[] = [];
   let last = 0;
-  for (const m of text.matchAll(/\[([^\]]+)\]\((terms|privacy)\)|\{(\w+)\}/g)) {
+  for (const m of text.matchAll(/\[([^\]]+)\]\((terms|privacy|account)\)|\{(\w+)\}/g)) {
     out.push(text.slice(last, m.index));
     if (m[1]) {
       out.push(
-        <Link key={out.length} href={`/${lang}/${m[2]}`} className="font-medium text-royal underline decoration-royal/30 underline-offset-4 hover:decoration-royal">
+        <Link key={out.length} href={localePath(lang, `/${m[2]}`)} className="font-medium text-royal underline decoration-royal/30 underline-offset-4 hover:decoration-royal">
           {m[1]}
         </Link>,
       );
     } else if (m[3] === "operatorEmail") {
       out.push(
-        <a key={out.length} href={`mailto:${site.operator.email}`} className="font-medium text-royal underline decoration-royal/30 underline-offset-4">
-          {site.operator.email}
-        </a>,
+        site.operator.email ? (
+          <a key={out.length} href={`mailto:${site.operator.email}`} className="font-medium text-royal underline decoration-royal/30 underline-offset-4">
+            {site.operator.email}
+          </a>
+        ) : (
+          <Missing key={out.length} lang={lang} />
+        ),
       );
     } else {
       out.push(v[m[3]] ?? m[0]);
@@ -47,9 +59,9 @@ function Inline({ text, lang }: { text: string; lang: Locale }) {
   return <>{out}</>;
 }
 
-export function plainText(text: string) {
-  const v = values();
-  return text.replace(/\[([^\]]+)\]\((?:terms|privacy)\)/g, "$1").replace(/\{(\w+)\}/g, (m, k: string) => v[k] ?? m);
+export function plainText(text: string, lang: Locale) {
+  const v = values(lang);
+  return text.replace(/\[([^\]]+)\]\((?:terms|privacy|account)\)/g, "$1").replace(/\{(\w+)\}/g, (m, k: string) => v[k] ?? m);
 }
 
 function Block({ block, lang }: { block: LegalBlock; lang: Locale }) {
@@ -85,17 +97,21 @@ function Block({ block, lang }: { block: LegalBlock; lang: Locale }) {
       [labels.registration, site.operator.registration],
       [labels.hosting, site.hosting],
     ] as const
-  ).filter(([, value]) => value);
+  ).filter(([label, value]) => value || label === labels.email);
   return (
     <dl className="grid gap-x-6 gap-y-2.5 rounded-2xl border border-ink/10 bg-paper/60 px-5 py-4 text-[15px] sm:grid-cols-[auto_1fr]">
       {rows.map(([label, value]) => (
         <div key={label} className="contents">
           <dt className="text-[12px] font-medium uppercase tracking-[0.12em] text-ink-3 sm:pt-[3px]">{label}</dt>
           <dd className="text-ink">
-            {value === site.operator.email ? (
-              <a href={`mailto:${value}`} className="text-royal underline decoration-royal/30 underline-offset-4">
-                {value}
-              </a>
+            {label === labels.email ? (
+              value ? (
+                <a href={`mailto:${value}`} className="text-royal underline decoration-royal/30 underline-offset-4">
+                  {value}
+                </a>
+              ) : (
+                <Missing lang={lang} />
+              )
             ) : (
               value
             )}
@@ -116,12 +132,12 @@ export function LegalPage({ lang, kind }: { lang: Locale; kind: LegalKind }) {
     <div className="min-h-dvh bg-paper">
       <header className="sticky top-0 z-30 border-b border-ink/10 bg-paper/85 backdrop-blur">
         <div className="mx-auto flex h-16 max-w-[1140px] items-center justify-between gap-4 px-4 sm:px-8">
-          <Link href={`/${lang}`} aria-label={t.legal.backHome}>
+          <Link href={localePath(lang)} aria-label={t.legal.backHome}>
             <Logo />
           </Link>
           <div className="flex items-center gap-2">
             <Link
-              href={`/${lang}`}
+              href={localePath(lang)}
               className="hidden rounded-full px-3.5 py-2 text-[14px] text-ink-2 transition-colors hover:bg-ink/5 hover:text-ink sm:block"
             >
               ← {t.legal.backHome}
@@ -138,7 +154,7 @@ export function LegalPage({ lang, kind }: { lang: Locale; kind: LegalKind }) {
             {(["terms", "privacy"] as const).map((k) => (
               <Link
                 key={k}
-                href={`/${lang}/${k}`}
+                href={localePath(lang, `/${k}`)}
                 aria-current={k === kind ? "page" : undefined}
                 className={`rounded-full px-3.5 py-1.5 text-[13px] font-medium transition-colors ${
                   k === kind ? "bg-ink text-sheet" : "border border-ink/10 bg-sheet/70 text-ink-2 hover:text-ink"
@@ -198,7 +214,7 @@ export function LegalPage({ lang, kind }: { lang: Locale; kind: LegalKind }) {
           <span>
             © {new Date().getFullYear()} {site.name}. {t.footer.rights}
           </span>
-          <Link href={`/${lang}/${other}`} className="underline decoration-ink/20 underline-offset-4 hover:text-ink">
+          <Link href={localePath(lang, `/${other}`)} className="underline decoration-ink/20 underline-offset-4 hover:text-ink">
             {getLegal(lang)[other].title} →
           </Link>
         </div>

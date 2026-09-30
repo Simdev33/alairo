@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { localePath } from "@/i18n/config";
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowUpFromLine, FileText, TriangleAlert } from "lucide-react";
 import Link from "next/link";
@@ -152,12 +153,12 @@ export function Dropzone({ state, onFile, onSample }: { state: LoadState; onFile
       <p className="mt-2 text-[12px] leading-relaxed text-ink-4">
         {rich(t.dropzone.consent, {
           terms: (
-            <Link href={`/${lang}/terms`} className="underline decoration-ink/20 underline-offset-2 hover:text-ink">
+            <Link href={localePath(lang, "/terms")} className="underline decoration-ink/20 underline-offset-2 hover:text-ink">
               {t.dropzone.consentTerms}
             </Link>
           ),
           privacy: (
-            <Link href={`/${lang}/privacy`} className="underline decoration-ink/20 underline-offset-2 hover:text-ink">
+            <Link href={localePath(lang, "/privacy")} className="underline decoration-ink/20 underline-offset-2 hover:text-ink">
               {t.dropzone.consentPrivacy}
             </Link>
           ),

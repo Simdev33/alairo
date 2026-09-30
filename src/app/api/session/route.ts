@@ -1,6 +1,6 @@
 import { createSession, transport } from "@/lib/store";
 import { phoneBaseUrls } from "@/lib/network";
-import { defaultLocale, isLocale } from "@/i18n/config";
+import { defaultLocale, isLocale, localePath } from "@/i18n/config";
 
 export const dynamic = "force-dynamic";
 
@@ -14,7 +14,7 @@ export async function POST(req: Request) {
   return Response.json({
     session,
     transport,
-    phoneUrl: `${primary}/${lang}/s/${session.id}`,
-    alternatives: alternatives.map((a) => ({ label: a.label, url: `${a.url}/${lang}/s/${session.id}` })),
+    phoneUrl: `${primary}${localePath(lang, `/s/${session.id}`)}`,
+    alternatives: alternatives.map((a) => ({ label: a.label, url: `${a.url}${localePath(lang, `/s/${session.id}`)}` })),
   });
 }

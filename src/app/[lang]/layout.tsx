@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
-import { isLocale, locales } from "@/i18n/config";
+import { isLocale, localePath, locales } from "@/i18n/config";
 import { getDictionary } from "@/i18n";
 import { I18nProvider } from "@/i18n/client";
 import { site, siteOrigin } from "@/config/site";
@@ -32,8 +32,8 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
     description: t.meta.description,
     applicationName: site.name,
     alternates: {
-      canonical: `/${lang}`,
-      languages: Object.fromEntries(locales.map((l) => [l, `/${l}`])),
+      canonical: localePath(lang),
+      languages: { ...Object.fromEntries(locales.map((l) => [l, localePath(l)])), "x-default": "/" },
     },
     openGraph: { title: t.meta.title, description: t.meta.description, siteName: site.name, locale: lang, type: "website" },
   };

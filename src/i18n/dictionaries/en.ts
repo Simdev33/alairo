@@ -1,11 +1,14 @@
-import type { Dictionary } from "./hu";
+// English texts — the primary language and the source of the Dictionary type; every other language follows this structure.
+// {name} placeholders are filled in by the code. { one, other } pairs are plural forms.
+// [visible text](terms|privacy|account) marks an in-app link.
 
-export const en: Dictionary = {
+export const en = {
   meta: {
-    title: "Kézjegy — Sign from your phone with a QR code",
+    title: "DoneSignIn — Sign documents from your phone with a QR code",
     description:
-      "Upload a PDF or Word document, scan the QR code with your phone, sign with your finger and place the signature in the document. Free, no sign-up needed.",
-    phoneTitle: "Sign · Kézjegy",
+      "Upload a PDF or Word document, scan the QR code with your phone, sign with your finger and place the signature anywhere in the document. Try it free — download with a subscription.",
+    phoneTitle: "Sign · DoneSignIn",
+    accountTitle: "My account · DoneSignIn",
     notFound: "This page doesn’t exist.",
     backHome: "Back to the home page",
   },
@@ -18,6 +21,7 @@ export const en: Dictionary = {
     clear: "Clear",
     home: "Home",
     language: "Language",
+    unexpected: "Something went wrong. Please try again.",
   },
 
   ink: {
@@ -37,10 +41,13 @@ export const en: Dictionary = {
 
   nav: {
     how: "How it works",
+    pricing: "Pricing",
     privacy: "Privacy",
-    badge: "Free · no sign-up",
+    badge: "Free to try · no app needed",
     terms: "Terms",
     privacyPolicy: "Privacy Policy",
+    account: "My account",
+    signIn: "Sign in",
   },
 
   hero: {
@@ -63,7 +70,7 @@ export const en: Dictionary = {
     dropAnywhere: "Drop the file",
     openingPdf: "Opening document…",
     convertingWord: "Converting Word file…",
-    consent: "By using Kézjegy, you accept the {terms} and the {privacy}.",
+    consent: "By using DoneSignIn, you accept the {terms} and the {privacy}.",
     consentTerms: "Terms of Service",
     consentPrivacy: "Privacy Policy",
   },
@@ -88,6 +95,23 @@ export const en: Dictionary = {
     ],
   },
 
+  pricing: {
+    eyebrow: "Pricing",
+    titleA: "One simple plan,",
+    titleB: "cancel anytime.",
+    lead: "Uploading, signing and placing your signature are free. To download the signed PDF, start with {days} days of full access for {trial} — after that it’s {monthly} a month, and you can cancel in one click.",
+    plan: "Full access",
+    today: "for the first {days} days",
+    then: "then {monthly} / month",
+    features: [
+      "Unlimited signed PDF downloads",
+      "Sign with your phone or with a mouse",
+      "PDF and Word documents, any number of pages",
+      "Cancel anytime on your account page",
+    ],
+    cta: "Start signing",
+  },
+
   privacySection: {
     eyebrow: "Privacy",
     titleA: "Your document",
@@ -107,15 +131,16 @@ export const en: Dictionary = {
         text: "Place the same signature in several spots, or on every page with a single click.",
       },
       {
-        title: "No account, no subscription",
-        text: "We don’t ask for your email address, and there’s nothing to install.",
+        title: "No password, cancel anytime",
+        text: "An email address is all you need when you subscribe — and you can cancel in one click.",
       },
     ],
   },
 
   footer: {
     disclaimer:
-      "Kézjegy places an image of your hand-drawn signature in the document (a simple electronic signature). It is not a qualified electronic signature and does not replace official electronic identification.",
+      "DoneSignIn places an image of your hand-drawn signature in the document (a simple electronic signature). It is not a qualified electronic signature and does not replace official electronic identification.",
+    operatedBy: "Operated by {name}.",
     rights: "All rights reserved.",
   },
 
@@ -227,7 +252,7 @@ export const en: Dictionary = {
     keepEditing: "Keep editing",
     newDocument: "New document",
     again: "Didn’t start? Download again",
-    seal: "SIGNED · KÉZJEGY · SIGNED · KÉZJEGY ·",
+    seal: "SIGNED · DONESIGNIN · SIGNED · DONESIGNIN ·",
   },
 
   phone: {
@@ -250,23 +275,118 @@ export const en: Dictionary = {
     consent: "By sending, you accept the {terms} and the {privacy}.",
   },
 
+  paywall: {
+    label: "Download and payment",
+    expires: "For your privacy, the signed file is kept on this device for:",
+    expired: "The signed file is no longer kept on this device. Download it again from the editor.",
+    ready: "Your signed PDF is ready",
+    title: "Download it now.",
+    includes: "{days} days of full access include:",
+    features: [
+      "Unlimited signed PDF downloads",
+      "Sign with your phone or with a mouse",
+      "PDF and Word documents, any number of pages",
+      "Your documents never leave your device",
+    ],
+    priceLabel: "{days}-day full access",
+    email: "Your email address",
+    emailHint: "You can use it to sign in on other devices later.",
+    emailPlaceholder: "name@example.com",
+    continue: "Continue to payment",
+    change: "Change",
+    methods: "Choose a payment method",
+    card: "Debit or credit card",
+    pay: "Order with obligation to pay · {amount}",
+    consent:
+      "I accept the [Terms of Service](terms) and the [Privacy Policy](privacy), and I request that the service start immediately.",
+    consentNeeded: "To pay, please tick the box above.",
+    renewal:
+      "If you don’t cancel within the first {days} days, your subscription continues from day {next} at {monthly} a month. You can cancel anytime on the [My account](account) page, in one click. If you withdraw within the 14-day withdrawal period, you pay a proportionate amount for the period already used.",
+    ssl: "256-bit SSL",
+    stripe: "Payments by Stripe",
+    cancelAnytime: "Cancel anytime",
+    loading: "Loading payment…",
+    processing: "Processing payment…",
+    success: "Payment successful! Your download is starting.",
+    haveAccount: "Already a subscriber?",
+    login: "Sign in",
+    backToPay: "Back to payment",
+    notConfigured: "Payments aren’t set up on this server yet.",
+    returning: "Checking your payment…",
+  },
+
+  auth: {
+    title: "Sign in",
+    intro: "Enter the email address linked to your subscription, and we’ll send you a 6-digit sign-in code.",
+    email: "Email address",
+    sendCode: "Send code",
+    sent: "If there’s a subscription linked to {email}, we’ve sent the code there. Check your spam folder too.",
+    code: "Sign-in code",
+    verify: "Sign in",
+    resend: "Request a new code",
+    otherEmail: "Use a different email address",
+    success: "You’re signed in.",
+  },
+
+  account: {
+    title: "My account",
+    signedInAs: "Signed in as {email}",
+    trial: "Trial period, ends on {date}. If you don’t cancel, it continues at {monthly}/month.",
+    active: "Active subscription. Next charge: {date} ({monthly}).",
+    canceling: "Cancelled. You have access until {date}.",
+    pastDue: "The last charge failed. Update your card so your access isn’t interrupted.",
+    none: "You don’t have an active subscription. Sign a document, and you can start one when you download it.",
+    manage: "Manage or cancel subscription",
+    manageHint: "On Stripe’s secure page, you can cancel your subscription, change your card and see your past charges.",
+    start: "Sign a document",
+    logout: "Sign out",
+    loading: "Loading…",
+    error: "We couldn’t load your account details. Please try again later.",
+  },
+
+  server: {
+    invalidEmail: "Enter a valid email address.",
+    rateLimited: "Too many attempts. Wait a few minutes and try again.",
+    billingUnavailable: "The payment service is currently unavailable. Try again later.",
+    checkoutFailed: "The payment couldn’t be started. Try again.",
+    alreadySubscribed:
+      "This email address already has an active subscription. Sign in with the code we send you by email.",
+    paymentIncomplete: "The payment wasn’t completed.",
+    notSignedIn: "You need to sign in to do this.",
+    codeInvalid: "Wrong code. Check it and try again.",
+    codeExpired: "The code has expired. Request a new one.",
+    codeLocked: "Too many wrong attempts. Request a new code.",
+    emailFailed: "The email couldn’t be sent. Try again later.",
+    unexpected: "Something went wrong. Please try again.",
+  },
+
+  email: {
+    subject: "{code} – your sign-in code ({site})",
+    intro: "Use this code to sign in to {site}:",
+    validity: "The code is valid for {minutes} minutes.",
+    ignore: "If you didn’t request this, you can safely ignore this email.",
+  },
+
   files: {
     signedSuffix: "signed",
     sampleName: "sample-contract.pdf",
   },
 
   legal: {
-    backHome: "Back to Kézjegy",
+    backHome: "Back to DoneSignIn",
     effective: "Effective: {date}",
     contents: "Contents",
     alsoSee: "See also:",
+    toBeCompleted: "to be completed",
     operatorLabels: {
       name: "Operator",
       address: "Registered office",
       email: "Email",
       taxId: "Tax number",
-      registration: "Registration number",
+      registration: "Registration",
       hosting: "Hosting provider",
     },
   },
 };
+
+export type Dictionary = typeof en;

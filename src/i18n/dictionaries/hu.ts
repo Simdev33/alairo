@@ -1,12 +1,16 @@
-// Magyar szövegek — ez a forrás, a többi nyelv ugyanezt a szerkezetet követi (Dictionary típus).
-// {név} alakú helyőrzők: a kód tölti ki. A { one, other } párok többes számot jelölnek.
+import type { Dictionary } from "./en";
 
-export const hu = {
+// Magyar szövegek — a szerkezet forrása az angol (en.ts), mert az a fő nyelv.
+// {név} alakú helyőrzők: a kód tölti ki. A { one, other } párok többes számot jelölnek.
+// [látható szöveg](terms|privacy|account) — belső hivatkozás.
+
+export const hu: Dictionary = {
   meta: {
-    title: "Kézjegy — Aláírás telefonról, egy QR-kóddal",
+    title: "DoneSignIn — Dokumentumok aláírása telefonról, QR-kóddal",
     description:
-      "Töltsd fel a PDF-et vagy Word-dokumentumot, olvasd be a QR-kódot a telefonoddal, írd alá az ujjaddal, és helyezd el az aláírást a dokumentumban. Ingyenes, regisztráció nélkül.",
-    phoneTitle: "Aláírás · Kézjegy",
+      "Töltsd fel a PDF-et vagy Word-dokumentumot, olvasd be a QR-kódot a telefonoddal, írd alá az ujjaddal, és helyezd el az aláírást bárhol a dokumentumban. Ingyen kipróbálhatod — a letöltéshez előfizetés kell.",
+    phoneTitle: "Aláírás · DoneSignIn",
+    accountTitle: "Fiókom · DoneSignIn",
     notFound: "Ez az oldal nem létezik.",
     backHome: "Vissza a főoldalra",
   },
@@ -19,6 +23,7 @@ export const hu = {
     clear: "Törlés",
     home: "Kezdőlap",
     language: "Nyelv",
+    unexpected: "Valami hiba történt. Próbáld újra.",
   },
 
   ink: {
@@ -38,10 +43,13 @@ export const hu = {
 
   nav: {
     how: "Hogyan működik",
+    pricing: "Árak",
     privacy: "Adatvédelem",
-    badge: "Ingyenes · regisztráció nélkül",
+    badge: "Ingyen kipróbálható · alkalmazás nélkül",
     terms: "ÁSZF",
     privacyPolicy: "Adatvédelmi tájékoztató",
+    account: "Fiókom",
+    signIn: "Belépés",
   },
 
   hero: {
@@ -64,7 +72,7 @@ export const hu = {
     dropAnywhere: "Engedd el a fájlt",
     openingPdf: "Dokumentum megnyitása…",
     convertingWord: "Word-fájl átalakítása…",
-    consent: "A használattal elfogadod az {terms} és az {privacy}.",
+    consent: "A DoneSignIn használatával elfogadod az {terms} és az {privacy}.",
     consentTerms: "ÁSZF-et",
     consentPrivacy: "adatvédelmi tájékoztatót",
   },
@@ -89,6 +97,23 @@ export const hu = {
     ],
   },
 
+  pricing: {
+    eyebrow: "Árak",
+    titleA: "Egy egyszerű csomag,",
+    titleB: "bármikor lemondható.",
+    lead: "A feltöltés, az aláírás és az elhelyezés ingyenes. Az aláírt PDF letöltéséhez {days} napos teljes hozzáféréssel indulsz, {trial} áron — utána havi {monthly}, és egy kattintással lemondhatod.",
+    plan: "Teljes hozzáférés",
+    today: "az első {days} napra",
+    then: "utána {monthly} / hó",
+    features: [
+      "Korlátlan aláírt PDF-letöltés",
+      "Aláírás telefonnal vagy egérrel",
+      "PDF- és Word-dokumentumok, bármennyi oldallal",
+      "Bármikor lemondható a fiókodban",
+    ],
+    cta: "Kezdjük az aláírást",
+  },
+
   privacySection: {
     eyebrow: "Adatvédelem",
     titleA: "A dokumentumod",
@@ -108,15 +133,16 @@ export const hu = {
         text: "Tedd ugyanazt az aláírást több helyre, vagy egy kattintással minden oldalra.",
       },
       {
-        title: "Nincs fiók, nincs előfizetés",
-        text: "Nem kérünk e-mail-címet, és nem kell semmit telepíteni.",
+        title: "Nincs jelszó, bármikor lemondható",
+        text: "Az előfizetéshez elég egy e-mail-cím — és egy kattintással lemondhatod.",
       },
     ],
   },
 
   footer: {
     disclaimer:
-      "A Kézjegy a kézzel rajzolt aláírásod képét helyezi el a dokumentumban (egyszerű elektronikus aláírás). Nem minősített elektronikus aláírás, és nem helyettesíti a hivatalos elektronikus azonosítást.",
+      "A DoneSignIn a kézzel rajzolt aláírásod képét helyezi el a dokumentumban (egyszerű elektronikus aláírás). Nem minősített elektronikus aláírás, és nem helyettesíti a hivatalos elektronikus azonosítást.",
+    operatedBy: "Üzemeltető: {name}.",
     rights: "Minden jog fenntartva.",
   },
 
@@ -226,7 +252,7 @@ export const hu = {
     keepEditing: "Tovább szerkesztem",
     newDocument: "Új dokumentum",
     again: "Nem indult el? Letöltés újra",
-    seal: "ALÁÍRVA · KÉZJEGY · ALÁÍRVA · KÉZJEGY ·",
+    seal: "ALÁÍRVA · DONESIGNIN · ALÁÍRVA · DONESIGNIN ·",
   },
 
   phone: {
@@ -248,16 +274,109 @@ export const hu = {
     consent: "A küldéssel elfogadod az {terms} és az {privacy}.",
   },
 
+  paywall: {
+    label: "Letöltés és fizetés",
+    expires: "Az adataid védelmében az aláírt fájlt ennyi ideig őrizzük ezen az eszközön:",
+    expired: "Az aláírt fájlt már nem őrizzük ezen az eszközön. Töltsd le újra a szerkesztőből.",
+    ready: "Elkészült az aláírt PDF-ed",
+    title: "Töltsd le most.",
+    includes: "A {days} napos teljes hozzáférés tartalmazza:",
+    features: [
+      "Korlátlan aláírt PDF-letöltés",
+      "Aláírás telefonnal vagy egérrel",
+      "PDF- és Word-dokumentumok, bármennyi oldallal",
+      "A dokumentumaid sosem hagyják el az eszközödet",
+    ],
+    priceLabel: "{days} napos teljes hozzáférés",
+    email: "Az e-mail-címed",
+    emailHint: "Ezzel később más eszközökön is be tudsz lépni.",
+    emailPlaceholder: "nev@pelda.hu",
+    continue: "Tovább a fizetéshez",
+    change: "Módosítás",
+    methods: "Válassz fizetési módot",
+    card: "Bankkártya vagy hitelkártya",
+    pay: "Fizetési kötelezettséggel járó megrendelés · {amount}",
+    consent:
+      "Elfogadom az [Általános Szerződési Feltételeket](terms) és az [Adatvédelmi tájékoztatót](privacy), és kérem a szolgáltatás azonnali megkezdését.",
+    consentNeeded: "A fizetéshez pipáld be a fenti jelölőnégyzetet.",
+    renewal:
+      "Ha az első {days} napban nem mondod le, az előfizetésed a {next}. naptól havi {monthly} díjjal folytatódik. Bármikor lemondhatod a [Fiókom](account) oldalon, egy kattintással. Ha a 14 napos elállási határidőn belül elállsz, a már igénybe vett időszakra arányos összeget fizetsz.",
+    ssl: "256 bites SSL",
+    stripe: "A fizetést a Stripe kezeli",
+    cancelAnytime: "Bármikor lemondható",
+    loading: "Fizetés betöltése…",
+    processing: "Fizetés feldolgozása…",
+    success: "Sikeres fizetés! Indul a letöltés.",
+    haveAccount: "Már előfizető vagy?",
+    login: "Belépés",
+    backToPay: "Vissza a fizetéshez",
+    notConfigured: "Ezen a szerveren még nincs beállítva a fizetés.",
+    returning: "Ellenőrizzük a fizetésedet…",
+  },
+
+  auth: {
+    title: "Belépés",
+    intro: "Add meg az előfizetésedhez tartozó e-mail-címet, és küldünk rá egy 6 jegyű belépési kódot.",
+    email: "E-mail-cím",
+    sendCode: "Kód küldése",
+    sent: "Ha a megadott címhez ({email}) tartozik előfizetés, elküldtük oda a kódot. Nézd meg a spam mappát is.",
+    code: "Belépési kód",
+    verify: "Belépés",
+    resend: "Új kódot kérek",
+    otherEmail: "Másik e-mail-címet adok meg",
+    success: "Beléptél.",
+  },
+
+  account: {
+    title: "Fiókom",
+    signedInAs: "Bejelentkezve: {email}",
+    trial: "Próbaidőszak, vége: {date}. Ha nem mondod le, havi {monthly} díjjal folytatódik.",
+    active: "Aktív előfizetés. Következő terhelés: {date} ({monthly}).",
+    canceling: "Lemondva. A hozzáférésed eddig tart: {date}.",
+    pastDue: "Az utolsó terhelés nem sikerült. Frissítsd a kártyádat, hogy ne szakadjon meg a hozzáférésed.",
+    none: "Nincs aktív előfizetésed. Írj alá egy dokumentumot, és a letöltéskor elindíthatod.",
+    manage: "Előfizetés kezelése vagy lemondása",
+    manageHint: "A Stripe biztonságos oldalán lemondhatod az előfizetésedet, kártyát cserélhetsz, és megnézheted a korábbi terheléseidet.",
+    start: "Dokumentum aláírása",
+    logout: "Kilépés",
+    loading: "Betöltés…",
+    error: "Nem sikerült betölteni a fiókod adatait. Próbáld újra később.",
+  },
+
+  server: {
+    invalidEmail: "Adj meg egy érvényes e-mail-címet.",
+    rateLimited: "Túl sok próbálkozás. Várj pár percet, és próbáld újra.",
+    billingUnavailable: "A fizetési szolgáltatás most nem érhető el. Próbáld újra később.",
+    checkoutFailed: "Nem sikerült elindítani a fizetést. Próbáld újra.",
+    alreadySubscribed:
+      "Ehhez az e-mail-címhez már tartozik aktív előfizetés. Lépj be az e-mailben küldött kóddal.",
+    paymentIncomplete: "A fizetés nem fejeződött be.",
+    notSignedIn: "Ehhez be kell lépned.",
+    codeInvalid: "Hibás kód. Ellenőrizd, és próbáld újra.",
+    codeExpired: "A kód lejárt. Kérj újat.",
+    codeLocked: "Túl sok hibás próbálkozás. Kérj új kódot.",
+    emailFailed: "Nem sikerült elküldeni az e-mailt. Próbáld újra később.",
+    unexpected: "Valami hiba történt. Próbáld újra.",
+  },
+
+  email: {
+    subject: "{code} – a belépési kódod ({site})",
+    intro: "Ezzel a kóddal léphetsz be a {site} oldalra:",
+    validity: "A kód {minutes} percig érvényes.",
+    ignore: "Ha nem te kérted, nyugodtan hagyd figyelmen kívül ezt az e-mailt.",
+  },
+
   files: {
     signedSuffix: "alairt",
     sampleName: "minta-szerzodes.pdf",
   },
 
   legal: {
-    backHome: "Vissza a Kézjegyre",
+    backHome: "Vissza a DoneSignIn-re",
     effective: "Hatályos: {date}",
     contents: "Tartalom",
     alsoSee: "Lásd még:",
+    toBeCompleted: "kiegészítés alatt",
     operatorLabels: {
       name: "Üzemeltető",
       address: "Székhely",
@@ -268,5 +387,3 @@ export const hu = {
     },
   },
 };
-
-export type Dictionary = typeof hu;

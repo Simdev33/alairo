@@ -5,6 +5,7 @@ import type { PDFDocumentProxy } from "pdfjs-dist";
 import type { PageInfo } from "./pdf";
 import type { Placement } from "./sign-pdf";
 import type { LivePreview, Signature } from "./types";
+import type { SignedResult } from "./pending";
 
 export type LoadedDoc = {
   name: string;
@@ -39,6 +40,10 @@ type State = {
   /** Törölt aláírások — ha az élő kapcsolat újra elküldi őket, ne jelenjenek meg megint. */
   dismissed: Set<string>;
   toast: { id: number; text: string; tone: "info" | "success" | "error" } | null;
+  /** Fizetési ablak: az aláírt PDF előfizetés nélkül ide kerül a letöltés helyett. */
+  paywall: { result: SignedResult; expiresAt: number; error?: string } | null;
+  /** A letöltött aláírt PDF — ilyenkor a „Kész, aláírva!” ablak látszik. */
+  done: SignedResult | null;
 
   setDoc: (doc: LoadedDoc | null) => void;
   addSignature: (sig: Signature) => void;
@@ -50,6 +55,8 @@ type State = {
   arm: (sigId: string | null) => void;
   setPhone: (patch: Partial<PhoneLink>) => void;
   notify: (text: string, tone?: "info" | "success" | "error") => void;
+  setPaywall: (paywall: State["paywall"]) => void;
+  setDone: (done: SignedResult | null) => void;
 };
 
 const emptyPhone: PhoneLink = {
@@ -76,6 +83,8 @@ export const useApp = create<State>((set) => ({
   phone: emptyPhone,
   dismissed: new Set(),
   toast: null,
+  paywall: null,
+  done: null,
 
   setDoc: (doc) =>
     set((s) => {
@@ -119,6 +128,8 @@ export const useApp = create<State>((set) => ({
   arm: (armedSigId) => set({ armedSigId, selectedId: null }),
   setPhone: (patch) => set((s) => ({ phone: { ...s.phone, ...patch } })),
   notify: (text, tone = "info") => set({ toast: { id: Date.now(), text, tone } }),
+  setPaywall: (paywall) => set({ paywall }),
+  setDone: (done) => set({ done }),
 }));
 
 /** Az aláírás magassága az oldal magasságának arányában, adott szélességnél. */

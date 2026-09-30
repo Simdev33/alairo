@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { isLocale, locales } from "@/i18n/config";
+import { isLocale, localePath, locales } from "@/i18n/config";
 import { getLegal } from "@/i18n";
 import { site } from "@/config/site";
 import { LegalPage, plainText } from "@/components/LegalPage";
@@ -11,8 +11,11 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/terms">): 
   const doc = getLegal(lang).terms;
   return {
     title: `${doc.title} · ${site.name}`,
-    description: plainText(doc.intro),
-    alternates: { canonical: `/${lang}/terms`, languages: Object.fromEntries(locales.map((l) => [l, `/${l}/terms`])) },
+    description: plainText(doc.intro, lang),
+    alternates: {
+      canonical: localePath(lang, "/terms"),
+      languages: { ...Object.fromEntries(locales.map((l) => [l, localePath(l, "/terms")])), "x-default": "/terms" },
+    },
   };
 }
 

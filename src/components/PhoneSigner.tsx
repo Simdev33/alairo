@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { localePath, type Locale } from "@/i18n/config";
 import { AnimatePresence, motion, MotionConfig } from "motion/react";
 import { Check, FileText, RotateCcw, Send, Smartphone, Trash2, Undo2, X } from "lucide-react";
 import { INK_COLORS, INK_WIDTHS } from "@/lib/ink";
@@ -400,10 +401,10 @@ function Expired() {
 }
 
 /** Apró betűs hozzájárulás a küldés gomb alatt, linkkel a jogi oldalakra. */
-function Consent({ lang }: { lang: string }) {
+function Consent({ lang }: { lang: Locale }) {
   const { t } = useI18n();
   const link = (href: string, text: string) => (
-    <Link href={`/${lang}/${href}`} target="_blank" className="underline decoration-ink/20 underline-offset-2">
+    <Link href={localePath(lang, `/${href}`)} target="_blank" className="underline decoration-ink/20 underline-offset-2">
       {text}
     </Link>
   );

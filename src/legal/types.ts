@@ -1,6 +1,7 @@
 // Jogi szövegek szerkezete. A bekezdésekben:
-//   {operatorName}, {operatorEmail}, {site}, {hosting}, {storage}, {storageRegion} — a src/config/site.ts-ből
-//   [látható szöveg](terms) / [látható szöveg](privacy) — belső hivatkozás a másik jogi oldalra
+//   {site}, {siteUrl}, {operatorName}, {operatorEmail}, {hosting}, {storage}, {storageRegion} — a src/config/site.ts-ből
+//   {trial}, {monthly}, {days}, {next} — az előfizetés árai és napjai (src/lib/plan.ts), a nyelv pénzformátumában
+//   [látható szöveg](terms|privacy|account) — belső hivatkozás
 export type LegalBlock = string | { list: string[] } | { operator: true };
 
 export type LegalSection = { id: string; title: string; blocks: LegalBlock[] };
