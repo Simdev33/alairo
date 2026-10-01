@@ -3,9 +3,9 @@
  * valaki letölthet-e, azt mindig az előfizetéseiből olvassuk ki.
  *
  * A Stripe-fiókon más oldal (ConvertPDFNow) is osztozik, ezért minden, ami a
- * DoneSignIn-é, `metadata.app = "donesignin"` jelölést kap: saját ügyfél,
- * saját előfizetés, saját termék és ügyfélportál-beállítás. Más oldal
- * előfizetése itt nem ad hozzáférést.
+ * DoneSignIn-é, `metadata.app = "donesignin"` jelölést kap: saját előfizetés,
+ * saját termék és ügyfélportál-beállítás, az ügyfél pedig a fizetés után.
+ * Más oldal előfizetése itt nem ad hozzáférést.
  */
 import Stripe from "stripe";
 import { PLAN } from "@/lib/plan";
@@ -155,21 +155,20 @@ export const isEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e
 /** A DoneSignIn ügyfelei ezzel az e-mail-címmel — a hozzáféréssel rendelkező (vagy a legújabb) elöl. */
 export async function customersFor(email: string) {
   const { data } = await stripe().customers.list({ email: normalizeEmail(email), limit: 20 });
-  const mine = data.filter((customer) => !customer.deleted && ours(customer));
-  const withAccess = await Promise.all(mine.map(async (customer) => ({ customer, access: await accessFor(customer.id) })));
-  return withAccess.sort((a, b) => Number(b.access.active) - Number(a.access.active) || b.customer.created - a.customer.created);
+  const candidates = data.filter((customer) => !customer.deleted && (ours(customer) || !customer.metadata?.app));
+  const withAccess = await Promise.all(candidates.map(async (customer) => ({ customer, access: await accessFor(customer.id) })));
+  // A jelöletlen ügyfelet a Stripe hozza létre fizetéskor; csak akkor a miénk, ha van nálunk előfizetése.
+  const mine = withAccess.filter(({ customer, access }) => ours(customer) || access.status !== "none");
+  return mine.sort((a, b) => Number(b.access.active) - Number(a.access.active) || b.customer.created - a.customer.created);
 }
 
-/** Meglévő DoneSignIn-ügyfél, vagy egy új, a jelölésünkkel. */
-export async function ensureCustomer(email: string, locale: string) {
-  const [existing] = await customersFor(email);
-  if (existing) return existing.customer.id;
-  const created = await stripe().customers.create({
-    email: normalizeEmail(email),
-    preferred_locales: [locale],
+/** A fizetéskor létrejött ügyfelet utólag megjelöljük, hogy a többi oldal ne számolja a magáénak. */
+export async function claimCustomer(customer: Stripe.Customer | Stripe.DeletedCustomer, locale?: string) {
+  if (customer.deleted || ours(customer)) return;
+  await stripe().customers.update(customer.id, {
     metadata: { app: APP },
+    ...(locale && !customer.preferred_locales?.length ? { preferred_locales: [locale] } : {}),
   });
-  return created.id;
 }
 
 /* ------------------------------ ügyfélportál ------------------------------ */

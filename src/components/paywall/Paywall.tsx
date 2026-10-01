@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { Check, CircleCheck, FileText, Lock, ShieldCheck, X } from "lucide-react";
 import { useI18n } from "@/i18n/client";
@@ -167,7 +167,7 @@ function PreviewCard({ result }: { result: SignedResult }) {
   );
 }
 
-type Step = { kind: "email" } | { kind: "pay"; clientSecret: string; email: string } | { kind: "login"; email: string; codeSent: boolean; note?: string };
+type Step = { kind: "pay" } | { kind: "login"; email: string; codeSent: boolean; note?: string };
 
 function PaymentPanel() {
   const { lang, t } = useI18n();
@@ -175,36 +175,48 @@ function PaymentPanel() {
   const paywall = useApp((s) => s.paywall)!;
   const notify = useApp((s) => s.notify);
   const accountEmail = useAccount((s) => s.email);
-  const [step, setStep] = useState<Step>({ kind: "email" });
+  const [step, setStep] = useState<Step>({ kind: "pay" });
+  const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [email, setEmail] = useState(accountEmail ?? "");
+  const [emailWarning, setEmailWarning] = useState(false);
   const [consent, setConsent] = useState(false);
   const [consentWarning, setConsentWarning] = useState(false);
-  const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(paywall.error ?? null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const requested = useRef(false);
 
   const days = PLAN.trialDays;
   const staticPrices: Prices = { today: formatMoney(PLAN.trialFeeCents, lang), monthly: formatMoney(PLAN.monthlyCents, lang) };
 
-  const startCheckout = async (event: FormEvent) => {
-    event.preventDefault();
-    setBusy(true);
+  // A fizetés rögtön látszik: a Checkout Session az ablakkal együtt jön létre (StrictMode alatt is csak egyszer).
+  useEffect(() => {
+    if (requested.current || !stripeConfigured()) return;
+    requested.current = true;
+    api<{ clientSecret: string }>("/api/checkout", { body: { locale: lang, returnPath: window.location.pathname } })
+      .then((session) => setClientSecret(session.clientSecret))
+      .catch((failure) => setError(errorText(failure, t)));
+  }, [lang, t]);
+
+  const checkEmail = async (address: string) => {
     setError(null);
     try {
-      const { clientSecret } = await api<{ clientSecret: string }>("/api/checkout", {
-        body: { email: email.trim(), locale: lang, returnPath: window.location.pathname },
-      });
-      setStep({ kind: "pay", clientSecret, email: email.trim() });
+      await api("/api/checkout/email", { body: { email: address, locale: lang } });
+      return true;
     } catch (failure) {
       if (failure instanceof ApiError && failure.code === "alreadySubscribed") {
         // Ezzel a címmel már fizet: fizetés helyett belép.
-        await requestLoginCode(email.trim(), lang).catch(() => undefined);
-        setStep({ kind: "login", email: email.trim(), codeSent: true, note: errorText(failure, t) });
+        await requestLoginCode(address, lang).catch(() => undefined);
+        setStep({ kind: "login", email: address, codeSent: true, note: errorText(failure, t) });
       } else {
         setError(errorText(failure, t));
       }
-    } finally {
-      setBusy(false);
+      return false;
     }
+  };
+
+  const emailMissing = () => {
+    setEmailWarning(true);
+    emailRef.current?.focus();
   };
 
   const unlocked = async () => {
@@ -231,6 +243,53 @@ function PaymentPanel() {
     </div>
   );
 
+  const header = (prices: Prices) => (
+    <>
+      {priceRow(prices)}
+      <label className="block space-y-1.5 pt-3">
+        <span className="text-[13px] font-medium text-ink-2">{text.email}</span>
+        <input
+          ref={emailRef}
+          type="email"
+          autoComplete="email"
+          placeholder={text.emailPlaceholder}
+          value={email}
+          aria-invalid={emailWarning}
+          onChange={(event) => {
+            setEmail(event.target.value);
+            setEmailWarning(false);
+          }}
+          className={`${fieldClass} ${emailWarning ? "!border-seal/60" : ""}`}
+        />
+        {emailWarning ? (
+          <span className="block text-[12px] text-seal">{t.server.invalidEmail}</span>
+        ) : (
+          <span className="block text-[12px] text-ink-3">{text.emailHint}</span>
+        )}
+      </label>
+      <label
+        className={`flex cursor-pointer items-start gap-3 rounded-2xl border p-3.5 text-[14px] leading-relaxed ${
+          consentWarning && !consent ? "border-seal/40 bg-seal/[0.06]" : "border-ink/10 bg-sheet"
+        }`}
+      >
+        <input
+          type="checkbox"
+          checked={consent}
+          onChange={(event) => {
+            setConsent(event.target.checked);
+            setConsentWarning(false);
+          }}
+          className="mt-1 size-4 shrink-0 accent-[var(--color-royal)]"
+        />
+        <span>
+          <LinkText text={text.consent} newTab />
+        </span>
+      </label>
+      {consentWarning && !consent && <p className="text-[14px] text-seal">{text.consentNeeded}</p>}
+      <p className="pt-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-3">{text.methods}</p>
+    </>
+  );
+
   const renewal = fmt(text.renewal, { days, next: days + 1, monthly: staticPrices.monthly ?? "" });
 
   return (
@@ -247,84 +306,57 @@ function PaymentPanel() {
       </ul>
 
       <div className="mt-6">
-        {step.kind !== "pay" && priceRow(staticPrices)}
-
         {!stripeConfigured() ? (
-          <p className="mt-6 rounded-2xl bg-seal/10 p-4 text-[14px] text-seal">{text.notConfigured}</p>
-        ) : step.kind === "email" ? (
-          <form onSubmit={startCheckout} className="mt-6 space-y-3">
-            <label className="block space-y-1.5">
-              <span className="text-[13px] font-medium text-ink-2">{text.email}</span>
-              <input
-                type="email"
-                required
-                autoComplete="email"
-                placeholder={text.emailPlaceholder}
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-                className={fieldClass}
-              />
-              <span className="block text-[12px] text-ink-3">{text.emailHint}</span>
-            </label>
-            <button type="submit" className="btn btn-royal h-12 w-full text-[15px]" disabled={busy || !email.trim()}>
-              {busy && <Spinner light />}
-              {text.continue}
-            </button>
-            <p className="text-center text-[14px] text-ink-3">
-              {text.haveAccount}{" "}
-              <button type="button" className="font-medium text-royal hover:underline" onClick={() => setStep({ kind: "login", email: email.trim(), codeSent: false })}>
-                {text.login}
-              </button>
-            </p>
-          </form>
-        ) : step.kind === "pay" ? (
-          <div className="space-y-4">
-            <StripeCheckout
-              clientSecret={step.clientSecret}
-              consent={consent}
-              onConsentMissing={() => setConsentWarning(true)}
-              onPaid={(sessionId) => void paid(sessionId)}
-              renderPrices={(prices) => (
+          <>
+            {priceRow(staticPrices)}
+            <p className="mt-6 rounded-2xl bg-seal/10 p-4 text-[14px] text-seal">{text.notConfigured}</p>
+          </>
+        ) : (
+          <>
+            {/* Belépés közben is csatolva marad, hogy a „Vissza a fizetéshez” ugyanazt a pénztárat mutassa. */}
+            <div hidden={step.kind !== "pay"}>
+              {clientSecret ? (
+                <StripeCheckout
+                  clientSecret={clientSecret}
+                  consent={consent}
+                  onConsentMissing={() => setConsentWarning(true)}
+                  email={email}
+                  onEmailMissing={emailMissing}
+                  checkEmail={checkEmail}
+                  onPaid={(sessionId) => void paid(sessionId)}
+                  renderPrices={header}
+                />
+              ) : (
                 <>
-                  {priceRow(prices)}
-                  <div className="flex items-center justify-between gap-3 pt-2 text-[14px]">
-                    <span className="truncate text-ink-3">{step.email}</span>
-                    <button type="button" className="shrink-0 font-medium text-royal hover:underline" onClick={() => setStep({ kind: "email" })}>
-                      {text.change}
-                    </button>
-                  </div>
-                  <label
-                    className={`flex cursor-pointer items-start gap-3 rounded-2xl border p-3.5 text-[14px] leading-relaxed ${
-                      consentWarning && !consent ? "border-seal/40 bg-seal/[0.06]" : "border-ink/10 bg-sheet"
-                    }`}
-                  >
-                    <input
-                      type="checkbox"
-                      checked={consent}
-                      onChange={(event) => {
-                        setConsent(event.target.checked);
-                        setConsentWarning(false);
-                      }}
-                      className="mt-1 size-4 shrink-0 accent-[var(--color-royal)]"
-                    />
-                    <span>
-                      <LinkText text={text.consent} newTab />
-                    </span>
-                  </label>
-                  {consentWarning && !consent && <p className="text-[14px] text-seal">{text.consentNeeded}</p>}
-                  <p className="pt-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-3">{text.methods}</p>
+                  {priceRow(staticPrices)}
+                  {!error && (
+                    <p className="flex items-center gap-2 py-6 text-[14px] text-ink-3">
+                      <Spinner /> {text.loading}
+                    </p>
+                  )}
                 </>
               )}
-            />
-          </div>
-        ) : (
-          <div className="mt-6 space-y-3">
-            {step.note && <p className="rounded-2xl bg-royal-soft p-3.5 text-[14px] text-royal">{step.note}</p>}
-            <LoginForm initialEmail={step.email} codeSent={step.codeSent} onSuccess={() => void unlocked()} />
-            <button type="button" className="text-[14px] font-medium text-royal hover:underline" onClick={() => setStep({ kind: "email" })}>
-              {text.backToPay}
-            </button>
-          </div>
+              <p className="mt-4 text-center text-[14px] text-ink-3">
+                {text.haveAccount}{" "}
+                <button type="button" className="font-medium text-royal hover:underline" onClick={() => setStep({ kind: "login", email: email.trim(), codeSent: false })}>
+                  {text.login}
+                </button>
+              </p>
+            </div>
+
+            {step.kind === "login" && (
+              <>
+                {priceRow(staticPrices)}
+                <div className="mt-6 space-y-3">
+                  {step.note && <p className="rounded-2xl bg-royal-soft p-3.5 text-[14px] text-royal">{step.note}</p>}
+                  <LoginForm initialEmail={step.email} codeSent={step.codeSent} onSuccess={() => void unlocked()} />
+                  <button type="button" className="text-[14px] font-medium text-royal hover:underline" onClick={() => setStep({ kind: "pay" })}>
+                    {text.backToPay}
+                  </button>
+                </div>
+              </>
+            )}
+          </>
         )}
 
         {error && <p className="mt-4 text-[14px] text-seal">{error}</p>}
