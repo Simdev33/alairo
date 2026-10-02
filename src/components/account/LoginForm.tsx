@@ -59,7 +59,11 @@ export function LoginForm({
 
   const verify = (event: FormEvent) => {
     event.preventDefault();
-    void run(async () => onSuccess?.(await verifyLoginCode(code, lang)));
+    void run(async () => {
+      // Nem `onSuccess?.(await …)`: callback nélkül az magát az ellenőrzést is kihagyná.
+      const account = await verifyLoginCode(code, lang);
+      onSuccess?.(account);
+    });
   };
 
   if (step === "email") {
