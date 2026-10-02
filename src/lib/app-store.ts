@@ -44,6 +44,8 @@ type State = {
   paywall: { result: SignedResult; expiresAt: number; error?: string } | null;
   /** A letöltött aláírt PDF — ilyenkor a „Kész, aláírva!” ablak látszik. */
   done: SignedResult | null;
+  /** Fizetés után a köszönőoldal ezt mutatja (és tölti le újra). */
+  purchased: SignedResult | null;
 
   setDoc: (doc: LoadedDoc | null) => void;
   addSignature: (sig: Signature) => void;
@@ -57,6 +59,7 @@ type State = {
   notify: (text: string, tone?: "info" | "success" | "error") => void;
   setPaywall: (paywall: State["paywall"]) => void;
   setDone: (done: SignedResult | null) => void;
+  setPurchased: (purchased: SignedResult | null) => void;
 };
 
 const emptyPhone: PhoneLink = {
@@ -85,6 +88,7 @@ export const useApp = create<State>((set) => ({
   toast: null,
   paywall: null,
   done: null,
+  purchased: null,
 
   setDoc: (doc) =>
     set((s) => {
@@ -130,6 +134,7 @@ export const useApp = create<State>((set) => ({
   notify: (text, tone = "info") => set({ toast: { id: Date.now(), text, tone } }),
   setPaywall: (paywall) => set({ paywall }),
   setDone: (done) => set({ done }),
+  setPurchased: (purchased) => set({ purchased }),
 }));
 
 /** Az aláírás magassága az oldal magasságának arányában, adott szélességnél. */

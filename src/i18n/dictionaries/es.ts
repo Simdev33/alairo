@@ -7,6 +7,7 @@ export const es: Dictionary = {
       "Sube un PDF o un documento de Word, escanea el código QR con el teléfono, firma con el dedo y coloca la firma donde quieras del documento. Pruébalo gratis y descárgalo con una suscripción.",
     phoneTitle: "Firmar · DoneSignIn",
     accountTitle: "Mi cuenta · DoneSignIn",
+    thankYouTitle: "Gracias · DoneSignIn",
     notFound: "Esta página no existe.",
     backHome: "Volver al inicio",
   },
@@ -257,6 +258,16 @@ export const es: Dictionary = {
     newDocument: "Nuevo documento",
     again: "¿No empezó? Descargar de nuevo",
     seal: "FIRMADO · DONESIGNIN · FIRMADO · DONESIGNIN ·",
+  },
+
+  thankYou: {
+    title: "¡Gracias!",
+    lead: "Tu pago se ha realizado correctamente: tu acceso completo de {days} días ya está activo.",
+    noFile: "Ya puedes descargar tus documentos firmados sin límites.",
+    back: "Volver a mi documento",
+    next: "Firmar otro documento",
+    account: "Mi cuenta",
+    cancel: "Puedes cancelar cuando quieras en la página [Mi cuenta](account), con un solo clic.",
   },
 
   phone: {

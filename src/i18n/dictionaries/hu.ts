@@ -11,6 +11,7 @@ export const hu: Dictionary = {
       "Töltsd fel a PDF-et vagy Word-dokumentumot, olvasd be a QR-kódot a telefonoddal, írd alá az ujjaddal, és helyezd el az aláírást bárhol a dokumentumban. Ingyen kipróbálhatod — a letöltéshez előfizetés kell.",
     phoneTitle: "Aláírás · DoneSignIn",
     accountTitle: "Fiókom · DoneSignIn",
+    thankYouTitle: "Köszönjük · DoneSignIn",
     notFound: "Ez az oldal nem létezik.",
     backHome: "Vissza a főoldalra",
   },
@@ -259,6 +260,16 @@ export const hu: Dictionary = {
     newDocument: "Új dokumentum",
     again: "Nem indult el? Letöltés újra",
     seal: "ALÁÍRVA · DONESIGNIN · ALÁÍRVA · DONESIGNIN ·",
+  },
+
+  thankYou: {
+    title: "Köszönjük!",
+    lead: "A fizetés sikerült — a {days} napos teljes hozzáférésed most már aktív.",
+    noFile: "Mostantól korlátlanul letöltheted az aláírt dokumentumaidat.",
+    back: "Vissza a dokumentumomhoz",
+    next: "Újabb dokumentum aláírása",
+    account: "Fiókom",
+    cancel: "Bármikor lemondhatod a [Fiókom](account) oldalon, egy kattintással.",
   },
 
   phone: {

@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
+import { useRouter } from "next/navigation";
+import { LOCALE_COOKIE, type Locale } from "@/i18n/config";
 import { Check, CircleCheck, FileText, Lock, ShieldCheck, X } from "lucide-react";
 import { useI18n } from "@/i18n/client";
 import { fmt } from "@/i18n/format";
@@ -22,6 +24,21 @@ export function releaseResult(result: SignedResult) {
   void clearPending();
   downloadBytes(result.data, result.name);
   setDone(result);
+}
+
+/**
+ * Sikeres fizetés után: letöltjük a fájlt, és a köszönőoldalra lépünk (a Google Ads ott méri a konverziót).
+ * Kliensoldali navigáció, így a tároló — és vele az aláírt fájl az „újra letöltéshez” — megmarad.
+ */
+export function completePurchase(result: SignedResult | null, navigate: (href: string) => void, lang: Locale) {
+  const { setPaywall, setPurchased } = useApp.getState();
+  setPaywall(null);
+  void clearPending();
+  if (result) downloadBytes(result.data, result.name);
+  setPurchased(result);
+  // Minden nyelven ugyanaz a cím; a nyelvet a süti viszi át (a proxy ez alapján szolgálja ki).
+  document.cookie = `${LOCALE_COOKIE}=${lang}; path=/; max-age=31536000; samesite=lax`;
+  navigate("/thank-you");
 }
 
 /** Előfizetés nélkül ez jelenik meg a letöltés helyett. */
@@ -175,6 +192,7 @@ function PaymentPanel() {
   const paywall = useApp((s) => s.paywall)!;
   const notify = useApp((s) => s.notify);
   const accountEmail = useAccount((s) => s.email);
+  const router = useRouter();
   const [step, setStep] = useState<Step>({ kind: "pay" });
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [email, setEmail] = useState(accountEmail ?? "");
@@ -230,7 +248,8 @@ function PaymentPanel() {
   const paid = async (sessionId: string) => {
     try {
       await api("/api/checkout/complete", { body: { sessionId, locale: lang } });
-      await unlocked();
+      const account = await loadAccount().catch(() => null);
+      if (account?.access?.active) completePurchase(paywall.result, router.push, lang);
     } catch (failure) {
       setError(errorText(failure, t));
     }

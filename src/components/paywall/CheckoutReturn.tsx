@@ -1,18 +1,20 @@
 "use client";
 
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { useI18n } from "@/i18n/client";
 import { api, errorText, loadAccount } from "@/lib/account";
 import { useApp } from "@/lib/app-store";
 import { loadPending } from "@/lib/pending";
-import { releaseResult } from "./Paywall";
+import { completePurchase } from "./Paywall";
 
 /**
  * Visszatérés egy olyan fizetési módtól, amely elhagyta az oldalt (pl. PayPal):
- * belépés a lezárt Checkout Session-nel, majd az ezen az eszközön tárolt aláírt PDF átadása.
+ * belépés a lezárt Checkout Session-nel, az ezen az eszközön tárolt aláírt PDF átadása, majd a köszönőoldal.
  */
 export function CheckoutReturn() {
   const { lang, t } = useI18n();
+  const router = useRouter();
 
   useEffect(() => {
     const url = new URL(window.location.href);
@@ -29,8 +31,7 @@ export function CheckoutReturn() {
         await api("/api/checkout/complete", { body: { sessionId, locale: lang } });
         const account = await loadAccount();
         if (!account.access?.active) throw new Error("no access");
-        notify(t.paywall.success, "success");
-        if (pending) releaseResult(pending);
+        completePurchase(pending, router.push, lang);
       } catch (error) {
         const message = errorText(error, t);
         if (pending) setPaywall({ result: pending, expiresAt: pending.expiresAt, error: message });

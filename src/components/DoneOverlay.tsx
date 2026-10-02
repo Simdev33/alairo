@@ -6,7 +6,7 @@ import { Download, FilePlus2, PencilLine } from "lucide-react";
 import { useI18n } from "@/i18n/client";
 import { rich } from "@/i18n/format";
 
-function Seal({ text }: { text: string }) {
+export function Seal({ text }: { text: string }) {
   // Hullámos szélű viaszpecsét
   const bumps = 28;
   const pts: string[] = [];

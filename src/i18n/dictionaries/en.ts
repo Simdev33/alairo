@@ -9,6 +9,7 @@ export const en = {
       "Upload a PDF or Word document, scan the QR code with your phone, sign with your finger and place the signature anywhere in the document. Try it free — download with a subscription.",
     phoneTitle: "Sign · DoneSignIn",
     accountTitle: "My account · DoneSignIn",
+    thankYouTitle: "Thank you · DoneSignIn",
     notFound: "This page doesn’t exist.",
     backHome: "Back to the home page",
   },
@@ -259,6 +260,16 @@ export const en = {
     newDocument: "New document",
     again: "Didn’t start? Download again",
     seal: "SIGNED · DONESIGNIN · SIGNED · DONESIGNIN ·",
+  },
+
+  thankYou: {
+    title: "Thank you!",
+    lead: "Your payment was successful — your {days}-day full access is now active.",
+    noFile: "You can now download your signed documents without any limits.",
+    back: "Back to my document",
+    next: "Sign another document",
+    account: "My account",
+    cancel: "You can cancel anytime on the [My account](account) page, in one click.",
   },
 
   phone: {

@@ -7,6 +7,7 @@ export const de: Dictionary = {
       "Lade dein PDF oder Word-Dokument hoch, scanne den QR-Code mit dem Handy, unterschreibe mit dem Finger und platziere die Unterschrift an beliebiger Stelle im Dokument. Kostenlos ausprobieren — Download mit Abo.",
     phoneTitle: "Unterschrift · DoneSignIn",
     accountTitle: "Mein Konto · DoneSignIn",
+    thankYouTitle: "Vielen Dank · DoneSignIn",
     notFound: "Diese Seite gibt es nicht.",
     backHome: "Zurück zur Startseite",
   },
@@ -255,6 +256,16 @@ export const de: Dictionary = {
     newDocument: "Neues Dokument",
     again: "Nicht gestartet? Erneut herunterladen",
     seal: "SIGNIERT · DONESIGNIN · SIGNIERT · DONESIGNIN ·",
+  },
+
+  thankYou: {
+    title: "Vielen Dank!",
+    lead: "Deine Zahlung war erfolgreich – dein {days}-tägiger Vollzugang ist jetzt aktiv.",
+    noFile: "Du kannst deine unterschriebenen Dokumente jetzt unbegrenzt herunterladen.",
+    back: "Zurück zu meinem Dokument",
+    next: "Weiteres Dokument unterschreiben",
+    account: "Mein Konto",
+    cancel: "Du kannst jederzeit auf der Seite [Mein Konto](account) mit einem Klick kündigen.",
   },
 
   phone: {
