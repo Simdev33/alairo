@@ -165,7 +165,7 @@ export const legal: LegalTexts = {
               "The signature you draw on your phone travels to your computer through our server and is deleted automatically after 1 hour at the latest.",
               "There is no registration with a password. If you subscribe, we process your email address and your subscription details.",
               "Payments are processed by Stripe; we do not see or store your card details.",
-              "We do not use analytics or advertising tracking. We only use cookies that are necessary for signing in, payment and your language choice.",
+              "We do not use web analytics. Google Ads conversion measurement only runs if you allow it in the cookie banner; otherwise we only use the cookies necessary for signing in, payment and your language choice.",
             ],
           },
         ],
@@ -249,16 +249,18 @@ export const legal: LegalTexts = {
         id: "cookies",
         title: "Cookies and local storage",
         blocks: [
-          "We only use cookies that are necessary for the Service to work; these do not require consent:",
+          "The following cookies are necessary for the Service to work; these do not require consent:",
           {
             list: [
               "ds_session: keeps you signed in (180 days);",
               "ds_signed_in: tells the site that you are signed in (180 days);",
               "ds_login: the sign-in code process (10 minutes);",
-              "NEXT_LOCALE: remembers the language you picked in the language switcher (1 year).",
+              "NEXT_LOCALE: remembers the language you picked in the language switcher (1 year);",
+              "ds_consent: remembers your choice in the cookie banner (180 days).",
             ],
           },
-          "On the payment page, Stripe uses its own cookies to process the payment securely and to prevent fraud. We do not use analytics or advertising cookies. We load fonts from our own server, so no external font provider receives data about you.",
+          "Advertising cookies — only with your consent: if you click “Accept” in the cookie banner, we load the Google tag of Google Ireland Limited (Gordon House, Barrow Street, Dublin 4, Ireland) to measure whether our Google Ads ads lead to purchases (conversion measurement). Google then sets its own cookies (for example _gcl_au, for up to 90 days) and receives your IP address, browser data, the address of the page you visit and the identifier of the ad click. Legal basis: your consent (Article 6(1)(a) GDPR). Without your consent, the Google tag is not loaded at all. You can give or withdraw your consent at any time with the “Cookie settings” link at the bottom of the page; withdrawal does not affect the lawfulness of earlier processing. Google may also transfer data to the USA (EU–US Data Privacy Framework); its privacy policy: https://policies.google.com/privacy.",
+          "On the payment page, Stripe uses its own cookies to process the payment securely and to prevent fraud. We do not use analytics cookies. We load fonts from our own server, so no external font provider receives data about you.",
         ],
       },
       {
@@ -274,7 +276,7 @@ export const legal: LegalTexts = {
             ],
           },
           "These providers are headquartered in the United States of America, so data may also be transferred outside the European Economic Area. Such transfers take place with appropriate safeguards (the EU–US Data Privacy Framework and/or the standard contractual clauses adopted by the European Commission).",
-          "We do not share your data with any other third party, and we do not sell it.",
+          "Apart from the Google Ads conversion measurement you consent to (see “Cookies and local storage”), we do not share your data with any other third party, and we do not sell it.",
         ],
       },
       {

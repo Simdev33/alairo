@@ -1,6 +1,6 @@
 /**
  * Süti-hozzájárulás (hirdetésmérés). A döntés egy olvasható sütiben él 6 hónapig, utána újra kérdezünk.
- * A Google tag majd a `CONSENT_EVENT`-re figyel: alapból tiltva, „granted” esetén engedélyezi a mérést.
+ * A Google tag (`GoogleTag.tsx`) erre figyel: csak „granted” esetén töltődik be.
  */
 export type Consent = "granted" | "denied";
 

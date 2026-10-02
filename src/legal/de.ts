@@ -164,7 +164,7 @@ export const legal: LegalTexts = {
               "Die Unterschrift, die Sie auf Ihrem Handy zeichnen, gelangt über unseren Server auf Ihren Computer und wird spätestens nach 1 Stunde automatisch gelöscht.",
               "Es gibt keine Registrierung mit Passwort. Wenn Sie ein Abonnement abschließen, verarbeiten wir Ihre E-Mail-Adresse und Ihre Abonnementdaten.",
               "Zahlungen werden von Stripe abgewickelt; Ihre Kartendaten sehen und speichern wir nicht.",
-              "Wir nutzen weder Webanalyse noch Werbe-Tracking. Wir setzen nur Cookies ein, die für die Anmeldung, die Zahlung und Ihre Sprachauswahl erforderlich sind.",
+              "Wir nutzen keine Webanalyse. Die Google-Ads-Conversion-Messung läuft nur, wenn Sie sie im Cookie-Banner erlauben; ansonsten setzen wir nur Cookies ein, die für die Anmeldung, die Zahlung und Ihre Sprachauswahl erforderlich sind.",
             ],
           },
         ],
@@ -248,16 +248,18 @@ export const legal: LegalTexts = {
         id: "cookies",
         title: "Cookies und lokale Speicherung",
         blocks: [
-          "Wir verwenden nur Cookies, die für das Funktionieren des Dienstes erforderlich sind; diese bedürfen keiner Einwilligung:",
+          "Die folgenden Cookies sind für das Funktionieren des Dienstes erforderlich; diese bedürfen keiner Einwilligung:",
           {
             list: [
               "ds_session: hält Sie angemeldet (180 Tage);",
               "ds_signed_in: teilt der Seite mit, dass Sie angemeldet sind (180 Tage);",
               "ds_login: der Anmeldevorgang mit Code (10 Minuten);",
-              "NEXT_LOCALE: speichert die Sprache, die Sie in der Sprachauswahl gewählt haben (1 Jahr).",
+              "NEXT_LOCALE: speichert die Sprache, die Sie in der Sprachauswahl gewählt haben (1 Jahr);",
+              "ds_consent: speichert Ihre Auswahl im Cookie-Banner (180 Tage).",
             ],
           },
-          "Auf der Zahlungsseite verwendet Stripe eigene Cookies, um die Zahlung sicher abzuwickeln und Betrug zu verhindern. Wir verwenden keine Analyse- oder Werbe-Cookies. Die Schriftarten laden wir von unserem eigenen Server, sodass kein externer Schriftarten-Anbieter Daten über Sie erhält.",
+          "Werbe-Cookies – nur mit Ihrer Einwilligung: Wenn Sie im Cookie-Banner auf „Akzeptieren“ klicken, laden wir das Google-Tag der Google Ireland Limited (Gordon House, Barrow Street, Dublin 4, Irland), um zu messen, ob unsere Google-Ads-Anzeigen zu Käufen führen (Conversion-Messung). Google setzt dann eigene Cookies (zum Beispiel _gcl_au, bis zu 90 Tage) und erhält Ihre IP-Adresse, Browserdaten, die Adresse der besuchten Seite und die Kennung des Anzeigenklicks. Rechtsgrundlage: Ihre Einwilligung (Art. 6 Abs. 1 lit. a DSGVO). Ohne Ihre Einwilligung wird das Google-Tag überhaupt nicht geladen. Sie können Ihre Einwilligung jederzeit über den Link „Cookie-Einstellungen“ unten auf der Seite erteilen oder widerrufen; der Widerruf berührt nicht die Rechtmäßigkeit der bis dahin erfolgten Verarbeitung. Google kann Daten auch in die USA übermitteln (EU-US-Datenschutzrahmen); Datenschutzerklärung von Google: https://policies.google.com/privacy.",
+          "Auf der Zahlungsseite verwendet Stripe eigene Cookies, um die Zahlung sicher abzuwickeln und Betrug zu verhindern. Analyse-Cookies verwenden wir nicht. Die Schriftarten laden wir von unserem eigenen Server, sodass kein externer Schriftarten-Anbieter Daten über Sie erhält.",
         ],
       },
       {
@@ -273,7 +275,7 @@ export const legal: LegalTexts = {
             ],
           },
           "Diese Anbieter haben ihren Sitz in den Vereinigten Staaten von Amerika, daher können Daten auch in Länder außerhalb des Europäischen Wirtschaftsraums übermittelt werden. Solche Übermittlungen erfolgen mit geeigneten Garantien (dem EU-US-Datenschutzrahmen – EU-U.S. Data Privacy Framework – und/oder den von der Europäischen Kommission erlassenen Standardvertragsklauseln).",
-          "Wir geben Ihre Daten an keine weiteren Dritten weiter und verkaufen sie nicht.",
+          "Abgesehen von der Google-Ads-Conversion-Messung, in die Sie einwilligen (siehe „Cookies und lokale Speicherung“), geben wir Ihre Daten an keine weiteren Dritten weiter und verkaufen sie nicht.",
         ],
       },
       {

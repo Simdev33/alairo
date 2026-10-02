@@ -264,7 +264,7 @@ export const hu: Dictionary = {
 
   thankYou: {
     title: "Köszönjük!",
-    lead: "A fizetés sikerült — a {days} napos teljes hozzáférésed most már aktív.",
+    lead: "A fizetés sikerült.",
     noFile: "Mostantól korlátlanul letöltheted az aláírt dokumentumaidat.",
     back: "Vissza a dokumentumomhoz",
     next: "Újabb dokumentum aláírása",

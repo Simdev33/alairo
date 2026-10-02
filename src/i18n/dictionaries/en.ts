@@ -264,7 +264,7 @@ export const en = {
 
   thankYou: {
     title: "Thank you!",
-    lead: "Your payment was successful — your {days}-day full access is now active.",
+    lead: "Your payment was successful.",
     noFile: "You can now download your signed documents without any limits.",
     back: "Back to my document",
     next: "Sign another document",

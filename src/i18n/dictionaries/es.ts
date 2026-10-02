@@ -262,7 +262,7 @@ export const es: Dictionary = {
 
   thankYou: {
     title: "¡Gracias!",
-    lead: "Tu pago se ha realizado correctamente: tu acceso completo de {days} días ya está activo.",
+    lead: "Tu pago se ha realizado correctamente.",
     noFile: "Ya puedes descargar tus documentos firmados sin límites.",
     back: "Volver a mi documento",
     next: "Firmar otro documento",

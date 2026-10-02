@@ -5,9 +5,8 @@ import { motion } from "motion/react";
 import { CircleUserRound, Download, FilePlus2, PencilLine } from "lucide-react";
 import { localePath } from "@/i18n/config";
 import { useI18n } from "@/i18n/client";
-import { fmt, rich } from "@/i18n/format";
+import { rich } from "@/i18n/format";
 import { useApp } from "@/lib/app-store";
-import { PLAN } from "@/lib/plan";
 import { downloadBytes } from "@/lib/sign-pdf";
 import { LinkText } from "./LinkText";
 import { Logo } from "./Logo";
@@ -65,7 +64,7 @@ export function ThankYouPage() {
           </div>
 
           <h1 className="font-serif text-[2.8rem] leading-none">{text.title}</h1>
-          <p className="mt-4 text-[15.5px] leading-relaxed text-ink-2">{fmt(text.lead, { days: PLAN.trialDays })}</p>
+          <p className="mt-4 text-[15.5px] leading-relaxed text-ink-2">{text.lead}</p>
 
           {purchased ? (
             <>
