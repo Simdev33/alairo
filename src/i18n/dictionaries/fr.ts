@@ -271,6 +271,14 @@ export const fr: Dictionary = {
     cancel: "Vous pouvez résilier à tout moment, en un clic, sur la page [Mon compte](account).",
   },
 
+  cookies: {
+    title: "Cookies",
+    text: "Nous utilisons des cookies essentiels pour vous garder connecté et mémoriser votre langue. Avec votre accord, nous utilisons aussi des cookies publicitaires pour mesurer l’efficacité de nos annonces. [Politique de confidentialité](privacy)",
+    accept: "Accepter",
+    reject: "Refuser",
+    settings: "Paramètres des cookies",
+  },
+
   phone: {
     signFor: "Signature pour",
     connected: "Connecté",

@@ -270,6 +270,14 @@ export const es: Dictionary = {
     cancel: "Puedes cancelar cuando quieras en la página [Mi cuenta](account), con un solo clic.",
   },
 
+  cookies: {
+    title: "Cookies",
+    text: "Usamos cookies esenciales para mantener tu sesión iniciada y recordar tu idioma. Con tu consentimiento, también usamos cookies publicitarias para medir la eficacia de nuestros anuncios. [Política de privacidad](privacy)",
+    accept: "Aceptar",
+    reject: "Rechazar",
+    settings: "Configuración de cookies",
+  },
+
   phone: {
     signFor: "Vas a firmar",
     connected: "Conectado",

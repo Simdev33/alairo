@@ -272,6 +272,14 @@ export const en = {
     cancel: "You can cancel anytime on the [My account](account) page, in one click.",
   },
 
+  cookies: {
+    title: "Cookies",
+    text: "We use essential cookies to keep you signed in and remember your language. With your consent, we also use advertising cookies to measure how well our ads work. [Privacy Policy](privacy)",
+    accept: "Accept",
+    reject: "Reject",
+    settings: "Cookie settings",
+  },
+
   phone: {
     signFor: "Signing",
     connected: "Connected",

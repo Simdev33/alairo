@@ -5,6 +5,7 @@ import { isLocale, localePath, locales } from "@/i18n/config";
 import { getDictionary } from "@/i18n";
 import { I18nProvider } from "@/i18n/client";
 import { site, siteOrigin } from "@/config/site";
+import { CookieBanner } from "@/components/CookieBanner";
 import "../globals.css";
 
 const geist = Geist({ variable: "--font-geist", subsets: ["latin", "latin-ext"] });
@@ -51,6 +52,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
       <body className="min-h-full">
         <I18nProvider lang={lang} dict={getDictionary(lang)}>
           {children}
+          <CookieBanner />
         </I18nProvider>
       </body>
     </html>

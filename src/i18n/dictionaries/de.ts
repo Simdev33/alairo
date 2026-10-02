@@ -268,6 +268,14 @@ export const de: Dictionary = {
     cancel: "Du kannst jederzeit auf der Seite [Mein Konto](account) mit einem Klick kündigen.",
   },
 
+  cookies: {
+    title: "Cookies",
+    text: "Wir verwenden notwendige Cookies, damit du angemeldet bleibst und deine Sprache gespeichert wird. Mit deiner Einwilligung nutzen wir außerdem Werbe-Cookies, um zu messen, wie gut unsere Anzeigen wirken. [Datenschutzerklärung](privacy)",
+    accept: "Akzeptieren",
+    reject: "Ablehnen",
+    settings: "Cookie-Einstellungen",
+  },
+
   phone: {
     signFor: "Unterschrift für",
     connected: "Verbunden",

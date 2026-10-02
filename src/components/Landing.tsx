@@ -29,6 +29,7 @@ import { Logo } from "./Logo";
 import { HeroVisual } from "./HeroVisual";
 import { Dropzone, type LoadState } from "./Dropzone";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { CookieSettingsLink } from "./CookieBanner";
 
 const STEP_ICONS = [FileUp, ScanLine, PenLine];
 const FEATURE_ICONS = [Lock, Fingerprint, Layers, KeyRound];
@@ -277,6 +278,7 @@ export function Landing({ state, onFile, onSample }: { state: LoadState; onFile:
               <Link href={localePath(lang, "/privacy")} className="transition-colors hover:text-sheet">
                 {t.nav.privacyPolicy}
               </Link>
+              <CookieSettingsLink className="transition-colors hover:text-sheet" />
               <LanguageSwitcher tone="dark" placement="up" />
             </nav>
           </div>

@@ -8,6 +8,7 @@ import { priceVars } from "@/lib/plan";
 import type { LegalBlock } from "@/legal/types";
 import { Logo } from "./Logo";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { CookieSettingsLink } from "./CookieBanner";
 
 export type LegalKind = "terms" | "privacy";
 
@@ -214,9 +215,12 @@ export function LegalPage({ lang, kind }: { lang: Locale; kind: LegalKind }) {
           <span>
             © {new Date().getFullYear()} {site.name}. {t.footer.rights}
           </span>
-          <Link href={localePath(lang, `/${other}`)} className="underline decoration-ink/20 underline-offset-4 hover:text-ink">
-            {getLegal(lang)[other].title} →
-          </Link>
+          <span className="flex flex-wrap items-center gap-x-5 gap-y-2">
+            <CookieSettingsLink className="underline decoration-ink/20 underline-offset-4 hover:text-ink" />
+            <Link href={localePath(lang, `/${other}`)} className="underline decoration-ink/20 underline-offset-4 hover:text-ink">
+              {getLegal(lang)[other].title} →
+            </Link>
+          </span>
         </div>
       </footer>
     </div>

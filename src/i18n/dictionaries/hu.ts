@@ -272,6 +272,14 @@ export const hu: Dictionary = {
     cancel: "Bármikor lemondhatod a [Fiókom](account) oldalon, egy kattintással.",
   },
 
+  cookies: {
+    title: "Sütik",
+    text: "A bejelentkezéshez és a nyelv megjegyzéséhez szükséges sütiket használunk. A hozzájárulásoddal hirdetési sütiket is, hogy mérjük, mennyire hatékonyak a hirdetéseink. [Adatvédelmi tájékoztató](privacy)",
+    accept: "Elfogadom",
+    reject: "Elutasítom",
+    settings: "Süti-beállítások",
+  },
+
   phone: {
     signFor: "Aláírás ehhez",
     connected: "Kapcsolódva",
