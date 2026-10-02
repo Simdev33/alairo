@@ -56,6 +56,12 @@ export const en = {
     line2: "with your phone,",
     line3: "not your printer.",
     lead: "Upload your document, scan the QR code and sign with your finger. Seconds later your signature is in the PDF — exactly where you drag it.",
+    trust: [
+      "256-bit Encryption",
+      "Files automatically deleted after 1 hour",
+      "100% Private",
+      "GDPR Compliant",
+    ],
   },
 
   dropzone: {

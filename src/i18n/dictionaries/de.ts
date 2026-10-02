@@ -54,6 +54,12 @@ export const de: Dictionary = {
     line2: "mit dem Handy,",
     line3: "ohne Drucker.",
     lead: "Lade das Dokument hoch, scanne den QR-Code und unterschreibe mit dem Finger. Ein paar Sekunden später ist die Unterschrift im PDF — genau dort, wo du sie hinziehst.",
+    trust: [
+      "256-Bit-Verschlüsselung",
+      "Dateien werden nach 1 Stunde automatisch gelöscht",
+      "100 % privat",
+      "DSGVO-konform",
+    ],
   },
 
   dropzone: {

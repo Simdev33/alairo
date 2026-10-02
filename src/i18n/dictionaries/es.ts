@@ -54,6 +54,12 @@ export const es: Dictionary = {
     line2: "con tu teléfono,",
     line3: "no con la impresora.",
     lead: "Sube el documento, escanea el código QR y firma con el dedo. En unos segundos la firma ya está en el PDF, justo donde la arrastres.",
+    trust: [
+      "Cifrado de 256 bits",
+      "Archivos eliminados automáticamente tras 1 hora",
+      "100 % privado",
+      "Conforme al RGPD",
+    ],
   },
 
   dropzone: {

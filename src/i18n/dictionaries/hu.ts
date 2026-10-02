@@ -58,6 +58,12 @@ export const hu: Dictionary = {
     line2: "a telefonoddal,",
     line3: "ne a nyomtatóval.",
     lead: "Töltsd fel a dokumentumot, olvasd be a QR-kódot, és írd alá az ujjaddal. Az aláírás pár másodperc múlva már a PDF-ben van — pontosan ott, ahová húzod.",
+    trust: [
+      "256 bites titkosítás",
+      "A fájlok 1 óra után automatikusan törlődnek",
+      "100%-ban privát",
+      "GDPR-kompatibilis",
+    ],
   },
 
   dropzone: {

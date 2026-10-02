@@ -57,6 +57,12 @@ export const fr: Dictionary = {
     line2: "sur votre mobile,",
     line3: "pas sur papier.",
     lead: "Importez le document, scannez le QR code et signez du doigt. Quelques secondes plus tard, la signature est dans le PDF — exactement là où vous la faites glisser.",
+    trust: [
+      "Chiffrement 256 bits",
+      "Fichiers supprimés automatiquement après 1 heure",
+      "100 % privé",
+      "Conforme au RGPD",
+    ],
   },
 
   dropzone: {

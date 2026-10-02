@@ -4,7 +4,22 @@ import Link from "next/link";
 import { localePath } from "@/i18n/config";
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
-import { Check, CircleUserRound, FileUp, Fingerprint, KeyRound, Layers, Lock, PenLine, QrCode, ScanLine, Sparkles } from "lucide-react";
+import {
+  Check,
+  CircleUserRound,
+  EyeOff,
+  FileUp,
+  Fingerprint,
+  KeyRound,
+  Layers,
+  Lock,
+  PenLine,
+  QrCode,
+  ScanLine,
+  ShieldCheck,
+  Sparkles,
+  Timer,
+} from "lucide-react";
 import { useI18n } from "@/i18n/client";
 import { fmt } from "@/i18n/format";
 import { priceVars } from "@/lib/plan";
@@ -17,6 +32,7 @@ import { LanguageSwitcher } from "./LanguageSwitcher";
 
 const STEP_ICONS = [FileUp, ScanLine, PenLine];
 const FEATURE_ICONS = [Lock, Fingerprint, Layers, KeyRound];
+const TRUST_ICONS = [Lock, Timer, EyeOff, ShieldCheck];
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -118,11 +134,29 @@ export function Landing({ state, onFile, onSample }: { state: LoadState; onFile:
             >
               {t.hero.lead}
             </motion.p>
+            <motion.ul
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease, delay: 0.5 }}
+              className="mt-6 grid max-w-[34rem] grid-cols-2 gap-x-6 gap-y-3"
+            >
+              {t.hero.trust.map((label, i) => {
+                const Icon = TRUST_ICONS[i];
+                return (
+                  <li key={label} className="flex items-center gap-2.5 text-[13.5px] font-medium leading-snug text-ink-2">
+                    <span className="grid size-7 shrink-0 place-items-center rounded-full bg-mint-soft text-mint">
+                      <Icon className="size-3.5" strokeWidth={2.4} />
+                    </span>
+                    {label}
+                  </li>
+                );
+              })}
+            </motion.ul>
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease, delay: 0.55 }}
-              className="mt-9 max-w-[34rem]"
+              transition={{ duration: 0.7, ease, delay: 0.6 }}
+              className="mt-8 max-w-[34rem]"
             >
               <Dropzone state={state} onFile={onFile} onSample={onSample} />
             </motion.div>
