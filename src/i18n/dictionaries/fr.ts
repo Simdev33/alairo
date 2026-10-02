@@ -273,7 +273,7 @@ export const fr: Dictionary = {
 
   cookies: {
     title: "Cookies",
-    text: "Nous utilisons des cookies essentiels pour vous garder connecté et mémoriser votre langue. Avec votre accord, nous utilisons aussi des cookies publicitaires pour mesurer l’efficacité de nos annonces. [Politique de confidentialité](privacy)",
+    text: "Nous utilisons des cookies essentiels pour vous garder connecté et mémoriser votre langue. Avec votre accord, nous utilisons aussi des cookies de mesure d’audience et publicitaires (Google Analytics, Google Ads) pour comprendre comment le site est utilisé et mesurer l’efficacité de nos annonces. [Politique de confidentialité](privacy)",
     accept: "Accepter",
     reject: "Refuser",
     settings: "Paramètres des cookies",

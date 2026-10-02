@@ -20,8 +20,9 @@ export const site = {
   /** Az Upstash-adatbázis régiója */
   storageRegion: "Frankfurt (EU)",
 
-  /** Google Ads címke (konverziómérés) — csak a süti-sávban adott hozzájárulás után töltődik be. */
+  /** Google-címkék (Ads konverziómérés + Analytics) — csak a süti-sávban adott hozzájárulás után töltődnek be. */
   googleAdsId: "AW-18490051746",
+  googleAnalyticsId: "G-107P6K7GKB",
 
   /** Az ÁSZF és az adatvédelmi tájékoztató hatálybalépése (ÉÉÉÉ-HH-NN) */
   effectiveDate: "2026-10-02",

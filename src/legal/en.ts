@@ -165,7 +165,7 @@ export const legal: LegalTexts = {
               "The signature you draw on your phone travels to your computer through our server and is deleted automatically after 1 hour at the latest.",
               "There is no registration with a password. If you subscribe, we process your email address and your subscription details.",
               "Payments are processed by Stripe; we do not see or store your card details.",
-              "We do not use web analytics. Google Ads conversion measurement only runs if you allow it in the cookie banner; otherwise we only use the cookies necessary for signing in, payment and your language choice.",
+              "Google Analytics and Google Ads conversion measurement only run if you allow them in the cookie banner; otherwise we only use the cookies necessary for signing in, payment and your language choice.",
             ],
           },
         ],
@@ -259,8 +259,8 @@ export const legal: LegalTexts = {
               "ds_consent: remembers your choice in the cookie banner (180 days).",
             ],
           },
-          "Advertising cookies — only with your consent: if you click “Accept” in the cookie banner, we load the Google tag of Google Ireland Limited (Gordon House, Barrow Street, Dublin 4, Ireland) to measure whether our Google Ads ads lead to purchases (conversion measurement). Google then sets its own cookies (for example _gcl_au, for up to 90 days) and receives your IP address, browser data, the address of the page you visit and the identifier of the ad click. Legal basis: your consent (Article 6(1)(a) GDPR). Without your consent, the Google tag is not loaded at all. You can give or withdraw your consent at any time with the “Cookie settings” link at the bottom of the page; withdrawal does not affect the lawfulness of earlier processing. Google may also transfer data to the USA (EU–US Data Privacy Framework); its privacy policy: https://policies.google.com/privacy.",
-          "On the payment page, Stripe uses its own cookies to process the payment securely and to prevent fraud. We do not use analytics cookies. We load fonts from our own server, so no external font provider receives data about you.",
+          "Analytics and advertising cookies — only with your consent: if you click “Accept” in the cookie banner, we load the Google tag of Google Ireland Limited (Gordon House, Barrow Street, Dublin 4, Ireland) for two purposes: Google Analytics shows us how visitors use the site (for example which pages they open), and Google Ads conversion measurement shows whether our ads lead to purchases. Google then sets its own cookies (for example _ga and _ga_… for up to 2 years, _gcl_au for up to 90 days) and receives your IP address, browser and device data, the addresses of the pages you visit and, if you arrived from an ad, the identifier of the ad click. Legal basis: your consent (Article 6(1)(a) GDPR). Without your consent, the Google tag is not loaded at all. You can give or withdraw your consent at any time with the “Cookie settings” link at the bottom of the page; withdrawal does not affect the lawfulness of earlier processing. Google may also transfer data to the USA (EU–US Data Privacy Framework); its privacy policy: https://policies.google.com/privacy.",
+          "On the payment page, Stripe uses its own cookies to process the payment securely and to prevent fraud. We load fonts from our own server, so no external font provider receives data about you.",
         ],
       },
       {
@@ -276,7 +276,7 @@ export const legal: LegalTexts = {
             ],
           },
           "These providers are headquartered in the United States of America, so data may also be transferred outside the European Economic Area. Such transfers take place with appropriate safeguards (the EU–US Data Privacy Framework and/or the standard contractual clauses adopted by the European Commission).",
-          "Apart from the Google Ads conversion measurement you consent to (see “Cookies and local storage”), we do not share your data with any other third party, and we do not sell it.",
+          "Apart from Google Analytics and the Google Ads conversion measurement you consent to (see “Cookies and local storage”), we do not share your data with any other third party, and we do not sell it.",
         ],
       },
       {

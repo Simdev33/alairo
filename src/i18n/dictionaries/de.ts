@@ -270,7 +270,7 @@ export const de: Dictionary = {
 
   cookies: {
     title: "Cookies",
-    text: "Wir verwenden notwendige Cookies, damit du angemeldet bleibst und deine Sprache gespeichert wird. Mit deiner Einwilligung nutzen wir außerdem Werbe-Cookies, um zu messen, wie gut unsere Anzeigen wirken. [Datenschutzerklärung](privacy)",
+    text: "Wir verwenden notwendige Cookies, damit du angemeldet bleibst und deine Sprache gespeichert wird. Mit deiner Einwilligung nutzen wir außerdem Analyse- und Werbe-Cookies (Google Analytics, Google Ads), um zu verstehen, wie die Seite genutzt wird und wie gut unsere Anzeigen wirken. [Datenschutzerklärung](privacy)",
     accept: "Akzeptieren",
     reject: "Ablehnen",
     settings: "Cookie-Einstellungen",

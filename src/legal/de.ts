@@ -164,7 +164,7 @@ export const legal: LegalTexts = {
               "Die Unterschrift, die Sie auf Ihrem Handy zeichnen, gelangt über unseren Server auf Ihren Computer und wird spätestens nach 1 Stunde automatisch gelöscht.",
               "Es gibt keine Registrierung mit Passwort. Wenn Sie ein Abonnement abschließen, verarbeiten wir Ihre E-Mail-Adresse und Ihre Abonnementdaten.",
               "Zahlungen werden von Stripe abgewickelt; Ihre Kartendaten sehen und speichern wir nicht.",
-              "Wir nutzen keine Webanalyse. Die Google-Ads-Conversion-Messung läuft nur, wenn Sie sie im Cookie-Banner erlauben; ansonsten setzen wir nur Cookies ein, die für die Anmeldung, die Zahlung und Ihre Sprachauswahl erforderlich sind.",
+              "Google Analytics und die Google-Ads-Conversion-Messung laufen nur, wenn Sie sie im Cookie-Banner erlauben; ansonsten setzen wir nur Cookies ein, die für die Anmeldung, die Zahlung und Ihre Sprachauswahl erforderlich sind.",
             ],
           },
         ],
@@ -258,8 +258,8 @@ export const legal: LegalTexts = {
               "ds_consent: speichert Ihre Auswahl im Cookie-Banner (180 Tage).",
             ],
           },
-          "Werbe-Cookies – nur mit Ihrer Einwilligung: Wenn Sie im Cookie-Banner auf „Akzeptieren“ klicken, laden wir das Google-Tag der Google Ireland Limited (Gordon House, Barrow Street, Dublin 4, Irland), um zu messen, ob unsere Google-Ads-Anzeigen zu Käufen führen (Conversion-Messung). Google setzt dann eigene Cookies (zum Beispiel _gcl_au, bis zu 90 Tage) und erhält Ihre IP-Adresse, Browserdaten, die Adresse der besuchten Seite und die Kennung des Anzeigenklicks. Rechtsgrundlage: Ihre Einwilligung (Art. 6 Abs. 1 lit. a DSGVO). Ohne Ihre Einwilligung wird das Google-Tag überhaupt nicht geladen. Sie können Ihre Einwilligung jederzeit über den Link „Cookie-Einstellungen“ unten auf der Seite erteilen oder widerrufen; der Widerruf berührt nicht die Rechtmäßigkeit der bis dahin erfolgten Verarbeitung. Google kann Daten auch in die USA übermitteln (EU-US-Datenschutzrahmen); Datenschutzerklärung von Google: https://policies.google.com/privacy.",
-          "Auf der Zahlungsseite verwendet Stripe eigene Cookies, um die Zahlung sicher abzuwickeln und Betrug zu verhindern. Analyse-Cookies verwenden wir nicht. Die Schriftarten laden wir von unserem eigenen Server, sodass kein externer Schriftarten-Anbieter Daten über Sie erhält.",
+          "Analyse- und Werbe-Cookies – nur mit Ihrer Einwilligung: Wenn Sie im Cookie-Banner auf „Akzeptieren“ klicken, laden wir das Google-Tag der Google Ireland Limited (Gordon House, Barrow Street, Dublin 4, Irland) für zwei Zwecke: Google Analytics zeigt uns, wie Besucher die Seite nutzen (zum Beispiel welche Seiten sie aufrufen), und die Google-Ads-Conversion-Messung zeigt, ob unsere Anzeigen zu Käufen führen. Google setzt dann eigene Cookies (zum Beispiel _ga und _ga_… bis zu 2 Jahre, _gcl_au bis zu 90 Tage) und erhält Ihre IP-Adresse, Browser- und Gerätedaten, die Adressen der besuchten Seiten und – wenn Sie über eine Anzeige gekommen sind – die Kennung des Anzeigenklicks. Rechtsgrundlage: Ihre Einwilligung (Art. 6 Abs. 1 lit. a DSGVO). Ohne Ihre Einwilligung wird das Google-Tag überhaupt nicht geladen. Sie können Ihre Einwilligung jederzeit über den Link „Cookie-Einstellungen“ unten auf der Seite erteilen oder widerrufen; der Widerruf berührt nicht die Rechtmäßigkeit der bis dahin erfolgten Verarbeitung. Google kann Daten auch in die USA übermitteln (EU-US-Datenschutzrahmen); Datenschutzerklärung von Google: https://policies.google.com/privacy.",
+          "Auf der Zahlungsseite verwendet Stripe eigene Cookies, um die Zahlung sicher abzuwickeln und Betrug zu verhindern. Die Schriftarten laden wir von unserem eigenen Server, sodass kein externer Schriftarten-Anbieter Daten über Sie erhält.",
         ],
       },
       {
@@ -275,7 +275,7 @@ export const legal: LegalTexts = {
             ],
           },
           "Diese Anbieter haben ihren Sitz in den Vereinigten Staaten von Amerika, daher können Daten auch in Länder außerhalb des Europäischen Wirtschaftsraums übermittelt werden. Solche Übermittlungen erfolgen mit geeigneten Garantien (dem EU-US-Datenschutzrahmen – EU-U.S. Data Privacy Framework – und/oder den von der Europäischen Kommission erlassenen Standardvertragsklauseln).",
-          "Abgesehen von der Google-Ads-Conversion-Messung, in die Sie einwilligen (siehe „Cookies und lokale Speicherung“), geben wir Ihre Daten an keine weiteren Dritten weiter und verkaufen sie nicht.",
+          "Abgesehen von Google Analytics und der Google-Ads-Conversion-Messung, in die Sie einwilligen (siehe „Cookies und lokale Speicherung“), geben wir Ihre Daten an keine weiteren Dritten weiter und verkaufen sie nicht.",
         ],
       },
       {

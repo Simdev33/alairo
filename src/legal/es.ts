@@ -169,7 +169,7 @@ export const legal: LegalTexts = {
               "La firma que dibuja en el teléfono llega a su ordenador a través de nuestro servidor y se elimina automáticamente al cabo de 1 hora como máximo.",
               "No hay registro con contraseña. Si se suscribe, tratamos su dirección de correo electrónico y los datos de su suscripción.",
               "Los pagos los procesa Stripe; no vemos ni almacenamos los datos de su tarjeta.",
-              "No utilizamos herramientas de analítica. La medición de conversiones de Google Ads solo funciona si usted la permite en el banner de cookies; de lo contrario, solo utilizamos las cookies necesarias para el inicio de sesión, el pago y la elección de idioma.",
+              "Google Analytics y la medición de conversiones de Google Ads solo funcionan si usted los permite en el banner de cookies; de lo contrario, solo utilizamos las cookies necesarias para el inicio de sesión, el pago y la elección de idioma.",
             ],
           },
         ],
@@ -263,8 +263,8 @@ export const legal: LegalTexts = {
               "ds_consent: recuerda su elección en el banner de cookies (180 días).",
             ],
           },
-          "Cookies publicitarias, solo con su consentimiento: si hace clic en «Aceptar» en el banner de cookies, cargamos la etiqueta de Google de Google Ireland Limited (Gordon House, Barrow Street, Dublín 4, Irlanda) para medir si nuestros anuncios de Google Ads generan compras (medición de conversiones). Google instala entonces sus propias cookies (por ejemplo, _gcl_au, durante un máximo de 90 días) y recibe su dirección IP, datos de su navegador, la dirección de la página visitada y el identificador del clic en el anuncio. Base jurídica: su consentimiento (artículo 6, apartado 1, letra a), del RGPD). Sin su consentimiento, la etiqueta de Google no se carga en absoluto. Puede dar o retirar su consentimiento en cualquier momento con el enlace «Configuración de cookies» al pie de la página; la retirada no afecta a la licitud del tratamiento anterior. Google también puede transferir datos a EE. UU. (Marco de Privacidad de Datos UE-EE. UU.); su política de privacidad: https://policies.google.com/privacy.",
-          "En la página de pago, Stripe utiliza sus propias cookies para procesar el pago de forma segura y prevenir el fraude. No utilizamos cookies de analítica. Cargamos las fuentes tipográficas desde nuestro propio servidor, por lo que ningún proveedor externo de fuentes recibe datos sobre usted.",
+          "Cookies analíticas y publicitarias, solo con su consentimiento: si hace clic en «Aceptar» en el banner de cookies, cargamos la etiqueta de Google de Google Ireland Limited (Gordon House, Barrow Street, Dublín 4, Irlanda) con dos fines: Google Analytics nos muestra cómo usan el sitio los visitantes (por ejemplo, qué páginas abren), y la medición de conversiones de Google Ads indica si nuestros anuncios generan compras. Google instala entonces sus propias cookies (por ejemplo, _ga y _ga_… durante un máximo de 2 años, _gcl_au durante un máximo de 90 días) y recibe su dirección IP, datos de su navegador y dispositivo, las direcciones de las páginas visitadas y, si llegó desde un anuncio, el identificador del clic en el anuncio. Base jurídica: su consentimiento (artículo 6, apartado 1, letra a), del RGPD). Sin su consentimiento, la etiqueta de Google no se carga en absoluto. Puede dar o retirar su consentimiento en cualquier momento con el enlace «Configuración de cookies» al pie de la página; la retirada no afecta a la licitud del tratamiento anterior. Google también puede transferir datos a EE. UU. (Marco de Privacidad de Datos UE-EE. UU.); su política de privacidad: https://policies.google.com/privacy.",
+          "En la página de pago, Stripe utiliza sus propias cookies para procesar el pago de forma segura y prevenir el fraude. Cargamos las fuentes tipográficas desde nuestro propio servidor, por lo que ningún proveedor externo de fuentes recibe datos sobre usted.",
         ],
       },
       {
@@ -280,7 +280,7 @@ export const legal: LegalTexts = {
             ],
           },
           "Estos proveedores tienen su sede en los Estados Unidos de América, por lo que los datos también pueden transferirse fuera del Espacio Económico Europeo. Dichas transferencias se realizan con las garantías adecuadas (el Marco de Privacidad de Datos UE-EE. UU. y/o las cláusulas contractuales tipo adoptadas por la Comisión Europea).",
-          "Aparte de la medición de conversiones de Google Ads a la que usted consiente (véase «Cookies y almacenamiento local»), no compartimos sus datos con ningún otro tercero ni los vendemos.",
+          "Aparte de Google Analytics y de la medición de conversiones de Google Ads, a los que usted consiente (véase «Cookies y almacenamiento local»), no compartimos sus datos con ningún otro tercero ni los vendemos.",
         ],
       },
       {

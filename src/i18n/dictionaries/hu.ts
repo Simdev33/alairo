@@ -274,7 +274,7 @@ export const hu: Dictionary = {
 
   cookies: {
     title: "Sütik",
-    text: "A bejelentkezéshez és a nyelv megjegyzéséhez szükséges sütiket használunk. A hozzájárulásoddal hirdetési sütiket is, hogy mérjük, mennyire hatékonyak a hirdetéseink. [Adatvédelmi tájékoztató](privacy)",
+    text: "A bejelentkezéshez és a nyelv megjegyzéséhez szükséges sütiket használunk. A hozzájárulásoddal analitikai és hirdetési sütiket is (Google Analytics, Google Ads), hogy lássuk, hogyan használják az oldalt, és mennyire hatékonyak a hirdetéseink. [Adatvédelmi tájékoztató](privacy)",
     accept: "Elfogadom",
     reject: "Elutasítom",
     settings: "Süti-beállítások",

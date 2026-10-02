@@ -165,7 +165,7 @@ export const legal: LegalTexts = {
               "A telefonodon megrajzolt aláírás a szerverünkön keresztül jut el a számítógépedre, és legkésőbb 1 óra múlva automatikusan törlődik.",
               "Jelszavas regisztráció nincs. Ha előfizetsz, kezeljük az e-mail-címedet és az előfizetésed adatait.",
               "A fizetéseket a Stripe dolgozza fel; a kártyaadataidat nem látjuk és nem tároljuk.",
-              "Webanalitikát nem használunk. A Google Ads konverziómérés csak akkor fut, ha a süti-sávban engedélyezed; egyébként csak a belépéshez, a fizetéshez és a nyelvválasztásodhoz szükséges sütiket használjuk.",
+              "A Google Analytics és a Google Ads konverziómérés csak akkor fut, ha a süti-sávban engedélyezed; egyébként csak a belépéshez, a fizetéshez és a nyelvválasztásodhoz szükséges sütiket használjuk.",
             ],
           },
         ],
@@ -259,8 +259,8 @@ export const legal: LegalTexts = {
               "ds_consent: megjegyzi, mit választottál a süti-sávban (180 nap).",
             ],
           },
-          "Hirdetési sütik — csak a hozzájárulásoddal: ha a süti-sávban az „Elfogadom” gombra kattintasz, betöltjük a Google Ireland Limited (Gordon House, Barrow Street, Dublin 4, Írország) Google-címkéjét, hogy mérjük, a Google Ads-hirdetéseink vezetnek-e vásárláshoz (konverziómérés). A Google ilyenkor saját sütiket helyez el (például _gcl_au, legfeljebb 90 napig), és megkapja az IP-címedet, a böngésződ adatait, a meglátogatott oldal címét és a hirdetéskattintás azonosítóját. Jogalap: a hozzájárulásod (GDPR 6. cikk (1) bekezdés a) pont). Hozzájárulás nélkül a Google-címke egyáltalán nem töltődik be. A hozzájárulásodat bármikor megadhatod vagy visszavonhatod az oldal alján lévő „Süti-beállítások” linkkel; a visszavonás nem érinti a korábbi adatkezelés jogszerűségét. A Google az adatokat az USA-ba is továbbíthatja (EU–USA adatvédelmi keretrendszer); adatvédelmi tájékoztatója: https://policies.google.com/privacy.",
-          "A fizetési oldalon a Stripe saját sütiket használ a fizetés biztonságos feldolgozásához és a csalások megelőzéséhez. Analitikai sütit nem használunk. A betűtípusokat a saját szerverünkről töltjük be, így külső betűtípus-szolgáltató nem kap rólad adatot.",
+          "Analitikai és hirdetési sütik — csak a hozzájárulásoddal: ha a süti-sávban az „Elfogadom” gombra kattintasz, betöltjük a Google Ireland Limited (Gordon House, Barrow Street, Dublin 4, Írország) Google-címkéjét két célra: a Google Analytics megmutatja, hogyan használják a látogatók az oldalt (például mely oldalakat nyitják meg), a Google Ads konverziómérés pedig azt, hogy a hirdetéseink vezetnek-e vásárláshoz. A Google ilyenkor saját sütiket helyez el (például _ga és _ga_… legfeljebb 2 évig, _gcl_au legfeljebb 90 napig), és megkapja az IP-címedet, a böngésződ és az eszközöd adatait, a meglátogatott oldalak címét, valamint – ha hirdetésről érkeztél – a hirdetéskattintás azonosítóját. Jogalap: a hozzájárulásod (GDPR 6. cikk (1) bekezdés a) pont). Hozzájárulás nélkül a Google-címke egyáltalán nem töltődik be. A hozzájárulásodat bármikor megadhatod vagy visszavonhatod az oldal alján lévő „Süti-beállítások” linkkel; a visszavonás nem érinti a korábbi adatkezelés jogszerűségét. A Google az adatokat az USA-ba is továbbíthatja (EU–USA adatvédelmi keretrendszer); adatvédelmi tájékoztatója: https://policies.google.com/privacy.",
+          "A fizetési oldalon a Stripe saját sütiket használ a fizetés biztonságos feldolgozásához és a csalások megelőzéséhez. A betűtípusokat a saját szerverünkről töltjük be, így külső betűtípus-szolgáltató nem kap rólad adatot.",
         ],
       },
       {
@@ -276,7 +276,7 @@ export const legal: LegalTexts = {
             ],
           },
           "Ezeknek a szolgáltatóknak az Amerikai Egyesült Államokban van a székhelyük, ezért az adatok az Európai Gazdasági Térségen kívülre is kerülhetnek. Az ilyen adattovábbítás megfelelő garanciák mellett történik (az EU–USA adatvédelmi keretrendszer és/vagy az Európai Bizottság által elfogadott általános adatvédelmi kikötések alapján).",
-          "A hozzájárulásoddal működő Google Ads konverziómérésen kívül (lásd „Sütik és helyi tárolás”) az adataidat más harmadik féllel nem osztjuk meg, és nem adjuk el.",
+          "A hozzájárulásoddal működő Google Analyticsen és Google Ads konverziómérésen kívül (lásd „Sütik és helyi tárolás”) az adataidat más harmadik féllel nem osztjuk meg, és nem adjuk el.",
         ],
       },
       {

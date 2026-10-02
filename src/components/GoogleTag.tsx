@@ -15,13 +15,15 @@ declare global {
 }
 
 const ID = site.googleAdsId;
-const GRANTED = { ad_storage: "granted", ad_user_data: "granted", ad_personalization: "granted", analytics_storage: "denied" };
+const GA_ID = site.googleAnalyticsId;
+const GRANTED = { ad_storage: "granted", ad_user_data: "granted", ad_personalization: "granted", analytics_storage: "granted" };
 const DENIED = { ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied", analytics_storage: "denied" };
 
 /**
- * Google Ads címke (gtag.js) Consent Mode v2-vel, „alap” módban: a címke csak az „Elfogadom” után töltődik be,
+ * Google-címke (gtag.js: Ads + Analytics) Consent Mode v2-vel, „alap” módban: csak az „Elfogadom” után töltődik be,
  * előtte semmi nem megy a Google-hoz. Visszavonáskor a hozzájárulás „denied”-re vált.
- * Az oldalváltás kliensoldali (pl. fizetés → /thank-you), ezért minden útvonalváltáskor page_view-t küldünk.
+ * Az oldalváltás kliensoldali (pl. fizetés → /thank-you), ezért útvonalváltáskor page_view-t küldünk az Adsnek;
+ * az Analytics ezt magától méri (a böngésző-előzmények változásából), oda nem küldjük, hogy ne duplázzon.
  */
 export function GoogleTag() {
   const pathname = usePathname();
@@ -58,7 +60,8 @@ window.gtag = gtag;
 gtag('consent', 'default', ${JSON.stringify(DENIED)});
 gtag('consent', 'update', ${JSON.stringify(GRANTED)});
 gtag('js', new Date());
-gtag('config', '${ID}');`}
+gtag('config', '${ID}');
+gtag('config', '${GA_ID}');`}
       </Script>
       <Script src={`https://www.googletagmanager.com/gtag/js?id=${ID}`} strategy="afterInteractive" />
     </>

@@ -167,7 +167,7 @@ export const legal: LegalTexts = {
               "La signature que vous dessinez sur votre téléphone transite par notre serveur jusqu'à votre ordinateur, et elle est supprimée automatiquement au plus tard au bout d'une heure.",
               "Il n'y a pas d'inscription avec mot de passe. Si vous vous abonnez, nous traitons votre adresse e-mail et les données de votre abonnement.",
               "Les paiements sont traités par Stripe ; nous ne voyons ni ne conservons les données de votre carte.",
-              "Nous n'utilisons aucun outil de mesure d'audience. La mesure des conversions Google Ads ne fonctionne que si vous l'autorisez dans le bandeau cookies ; sinon, nous n'utilisons que les cookies nécessaires à la connexion, au paiement et au choix de la langue.",
+              "Google Analytics et la mesure des conversions Google Ads ne fonctionnent que si vous les autorisez dans le bandeau cookies ; sinon, nous n'utilisons que les cookies nécessaires à la connexion, au paiement et au choix de la langue.",
             ],
           },
         ],
@@ -261,8 +261,8 @@ export const legal: LegalTexts = {
               "ds_consent : mémorise votre choix dans le bandeau cookies (180 jours).",
             ],
           },
-          "Cookies publicitaires — uniquement avec votre consentement : si vous cliquez sur « Accepter » dans le bandeau cookies, nous chargeons la balise Google de Google Ireland Limited (Gordon House, Barrow Street, Dublin 4, Irlande) afin de mesurer si nos annonces Google Ads mènent à des achats (mesure des conversions). Google dépose alors ses propres cookies (par exemple _gcl_au, pendant 90 jours au plus) et reçoit votre adresse IP, des données sur votre navigateur, l'adresse de la page consultée et l'identifiant du clic sur l'annonce. Base juridique : votre consentement (article 6, paragraphe 1, point a, du RGPD). Sans votre consentement, la balise Google n'est pas chargée du tout. Vous pouvez donner ou retirer votre consentement à tout moment grâce au lien « Paramètres des cookies » en bas de page ; le retrait ne remet pas en cause la licéité du traitement effectué auparavant. Google peut également transférer des données vers les États-Unis (cadre de protection des données UE–États-Unis) ; sa politique de confidentialité : https://policies.google.com/privacy.",
-          "Sur la page de paiement, Stripe utilise ses propres cookies pour traiter le paiement en toute sécurité et prévenir la fraude. Nous n'utilisons pas de cookies de mesure d'audience. Nous chargeons les polices de caractères depuis notre propre serveur : aucun fournisseur de polices externe ne reçoit donc de données vous concernant.",
+          "Cookies de mesure d'audience et cookies publicitaires — uniquement avec votre consentement : si vous cliquez sur « Accepter » dans le bandeau cookies, nous chargeons la balise Google de Google Ireland Limited (Gordon House, Barrow Street, Dublin 4, Irlande) à deux fins : Google Analytics nous montre comment les visiteurs utilisent le site (par exemple quelles pages ils consultent), et la mesure des conversions Google Ads indique si nos annonces mènent à des achats. Google dépose alors ses propres cookies (par exemple _ga et _ga_… pendant 2 ans au plus, _gcl_au pendant 90 jours au plus) et reçoit votre adresse IP, des données sur votre navigateur et votre appareil, l'adresse des pages consultées et, si vous venez d'une annonce, l'identifiant du clic sur l'annonce. Base juridique : votre consentement (article 6, paragraphe 1, point a, du RGPD). Sans votre consentement, la balise Google n'est pas chargée du tout. Vous pouvez donner ou retirer votre consentement à tout moment grâce au lien « Paramètres des cookies » en bas de page ; le retrait ne remet pas en cause la licéité du traitement effectué auparavant. Google peut également transférer des données vers les États-Unis (cadre de protection des données UE–États-Unis) ; sa politique de confidentialité : https://policies.google.com/privacy.",
+          "Sur la page de paiement, Stripe utilise ses propres cookies pour traiter le paiement en toute sécurité et prévenir la fraude. Nous chargeons les polices de caractères depuis notre propre serveur : aucun fournisseur de polices externe ne reçoit donc de données vous concernant.",
         ],
       },
       {
@@ -278,7 +278,7 @@ export const legal: LegalTexts = {
             ],
           },
           "Ces prestataires ont leur siège aux États-Unis d'Amérique ; les données peuvent donc également être transférées en dehors de l'Espace économique européen. Ces transferts sont encadrés par des garanties appropriées (le cadre de protection des données UE–États-Unis et/ou les clauses contractuelles types adoptées par la Commission européenne).",
-          "En dehors de la mesure des conversions Google Ads à laquelle vous consentez (voir « Cookies et stockage local »), nous ne communiquons vos données à aucun autre tiers, et nous ne les vendons pas.",
+          "En dehors de Google Analytics et de la mesure des conversions Google Ads, auxquels vous consentez (voir « Cookies et stockage local »), nous ne communiquons vos données à aucun autre tiers, et nous ne les vendons pas.",
         ],
       },
       {
